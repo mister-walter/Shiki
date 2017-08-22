@@ -10,7 +10,16 @@ public class SeasonalEffect : MonoBehaviour {
     private SeasonCoordinate coord;
     private MainSceneManager manager;
     public Guid id = Guid.Empty;
-	
+
+    private MainSceneManager getMSM()
+    {
+        if(manager == null)
+        {
+            manager = MainSceneManager.GetMainSceneManager();
+        }
+        return manager;
+    }
+
 	void Start () {
         manager = MainSceneManager.GetMainSceneManager();
         UpdateColor(GetSeasonName());
@@ -18,7 +27,9 @@ public class SeasonalEffect : MonoBehaviour {
 
     private string GetSeasonName()
     {
-        return manager.GetSeasonNameFromPosition(this.gameObject.transform.position);
+        Debug.Log(manager);
+        Debug.Log(getMSM());
+        return getMSM().GetSeasonNameFromPosition(this.gameObject.transform.position);
     }
 
     private Scene GetSeasonScene()
@@ -69,7 +80,7 @@ public class SeasonalEffect : MonoBehaviour {
             case "Spring": this.GetComponent<Renderer>().material.SetColor("_Color", Color.magenta); break; //turns pink
             case "Summer": this.GetComponent<Renderer>().material.SetColor("_Color", Color.green); break; //turns green
             case "Fall": this.GetComponent<Renderer>().material.SetColor("_Color", Color.yellow); break; //turns yellow
-            default: return; //unexpected? Don't change
+            default: this.GetComponent<Renderer>().material.SetColor("_Color", Color.white); break; ; //turns to white
         }
     }
 }
