@@ -90,6 +90,11 @@ public class GrabObjects : MonoBehaviour {
 
 			objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
 			objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
+            // TODO: @Drew fix this
+            var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
+            if(seasonalEffect != null) {
+                seasonalEffect.OnPlaced();
+            }
 		}
 		objInHand = null;
 	}
