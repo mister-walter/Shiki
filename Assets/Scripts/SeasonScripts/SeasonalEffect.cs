@@ -7,7 +7,7 @@ public class SeasonalEffect : MonoBehaviour {
     private string seasonName;
 	
 	// Update is called once per frame
-	void Update () {
+	void Start () {
         UpdateColor();
 	}
 
