@@ -6,16 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class MainSceneManager : MonoBehaviour {
     private int villageSceneIndex;
+    private int mainSceneIndex;
     public static MainSceneManager GetMainSceneManager()
     {
-        var mainScene = SceneManager.GetSceneAt(0);
-        foreach(var gameObject in mainScene.GetRootGameObjects())
+        var mainScene = SceneManager.GetSceneByName("MainScene");
+        foreach (var gameObject in mainScene.GetRootGameObjects())
         {
+            Debug.Log(gameObject);
             var sceneManager = gameObject.GetComponent<MainSceneManager>();
-            if(sceneManager != null) {
+            if (sceneManager != null) {
                 return sceneManager;
             }
         }
+        Debug.LogError("Couldnt find main scene manager");
         return null;
     }
 
@@ -27,19 +30,16 @@ public class MainSceneManager : MonoBehaviour {
         SceneManager.LoadSceneAsync("FallScene", LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync("WinterScene", LoadSceneMode.Additive);
         villageSceneIndex = SceneUtility.GetBuildIndexByScenePath("VillageScene");
+        mainSceneIndex = SceneUtility.GetBuildIndexByScenePath("VillageScene");
         Debug.Log(villageSceneIndex);
     }
 
     public IEnumerable<Scene> GetLoadedSeasonScenes()
     {
-        for (var i = 1; i < SceneManager.sceneCount; i++)
-        {
-            if(i == villageSceneIndex)
-            {
-                continue;
-            }
-            yield return SceneManager.GetSceneAt(i);
-        }
+        yield return SceneManager.GetSceneByName("SpringScene");
+        yield return SceneManager.GetSceneByName("SummerScene");
+        yield return SceneManager.GetSceneByName("FallScene");
+        yield return SceneManager.GetSceneByName("WinterScene");
     }
 
     internal void UpdatePositionInOtherSeasons(Guid id, SeasonCoordinate coordinates, Scene exceptSeason)
