@@ -40,7 +40,7 @@ public class SeasonCoordinateManager : MonoBehaviour {
     public SeasonCoordinate globalToSeasonCoordinate(Vector3 gc)
     {
         var radius = Mathf.Sqrt(gc.x * gc.x + gc.z * gc.z);
-        var angle = Mathf.Rad2Deg * (Mathf.Atan2(gc.z, gc.x) - startAngle);
+        var angle = Mathf.Rad2Deg * Mathf.Atan2(gc.z, gc.x) - startAngle;
         return new SeasonCoordinate(radius, angle, gc.y);
     }
 
