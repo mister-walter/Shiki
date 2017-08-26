@@ -83,4 +83,19 @@ public class SeasonalEffect : MonoBehaviour {
             default: this.GetComponent<Renderer>().material.SetColor("_Color", Color.white); break; ; //turns to white
         }
     }
+
+    internal void OnPickedUp()
+    {
+        var seasonName = GetSeasonName();
+        if (seasonName != "")
+        {
+            var seasonScene = GetSeasonScene();
+            // check if this object has a unique id yet
+            // if not, this is the first time this object has been placed, so we have to place it in the other seasons
+            if (this.id != Guid.Empty)
+            {
+                manager.RemoveFromOtherSeasons(this.id, seasonScene);
+            }
+        }
+    }
 }

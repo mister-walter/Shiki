@@ -30,7 +30,7 @@ public class MainSceneManager : MonoBehaviour {
         SceneManager.LoadSceneAsync("FallScene", LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync("WinterScene", LoadSceneMode.Additive);
         villageSceneIndex = SceneUtility.GetBuildIndexByScenePath("VillageScene");
-        mainSceneIndex = SceneUtility.GetBuildIndexByScenePath("VillageScene");
+        mainSceneIndex = SceneUtility.GetBuildIndexByScenePath("MainScene");
         Debug.Log(villageSceneIndex);
     }
 
@@ -90,6 +90,18 @@ public class MainSceneManager : MonoBehaviour {
             return info.seasonName;
         }
         return "";
+    }
+
+    internal void RemoveFromOtherSeasons(Guid id, Scene exceptSeason)
+    {
+        foreach (var scene in GetLoadedSeasonScenes())
+        {
+            if (exceptSeason != scene)
+            {
+                var info = scene.GetSeasonInfo();
+                info.RemoveFromSeason(id);
+            }
+        }
     }
 
     public void PlaceInOtherSeasons(GameObject obj, SeasonCoordinate coordinates, Scene exceptSeason)
