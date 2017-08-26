@@ -49,8 +49,26 @@ public class SeasonInfo : MonoBehaviour {
             {
                 if(seasonalEffect.id == id)
                 {
+                    gameObject.SetActive(true);
                     gameObject.transform.position = scm.seasonToGlobalCoordinate(coordinates);
                     return;
+                }
+            }
+        }
+    }
+
+    internal void RemoveFromSeason(Guid id)
+    {
+        var scene = this.gameObject.scene;
+        foreach (var gameObject in scene.GetRootGameObjects())
+        {
+            var seasonalEffect = gameObject.GetComponent<SeasonalEffect>();
+            if (seasonalEffect != null)
+            {
+                if (seasonalEffect.id == id)
+                {
+                    gameObject.SetActive(false);
+                   return;
                 }
             }
         }
