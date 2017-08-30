@@ -74,7 +74,13 @@ public class GrabObjects : MonoBehaviour {
 		// this connects the new object to the controller so it acts as part of the controller collision-wise
 		var joint = AddFixedJoint();
 		joint.connectedBody = objInHand.GetComponent<Rigidbody>();
-	}
+        // TODO: @Drew fix this
+        var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
+        if (seasonalEffect != null)
+        {
+            seasonalEffect.OnPickedUp();
+        }
+    }
 
 	private FixedJoint AddFixedJoint(){
 		FixedJoint fx = gameObject.AddComponent<FixedJoint>();
@@ -90,6 +96,11 @@ public class GrabObjects : MonoBehaviour {
 
 			objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
 			objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
+            // TODO: @Drew fix this
+            var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
+            if(seasonalEffect != null) {
+                seasonalEffect.OnPlaced();
+            }
 		}
 		objInHand = null;
 	}
