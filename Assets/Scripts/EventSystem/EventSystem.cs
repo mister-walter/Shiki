@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿/// @author Andrew Walter
+// Heavily inspired by http://www.willrmiller.com/?p=87
 
+using System;
+using System.Collections.Generic;
+
+/// <summary>
+/// This is a "marker interface" to signal that a class represents a Game Event.
+/// </summary>
 public interface IGameEvent {}
 
-public delegate void GameEventDelegate<T>(T evt) where T: IGameEvent;
-
+/// <summary>
+/// Global object for listening for events, and firing them.
+/// </summary>
 public class GameEventSystem {
-    private static Dictionary<Type, Delegate> eventMap;
+    private static Dictionary<Type, Delegate> eventMap = new Dictionary<Type, Delegate>();
 
     /// <summary>
     /// Add a listener for an event. 
