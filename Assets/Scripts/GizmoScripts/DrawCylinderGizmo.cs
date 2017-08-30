@@ -1,6 +1,4 @@
-﻿#if (UNITY_EDITOR)
-using UnityEngine;
-#endif
+﻿using UnityEngine;
 
 public class DrawCylinderGizmo : MonoBehaviour {
     public Color color = Color.blue;

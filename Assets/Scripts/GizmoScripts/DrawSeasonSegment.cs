@@ -1,6 +1,4 @@
-﻿#if (UNITY_EDITOR)
-using UnityEngine;
-#endif
+﻿using UnityEngine;
 
 public class DrawSeasonSegment : MonoBehaviour {
     public Color color = Color.green;
