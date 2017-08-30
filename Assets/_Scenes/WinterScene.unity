@@ -244,7 +244,6 @@ GameObject:
   m_Component:
   - component: {fileID: 769588965}
   - component: {fileID: 769588964}
-  - component: {fileID: 769588966}
   m_Layer: 0
   m_Name: SeasonInfoHolder
   m_TagString: Untagged
@@ -263,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6df678d7878ff4aa5a3cd6ff2cca7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startAngle: 45
   seasonName: Winter
   ground: {fileID: 657647135}
 --- !u!4 &769588965
@@ -278,18 +278,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &769588966
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 769588963}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e297fd0a251dbe246a6baa48b8953026, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startAngle: 315
 --- !u!1 &872995648
 GameObject:
   m_ObjectHideFlags: 0

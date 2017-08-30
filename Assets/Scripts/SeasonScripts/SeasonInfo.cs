@@ -3,16 +3,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using EventSystem.Events;
 
 public class SeasonInfo : MonoBehaviour {
+    public float startAngle;
     public string seasonName;
     public GameObject ground;
-    private MainSceneManager manager;
 
-    public void Start()
+    public void Awake()
     {
-        manager = MainSceneManager.GetMainSceneManager();
+        GameEventSystem.AttachDelegate<ObjectPlacedEvent>(OnObjectPlaced);
+        GameEventSystem.AttachDelegate<SeasonalObjectPlacedForFirstTime>(OnSeasonalObjectPlacedForFirstTime);
     }
+
+    #region Event Handlers
+    public void OnObjectPlaced(ObjectPlacedEvent evt)
+    {
+        if(evt.effect != null)
+        {
+            if (IsPositionInSeason(evt.placedObject.transform.position))
+            {
+                SceneManager.MoveGameObjectToScene(evt.placedObject, this.gameObject.scene);
+                var coord = SeasonCoordinateManager.GlobalToSeasonCoordinate(this.gameObject.transform.position);
+                GameEventSystem.FireEvent(new ObjectPlacedInSeasonEvent(evt.placedObject, evt.effect, coord, this.seasonName));
+            }
+        }
+    }
+
+    public void OnSeasonalObjectPlacedForFirstTime(SeasonalObjectPlacedForFirstTime evt)
+    {
+        var newObject = GameObject.Instantiate<GameObject>(evt.placedObject);
+        newObject.transform.position = SeasonCoordinateManager.SeasonToGlobalCoordinate(evt.placedInSeason, evt.placedAtCoord);
+        var newSeasonalEffect = newObject.GetComponent<SeasonalEffect>();
+        newSeasonalEffect.id = evt.effect.id;
+        SceneManager.MoveGameObjectToScene(newObject, this.gameObject.scene);
+        newSeasonalEffect.UpdateColor();
+    }
+    #endregion
 
     public bool IsPositionInSeason(Vector3 position)
     {
@@ -22,55 +49,5 @@ public class SeasonInfo : MonoBehaviour {
         RaycastHit info;
         var res = collider.Raycast(ray, out info, 10);
         return res;
-    }
-
-    public void PlaceInSeason(GameObject obj, SeasonCoordinate coordinates)
-    {
-        var scene = this.gameObject.scene;
-        var scm = scene.GetSeasonCoordinateManager();
-        var newObject = GameObject.Instantiate<GameObject>(obj);
-        newObject.transform.position = scm.seasonToGlobalCoordinate(coordinates);
-        var originalSe = obj.GetComponent<SeasonalEffect>();
-        var newSe = newObject.GetComponent<SeasonalEffect>();
-        newSe.id = originalSe.id;
-        SceneManager.MoveGameObjectToScene(newObject, scene);
-        newSe.UpdateSeason();
-        
-    }
-
-    public void UpdatePositionInSeason(Guid id, SeasonCoordinate coordinates)
-    {
-        var scene = this.gameObject.scene;
-        var scm = scene.GetSeasonCoordinateManager();
-        foreach(var gameObject in scene.GetRootGameObjects())
-        {
-            var seasonalEffect = gameObject.GetComponent<SeasonalEffect>();
-            if(seasonalEffect != null)
-            {
-                if(seasonalEffect.id == id)
-                {
-                    gameObject.SetActive(true);
-                    gameObject.transform.position = scm.seasonToGlobalCoordinate(coordinates);
-                    return;
-                }
-            }
-        }
-    }
-
-    internal void RemoveFromSeason(Guid id)
-    {
-        var scene = this.gameObject.scene;
-        foreach (var gameObject in scene.GetRootGameObjects())
-        {
-            var seasonalEffect = gameObject.GetComponent<SeasonalEffect>();
-            if (seasonalEffect != null)
-            {
-                if (seasonalEffect.id == id)
-                {
-                    gameObject.SetActive(false);
-                   return;
-                }
-            }
-        }
     }
 }
