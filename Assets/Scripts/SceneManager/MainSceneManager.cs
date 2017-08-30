@@ -4,15 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public class SceneName
+{
+    public static String Summer = SceneName.Summer;
+    public static String Winter = SceneName.Winter;
+    public static String Spring = SceneName.Spring;
+    public static String Fall = SceneName.Fall;
+    public static String Village = "VillageScene";
+    public static String Main = "MainScene";
+}
+
 public class MainSceneManager : MonoBehaviour {
     private int villageSceneIndex;
     private int mainSceneIndex;
     public static MainSceneManager GetMainSceneManager()
     {
-        var mainScene = SceneManager.GetSceneByName("MainScene");
+        var mainScene = SceneManager.GetSceneByName(SceneName.Main);
         foreach (var gameObject in mainScene.GetRootGameObjects())
         {
-            Debug.Log(gameObject);
             var sceneManager = gameObject.GetComponent<MainSceneManager>();
             if (sceneManager != null) {
                 return sceneManager;
@@ -24,22 +33,21 @@ public class MainSceneManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        SceneManager.LoadSceneAsync("VillageScene", LoadSceneMode.Additive);
-        SceneManager.LoadSceneAsync("SpringScene", LoadSceneMode.Additive);
-        SceneManager.LoadSceneAsync("SummerScene", LoadSceneMode.Additive);
-        SceneManager.LoadSceneAsync("FallScene", LoadSceneMode.Additive);
-        SceneManager.LoadSceneAsync("WinterScene", LoadSceneMode.Additive);
-        villageSceneIndex = SceneUtility.GetBuildIndexByScenePath("VillageScene");
-        mainSceneIndex = SceneUtility.GetBuildIndexByScenePath("MainScene");
-        Debug.Log(villageSceneIndex);
+        SceneManager.LoadSceneAsync(SceneName.Village, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(SceneName.Spring, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(SceneName.Summer, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(SceneName.Fall, LoadSceneMode.Additive);
+        SceneManager.LoadSceneAsync(SceneName.Winter, LoadSceneMode.Additive);
+        villageSceneIndex = SceneUtility.GetBuildIndexByScenePath(SceneName.Village);
+        mainSceneIndex = SceneUtility.GetBuildIndexByScenePath(SceneName.Main);
     }
 
     public IEnumerable<Scene> GetLoadedSeasonScenes()
     {
-        yield return SceneManager.GetSceneByName("SpringScene");
-        yield return SceneManager.GetSceneByName("SummerScene");
-        yield return SceneManager.GetSceneByName("FallScene");
-        yield return SceneManager.GetSceneByName("WinterScene");
+        yield return SceneManager.GetSceneByName(SceneName.Spring);
+        yield return SceneManager.GetSceneByName(SceneName.Summer);
+        yield return SceneManager.GetSceneByName(SceneName.Fall);
+        yield return SceneManager.GetSceneByName(SceneName.Winter);
     }
 
     internal void UpdatePositionInOtherSeasons(Guid id, SeasonCoordinate coordinates, Scene exceptSeason)
@@ -115,21 +123,7 @@ public class MainSceneManager : MonoBehaviour {
             }
         }
     }
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
 }
-
-// https://gamedev.stackexchange.com/q/120643
-//public static class AsyncOperationExtensions {
-//    public static IEnumerator Await(this AsyncOperation operation)
-//    {
-//        while (!operation.isDone)
-//            yield return operation;
-//    }
-//}
 
 public static class SceneExtensions
 {
