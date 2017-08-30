@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneName
+public static class SceneName
 {
-    public static String Summer = SceneName.Summer;
-    public static String Winter = SceneName.Winter;
-    public static String Spring = SceneName.Spring;
-    public static String Fall = SceneName.Fall;
+    public static String Summer = "SummerScene";
+    public static String Winter = "WinterScene";
+    public static String Spring = "SpringScene";
+    public static String Fall = "FallScene";
     public static String Village = "VillageScene";
     public static String Main = "MainScene";
 }
