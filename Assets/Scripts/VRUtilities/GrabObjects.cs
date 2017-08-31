@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Shiki.EventSystem;
+using Shiki.EventSystem.Events;
 
 public class GrabObjects : MonoBehaviour {
 
@@ -78,7 +78,7 @@ public class GrabObjects : MonoBehaviour {
         // Get the seasonal effect of the object, if any
         var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
         // Fire an event to notify any listeners
-        GameEventSystem.FireEvent(new EventSystem.Events.ObjectPickedUpEvent(objInHand, seasonalEffect));
+        GameEventSystem.FireEvent(new ObjectPickedUpEvent(objInHand, seasonalEffect));
     }
 
 	private FixedJoint AddFixedJoint(){
@@ -99,7 +99,7 @@ public class GrabObjects : MonoBehaviour {
             // Get the seasonal effect of the object, if any
             var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
             // Fire an event to notify any listeners
-            GameEventSystem.FireEvent(new EventSystem.Events.ObjectPlacedEvent(objInHand, seasonalEffect));
+            GameEventSystem.FireEvent(new ObjectPlacedEvent(objInHand, seasonalEffect));
         }
 		objInHand = null;
 	}

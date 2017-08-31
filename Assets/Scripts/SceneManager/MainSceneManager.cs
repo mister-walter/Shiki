@@ -1,50 +1,24 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public static class SceneName
-{
-    public const String Summer = "SummerScene";
-    public const String Winter = "WinterScene";
-    public const String Spring = "SpringScene";
-    public const String Fall = "FallScene";
-    public const String Village = "VillageScene";
-    public const String Main = "MainScene";
-}
-
-public static class SeasonName
-{
-    public const String Summer = "Summer";
-    public const String Winter = "Winter";
-    public const String Spring = "Spring";
-    public const String Fall = "Fall";
-}
+using Shiki.Constants;
 
 public class MainSceneManager : MonoBehaviour {
-    private int villageSceneIndex;
-    private int mainSceneIndex;
-
-	// Use this for initialization
 	void Start () {
+        // Load all of the scenes, additively
         SceneManager.LoadSceneAsync(SceneName.Village, LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync(SceneName.Spring, LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync(SceneName.Summer, LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync(SceneName.Fall, LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync(SceneName.Winter, LoadSceneMode.Additive);
-        villageSceneIndex = SceneUtility.GetBuildIndexByScenePath(SceneName.Village);
-        mainSceneIndex = SceneUtility.GetBuildIndexByScenePath(SceneName.Main);
     }
 
-    public IEnumerable<Scene> GetLoadedSeasonScenes()
-    {
-        yield return SceneManager.GetSceneByName(SceneName.Spring);
-        yield return SceneManager.GetSceneByName(SceneName.Summer);
-        yield return SceneManager.GetSceneByName(SceneName.Fall);
-        yield return SceneManager.GetSceneByName(SceneName.Winter);
-    }
-
+    /// <summary>
+    /// Converts the name of a scene to the name of the corresponding season.
+    /// </summary>
+    /// <param name="sceneName">The name of the scene to get the season of.</param>
+    /// <returns>The name of the corresponding season, or null if it does not exist.</returns>
     public static string SceneNameToSeasonName(string sceneName)
     {
         switch(sceneName)
@@ -55,5 +29,15 @@ public class MainSceneManager : MonoBehaviour {
             case SceneName.Summer: return SeasonName.Summer;
             default: return null;
         }
+    }
+}
+
+public static class AsyncOperationExtensions
+{
+    // from https://gamedev.stackexchange.com/q/120643
+    public static IEnumerator Await(this AsyncOperation operation)
+    {
+        while (!operation.isDone)
+            yield return operation;
     }
 }

@@ -1,14 +1,23 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using EventSystem.Events;
+using Shiki.EventSystem;
+using Shiki.EventSystem.Events;
+using Shiki.Constants;
 
+/// <summary>
+/// A component providing the ability for an object to have different variants for each season.
+/// </summary>
 public class SeasonalEffect : MonoBehaviour {
-
+    /// <summary>
+    /// The name of the season that this SeasonalEffect belongs to.
+    /// </summary>
     private string seasonName;
-    private SeasonCoordinate coord;
+
+    /// <summary>
+    /// This is how a SeasonalEffect determines whether not another SeasonalEffect is another variant of the same object
+    /// It is set to Guid.Empty by default, but gets set to a new pseudo-unique value when needed.
+    /// </summary>
     public Guid id = Guid.Empty;
 
     void Awake ()
@@ -19,10 +28,18 @@ public class SeasonalEffect : MonoBehaviour {
 
 	void Start () {
         seasonName = MainSceneManager.SceneNameToSeasonName(this.gameObject.scene.name);
-
         UpdateColor();
 	}
 
+    void OnDestroy()
+    {
+        GameEventSystem.RemoveDelegate<ObjectPlacedInSeasonEvent>(this.OnPlacedInSeason);
+        GameEventSystem.RemoveDelegate<ObjectPickedUpEvent>(this.OnPickedUp);
+    }
+
+    /// <summary>
+    /// Updates the color of this GameObject depending on the season it is in.
+    /// </summary>
     public void UpdateColor()
     {
         switch (this.seasonName)
@@ -46,7 +63,8 @@ public class SeasonalEffect : MonoBehaviour {
             // check if this object has a unique id yet
             if (this.id == Guid.Empty)
             {
-                // if not, this is the first time this object has been placed, so we have to place it in the other seasons
+                // if not, this is the first time this object has been placed, so we fire an event that causes the
+                // other seasons to create their own variant of this object
                 this.id = Guid.NewGuid();
                 GameEventSystem.FireEvent(new SeasonalObjectPlacedForFirstTime(this.gameObject, this, evt.seasonName, evt.coord));
             }
@@ -54,6 +72,15 @@ public class SeasonalEffect : MonoBehaviour {
         {
             if (this.IsSeasonalVariantOf(evt.placedObject, evt.effect))
             {
+                // If another variant was placed in the same season as us, we have to move to the season that the
+                // variant originally came from
+                if(this.seasonName == evt.seasonName)
+                {
+                    this.seasonName = MainSceneManager.SceneNameToSeasonName(evt.previousSeason);
+                    SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetSceneByName(evt.previousSeason));
+                    UpdateColor();
+                }
+                this.gameObject.SetActive(true);
                 this.gameObject.transform.position = SeasonCoordinateManager.SeasonToGlobalCoordinate(this.seasonName, evt.coord);
             }
         }
@@ -66,6 +93,7 @@ public class SeasonalEffect : MonoBehaviour {
         {
             if(this.IsSeasonalVariantOf(evt.pickedUpObject, evt.effect))
             {
+                // Hide seasonal variants of the object being picked up
                 this.gameObject.SetActive(false);
             }
         }
