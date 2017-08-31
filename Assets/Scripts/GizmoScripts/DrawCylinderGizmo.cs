@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-#if(UNITY_EDITOR)
 public class DrawCylinderGizmo : MonoBehaviour {
     public Color color = Color.blue;
     void OnDrawGizmos()
     {
+        #if (UNITY_EDITOR)
         UnityEditor.Handles.color = color;
         UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.down, transform.localScale.x / 2);
+        #endif
     }
 }
-#endif
