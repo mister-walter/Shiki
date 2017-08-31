@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-// Cylindrical coordinate
 /// <summary>
-/// Struct representing a coordinate in 3D cylindrical space
+/// Struct representing a coordinate in 3D cylindrical space.
 /// </summary>
 public struct SeasonCoordinate
 {
@@ -26,7 +23,7 @@ public struct SeasonCoordinate
 
 public static class SeasonCoordinateManager {
 
-    private static Dictionary<string, float> seasonStartAngles;
+    private static Dictionary<string, float> seasonStartAngles = new Dictionary<string, float>();
 
     public static void RegisterSeasonStartAngle(string seasonName, float startAngle)
     {

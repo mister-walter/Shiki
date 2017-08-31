@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6df678d7878ff4aa5a3cd6ff2cca7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startAngle: -45
+  startAngle: 45
   seasonName: Fall
   ground: {fileID: 1022386807}
 --- !u!4 &1391497080
