@@ -236,7 +236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seasonName: Summer
   startAngle: 90
-  ground: {fileID: 0}
+  ground: {fileID: 401992826}
 --- !u!4 &1185682693
 Transform:
   m_ObjectHideFlags: 0
