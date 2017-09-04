@@ -315,7 +315,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1391497080}
   - component: {fileID: 1391497079}
-  - component: {fileID: 1391497081}
   m_Layer: 0
   m_Name: SeasonInfoHolder
   m_TagString: Untagged
@@ -334,6 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6df678d7878ff4aa5a3cd6ff2cca7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startAngle: 45
   seasonName: Fall
   ground: {fileID: 1022386807}
 --- !u!4 &1391497080
@@ -349,15 +349,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1391497081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1391497078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e297fd0a251dbe246a6baa48b8953026, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startAngle: 45
