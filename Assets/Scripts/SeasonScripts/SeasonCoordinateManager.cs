@@ -56,12 +56,12 @@ public static class SeasonCoordinateManager {
 
     /// <summary>
     /// Determines the angle (ccw) between a point and the start of the quadrant that it is in.
-    /// The quadrants start 90 degrees apart, starting from -45 degrees.
-    /// Note: if x and y are 0, returns 45.
+    /// The quadrants start 90 degrees apart, starting from 0 degrees.
+    /// Note: if x and y are 0, returns 0.
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    /// <returns>The angle, in degrees.</returns>
+    /// <returns>The angle, in degrees. It will always fall in the interval [0,90) </returns>
     public static float AngleInQuadrant(float x, float y)
     {
         var angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
@@ -70,11 +70,11 @@ public static class SeasonCoordinateManager {
             angle = angle + 360;
         }
 
-        if (angle <= 90) {
+        if (angle < 90) {
             return angle;
-        } else if(angle > 90 && angle <= 180) {
+        } else if(angle >= 90 && angle < 180) {
             return angle - 90;
-        } else if (angle > 180 && angle < 270) {
+        } else if (angle >= 180 && angle < 270) {
             return angle - 180;
         } else {
             return angle - 270;
