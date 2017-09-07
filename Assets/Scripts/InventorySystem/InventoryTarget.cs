@@ -17,7 +17,6 @@ public class InventoryTarget : MonoBehaviour {
 
     void OnTriggerExit(Collider other)
     {
-        Debug.Log("Trigger exit for inventory target: other gameobject {}", other.gameObject);
         var inventoryItemBehavior = other.gameObject.GetComponent<InventoryItemBehavior>();
         if (inventoryItemBehavior != null)
         {
@@ -27,7 +26,6 @@ public class InventoryTarget : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger enter for inventory target: other gameobject {}", other.gameObject);
         var inventoryItemBehavior = other.gameObject.GetComponent<InventoryItemBehavior>();
         if(inventoryItemBehavior != null)
         {

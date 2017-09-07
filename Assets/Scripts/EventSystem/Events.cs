@@ -5,7 +5,8 @@ using UnityEngine;
 /// <summary>
 /// Events for use with GameEventSystem
 /// </summary>
-namespace Shiki.EventSystem.Events {
+namespace Shiki.EventSystem.Events
+{
     /// <summary>
     /// Fired by: GrabObjects
     /// Fires: When an object is placed
@@ -45,12 +46,12 @@ namespace Shiki.EventSystem.Events {
         /// The GameObject that was placed
         /// </summary>
         public GameObject placedObject;
-        
+
         /// <summary>
         /// The SeasonCoordinate where the object was placed
         /// </summary>
         public SeasonCoordinate coord;
-        
+
         /// <summary>
         /// The name of the season in which the object was placed
         /// </summary>
@@ -148,7 +149,7 @@ namespace Shiki.EventSystem.Events {
             this.effect = effect;
         }
     }
-    
+
     /// <summary>
     /// Fired by: TODO
     /// Fires: TODO
@@ -160,7 +161,7 @@ namespace Shiki.EventSystem.Events {
         /// The object that was stored.
         /// </summary>
         public GameObject storedObject;
-        
+
         public ObjectStoredEvent(GameObject go)
         {
             this.storedObject = go;
@@ -175,6 +176,21 @@ namespace Shiki.EventSystem.Events {
     public class ObjectPlacedInInventoryEvent : IGameEvent
     {
         public GameObject placedObject;
+        public ObjectPlacedInInventoryEvent(GameObject go)
+        {
+            this.placedObject = go;
+        }
     }
+
+    public class ObjectRemovedFromInventoryEvent : IGameEvent
+    {
+        public GameObject placedObject;
+        public ObjectRemovedFromInventoryEvent(GameObject go)
+        {
+            this.placedObject = go;
+        }
+    }
+
+    public class ToggleInventoryEvent : IGameEvent { }
 }
 

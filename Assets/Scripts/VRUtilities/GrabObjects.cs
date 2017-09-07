@@ -43,10 +43,7 @@ public class GrabObjects : MonoBehaviour {
 
         if(controller.GetHairTriggerDown())
         {
-            if(objInHand)
-            {
-                StoreObject();
-            }
+            GameEventSystem.FireEvent(new ToggleInventoryEvent());
         }
 	}
 
@@ -100,15 +97,16 @@ public class GrabObjects : MonoBehaviour {
             GetComponent<FixedJoint>().connectedBody = null;
             Destroy(GetComponent<FixedJoint>());
 
-            objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
-            objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
-
             if (objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.isInInventoryTarget))
             {
-                GameEventSystem.FireEvent(new ObjectStoredEvent(objInHand));
-            }
-            else
-            {
+                GameEventSystem.FireEvent(new ObjectPlacedInInventoryEvent(objInHand));
+            } else {
+                if (objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.target != null)) {
+                    GameEventSystem.FireEvent(new ObjectRemovedFromInventoryEvent(objInHand));
+                }
+
+                objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
+                objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
                 // Get the seasonal effect of the object, if any
                 var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
                 // Fire an event to notify any listeners
@@ -117,19 +115,4 @@ public class GrabObjects : MonoBehaviour {
         }
 		objInHand = null;
 	}
-
-    private void StoreObject()
-    {
-        if (GetComponent<FixedJoint>())
-        {
-            GetComponent<FixedJoint>().connectedBody = null;
-            Destroy(GetComponent<FixedJoint>());
-
-            // Fire an event to notify any listeners
-            GameEventSystem.FireEvent(new ObjectStoredEvent(objInHand));
-            objInHand.SetActive(false);
-        }
-        objInHand = null;
-    }
-
 }
