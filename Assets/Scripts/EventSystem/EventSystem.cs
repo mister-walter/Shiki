@@ -3,6 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+#if SHIKI_DEBUG
+using UnityEngine;
+#endif
 
 namespace Shiki.EventSystem {
     /// <summary>
@@ -65,6 +68,11 @@ namespace Shiki.EventSystem {
             {
                 eventMap[evtType].DynamicInvoke(evt);
             }
+#if SHIKI_DEBUG
+            else {
+                Debug.LogError(String.Format("Event {} fired with no listeners!", evtType));
+            }
+#endif
         }
     }
 }

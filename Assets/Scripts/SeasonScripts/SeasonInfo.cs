@@ -28,18 +28,18 @@ public class SeasonInfo : MonoBehaviour {
     void Awake()
     {
         SeasonCoordinateManager.RegisterSeasonStartAngle(seasonName, startAngle);
-        GameEventSystem.AttachDelegate<ObjectPlacedEvent>(OnObjectPlaced);
+        GameEventSystem.AttachDelegate<ObjectPutDownEvent>(OnObjectPlaced);
         GameEventSystem.AttachDelegate<SeasonalObjectPlacedForFirstTime>(OnSeasonalObjectPlacedForFirstTime);
     }
 
     void OnDestroy()
     {
-        GameEventSystem.RemoveDelegate<ObjectPlacedEvent>(OnObjectPlaced);
+        GameEventSystem.RemoveDelegate<ObjectPutDownEvent>(OnObjectPlaced);
         GameEventSystem.RemoveDelegate<SeasonalObjectPlacedForFirstTime>(OnSeasonalObjectPlacedForFirstTime);
     }
 
     #region Event Handlers
-    public void OnObjectPlaced(ObjectPlacedEvent evt)
+    public void OnObjectPlaced(ObjectPutDownEvent evt)
     {
         if(evt.effect != null)
         {

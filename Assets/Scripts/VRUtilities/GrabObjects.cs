@@ -40,6 +40,14 @@ public class GrabObjects : MonoBehaviour {
 				ReleaseObject();
 			}
 		}
+
+        if(controller.GetHairTriggerDown())
+        {
+            if(objInHand)
+            {
+                StoreObject();
+            }
+        }
 	}
 
 	public void OnTriggerEnter(Collider c){
@@ -52,7 +60,6 @@ public class GrabObjects : MonoBehaviour {
 	}
 
 	public void OnTriggerExit(Collider c){
-		//		Debug.Log("Tigger exited");
 		if(!collidingObj){
 			return;
 		}
@@ -89,19 +96,40 @@ public class GrabObjects : MonoBehaviour {
 	}
 
 	private void ReleaseObject(){
-		if(GetComponent<FixedJoint>()){
-			GetComponent<FixedJoint>().connectedBody = null;
-			Destroy(GetComponent<FixedJoint>());
+        if (GetComponent<FixedJoint>()) {
+            GetComponent<FixedJoint>().connectedBody = null;
+            Destroy(GetComponent<FixedJoint>());
 
-			objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
-			objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
+            objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
+            objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
 
-            // Get the seasonal effect of the object, if any
-            var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
-            // Fire an event to notify any listeners
-            GameEventSystem.FireEvent(new ObjectPlacedEvent(objInHand, seasonalEffect));
+            if (objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.isInInventoryTarget))
+            {
+                GameEventSystem.FireEvent(new ObjectStoredEvent(objInHand));
+            }
+            else
+            {
+                // Get the seasonal effect of the object, if any
+                var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
+                // Fire an event to notify any listeners
+                GameEventSystem.FireEvent(new ObjectPutDownEvent(objInHand, seasonalEffect));
+            }
         }
 		objInHand = null;
 	}
-		
+
+    private void StoreObject()
+    {
+        if (GetComponent<FixedJoint>())
+        {
+            GetComponent<FixedJoint>().connectedBody = null;
+            Destroy(GetComponent<FixedJoint>());
+
+            // Fire an event to notify any listeners
+            GameEventSystem.FireEvent(new ObjectStoredEvent(objInHand));
+            objInHand.SetActive(false);
+        }
+        objInHand = null;
+    }
+
 }
