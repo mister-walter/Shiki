@@ -13,7 +13,7 @@ public static class GameObjectExtensions
     public static bool HasComponentAnd<T>(this GameObject go, Predicate<T> pred)
     {
         var component = go.GetComponent<T>();
-        if (go != null)
+        if (component != null)
         {
             return pred(component);
         }
