@@ -55,6 +55,8 @@ public class SeasonalEffect : MonoBehaviour {
     #region Event Handlers
     public void OnPlacedInSeason(ObjectPlacedInSeasonEvent evt)
     {
+        Debug.Log("Placed in season");
+        Debug.Log(evt.seasonName);
         if (evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID())
         {
             this.seasonName = evt.seasonName;
