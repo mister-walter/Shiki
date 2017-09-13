@@ -65,24 +65,19 @@ public static class SeasonCoordinateManager {
     public static float AngleInQuadrant(float x, float y)
     {
         var angle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
-        if (-45 <= angle && angle < 45)
+        while (angle < 0)
         {
-            return angle + 45;
-        } else if (45 <= angle && angle < 135)
-        {
-            return angle - 45;
-        } else if (-135 <= angle && angle < -45)
-        {
-            return angle + 135;
-        } else if (135 <= angle)
-        {
-            return angle - 135;
-        } else if (-135 > angle)
-        {
-            return angle + 225;
-        } else
-        {
-            throw new System.ArithmeticException(string.Format("Can't find angle for coordinates: {0}, {1}, angle {2}", x, y, angle));
+            angle = angle + 360;
+        }
+
+        if (angle <= 90) {
+            return angle;
+        } else if(angle > 90 && angle <= 180) {
+            return angle - 90;
+        } else if (angle > 180 && angle < 270) {
+            return angle - 180;
+        } else {
+            return angle - 270;
         }
     }
 }
