@@ -7,14 +7,14 @@ public class ObjectScript : MonoBehaviour
 
     //private string tooltype;
     private float hp;
-    private Material newMaterial;
+    public Material newMaterial;
     
 
     // Use this for initialization
     void Start()
     {
        //tooltype = "stick";
-        hp = 1.0f;
+        hp = 5.0f;
     }
 
     public void hit(float velocityMag)
@@ -35,7 +35,6 @@ public class ObjectScript : MonoBehaviour
         Vector3 pos = transform.position;   //get old object position
         Vector3 scale = transform.localScale; //get old object size
         Quaternion rotation = transform.rotation; //get old object rotation
-        newMaterial = Resources.Load("Affected", typeof(Material)) as Material; //load up the new material
         newObject.GetComponent<Renderer>().material = newMaterial; //assign new material to object
         newObject.AddComponent<Rigidbody>();
 
