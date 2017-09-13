@@ -19,7 +19,7 @@ public class ObjectScript : MonoBehaviour
 
     public void hit(float velocityMag)
     {
-        hp -= (int)Mathf.Floor(velocityMag);
+        hp -= velocityMag;
 
         if (hp <= 0)
         {
