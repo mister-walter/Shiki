@@ -26,6 +26,7 @@ public class DataCollection : MonoBehaviour {
     //*********************************//
 
     string mydocpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    bool recording = false;
 
     // Use this for initialization
     void Start() {
@@ -42,7 +43,17 @@ public class DataCollection : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        record();
+        if (gripButtonDown && !recording)
+        {
+            record();
+            recording = true;
+        }
+            
+        if (gripButtonDown && recording)
+            recording = false;
+        if (recording)
+            record();
+        
     }
 
     public void record()
