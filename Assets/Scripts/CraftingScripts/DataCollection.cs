@@ -11,10 +11,13 @@ public class DataCollection : MonoBehaviour {
     // BEGIN REFERENCE TO VR CONTROLLERS //
     //***********************************//
     private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
+    private Valve.VR.EVRButtonId padButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
     public bool gripButtonDown = false;
     public bool gripButtonUp = false;
+    public bool triggerButtonDown = false;
 
     private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
+    
 
     // device to get easy access to the controller
     private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
@@ -26,7 +29,6 @@ public class DataCollection : MonoBehaviour {
     //*********************************//
 
     string mydocpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-    bool recording = false;
 
     // Use this for initialization
     void Start() {
@@ -43,11 +45,9 @@ public class DataCollection : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (gripButtonDown && !recording)
-            recording = true;
-        if (gripButtonDown && recording)
-            recording = false;
-        if (recording)
+        triggerButtonDown = controller.GetPressDown(triggerButton);
+
+        if (triggerButtonDown)
             record();
         
     }
