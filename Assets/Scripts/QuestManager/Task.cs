@@ -201,7 +201,7 @@ namespace Shiki.Quests {
 			// the target object is the interacted object
 			//		this is object 2
 
-			// types of actions: Get, Enter, Drop, Cut, Hit, None
+			// types of actions: Get, Enter, Drop, Cut, Hit, Dig, Merge, None
 
 
 			// Declares variables:
@@ -225,7 +225,7 @@ namespace Shiki.Quests {
 						if(objToObjIntrcType.Equals("With")) {
 							obj2 = obj1;		// target item
 							obj1 = toParse[i];	// source item = this current item
-						} else if(objToObjIntrcType.Equals("On")) {
+						} else if(objToObjIntrcType.Equals("On") || objToObjIntrcType.Equals("And")) {
 							obj2 = toParse[i];	// target item = this current item
 						}
 					} else if(action == InteractionKind.Become && ++i < length) {
@@ -235,14 +235,14 @@ namespace Shiki.Quests {
 						// if this is the first reference to an item:
 						obj1 = toParse[i];
 					}
-				} else if(toParse[i].Equals("With") || toParse[i].Equals("On")) {
+				} else if(toParse[i].Equals("With") || toParse[i].Equals("On") || toParse[i].Equals("And")) {
 					objToObjIntrcType = toParse[i]; //if objects interact, set the interaction type
 
+				} else if(toParse[i].Equals("Location") && ++i < length){
+					location = toParse[i];
 				} else if(Enum.TryParse<InteractionKind>(toParse[i], out action)) {
 					if(toParse[i].Equals("Becomes")){ // again if an objects interact, set interaction type
 						objToObjIntrcType = toParse[i]; 
-					} else if(action == InteractionKind.Enter && ++i < length) { // if player must enter location, set location
-						location = toParse[i];
 					}
 				}
 			}

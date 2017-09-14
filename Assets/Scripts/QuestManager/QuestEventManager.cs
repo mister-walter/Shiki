@@ -82,7 +82,7 @@ namespace Shiki.Quests {
 	/// Tasks contain trigger and oncomplete functions in a language where most keywords are associated with one of the following enum values.
 	/// </summary>
 	public enum InteractionKind {
-		Get, Enter, Drop, Cut, Hit, Weave, Dig, Grind, Become, None
+		Get, Enter, Drop, Cut, Hit, Weave, Dig, Grind, Merge, Become, None
 	};
 
 	/// <summary>

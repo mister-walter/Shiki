@@ -1,0 +1,51 @@
+The language follows English sentence order, however the words must be limited to:
+actions: Get, Enter, Drop, Cut, Hit, Dig, Grind, Merge, Become
+prepositions: On, With, And
+object types: Player, Item ____, Location ____
+
+Note: Get and Become are both actions, but they are to be used in On Complete functions. (However, Get can be used in trigger functions.)
+The language can be edited to add more features.
+
+
+At the moment, a sentence can have up to two objects (other than the player) or a location, and must contain an action.
+Objects include all named objects in the game, and must follow the form “Item ObjectName” where ObjectName is the name of the object.
+
+
+Actions fall into three categories: ones where two objects must be involved (with a word describing their interaction order); ones involving only one action; or one with a location only.
+The current list of actions are “Get, Enter, Drop, Cut, Hit”.
+	Get - Player receives/picks up an item
+		[Not Implemented] can be used to spawn an item in another location
+		Ex: “Player Get Item PoundedRice”
+	Enter - Player enters a particular area (must be specified by name)
+		Ex: “Player Enter Winter”
+	Drop - Player must cause an item to fall onto another item
+		Ex: “Player Drop Item RiceInBowl On Item ActiveFire”
+	Cut - Player must cause a cutting motion with one object on another
+		Ex: “Player Cut Item Bread With Item Knife”
+	Hit - Player must cause a hitting motion (e.g. with a hammer)
+		Ex: "Player Hit Item SteamedRice With Item Hammer"
+	Dig - Player must cause a digging motion (e.g. with shovel)
+		Ex: “Player Dig Location RiceField With Item Shovel”
+	Merge - Player must bring two items close together, while holding both of them
+		Ex: “Player Merge Item MultiTool And Item Shovel”
+	Become - One item transforms into another (to be used in OnComplete)
+		Ex: “Item Rice Become Item CookedRice”
+
+
+Objects are typically separated by prepositions; these describe the order in which they are interacting in.
+The current list of prepositions are “On, With, And”
+	With -	Interact an object WITH a tool
+		target WITH source
+		EX: “Cut Item Tree With Item Axe”
+	On - 	Interact an tool ON an object
+		source ON target
+		EX: “Drop Item Water On Item ActiveFire”
+	And -	Interact two objects equally
+		object AND object
+		EX: “Merge Item Stick And Item Tape”
+
+
+
+The term object1 will often refer to source objects, AKA tools. They are not necessarily the first object in a sentence.
+The term object2 will refer to the target object (which are NOT tools). They are not necessarily the second object in a sentence.
+
