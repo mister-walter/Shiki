@@ -32,9 +32,9 @@ public class DataCollection : MonoBehaviour {
 
         trackedObj = GetComponent<SteamVR_TrackedObject>();
 
-        using (StreamWriter datafile = new StreamWriter(mydocpath + @"\data.csv"))
+        using (StreamWriter datafile = new StreamWriter(mydocpath + @"\data.csv", true))
         {
-            datafile.WriteLine("time, p-x, p-y, p-z");
+            datafile.WriteLine("user, activity, time, p-x, p-y, p-z");
         }
 
         
@@ -49,13 +49,16 @@ public class DataCollection : MonoBehaviour {
     {
         string row;
 
+        int user_id = 1;
+        string activity = "pounding";
+
         Int32 i_time = (Int32)((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds);
         string time = i_time.ToString();
         float pos_x = trackedObj.transform.position.x;
         float pos_y = trackedObj.transform.position.y;
         float pos_z = trackedObj.transform.position.z;
 
-        row = time + "," + pos_x + "," + pos_y + "," + pos_z;
+        row = user_id + "," + activity + "," + time + "," + pos_x + "," + pos_y + "," + pos_z;
 
         using (StreamWriter datafile = new StreamWriter(mydocpath + @"\data.csv", true)) {
             datafile.WriteLine(row);
