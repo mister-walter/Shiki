@@ -1,42 +1,49 @@
-﻿using System.Collections;
+﻿/// @author Larisa Motova
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
 using NUnit.Framework;
-using TomlReaderWriter;
+using Shiki.ReaderWriter.TomlImplementation;
+using Shiki.ReaderWriter;
+using Shiki.Quests;
 
-namespace NUnit.TomlQuestReader.TomlQuestReaderTest {
-
-	public class SetUpMyStuffPlz{
-		
-	}
+namespace NUnit.TomlQuestReaderTest {
 
 	[TestFixture]
 	public class TomlQuestReaderTest {
 		//nunit-csharp-samples nunit on github MoneyTest.cs
 
 		private SaveDataManager sdm;
-		private TomlReaderWriter.TomlQuestReader tqr;
+		private TomlQuestReader tqr;
 		private TomlQuestStateReader tqsr;
 		private TomlQuestStateWriter tsw;
 
 		public void SetUp(){
-			tqr = new TomlReaderWriter.TomlQuestReader();
+			tqr = new TomlQuestReader();
 			tqsr = new TomlQuestStateReader();
-			Debug.Log("breakpoint plz");
 			tsw = new TomlQuestStateWriter();
 			sdm = new SaveDataManager(tqr, tqsr, tsw);
 		}
 
 		[Test]
-		public void something(){
-			Assert.IsTrue(true);
+		public void testReadingToml(){
+			SetUp(); 
+			sdm.ReadSaves();
 		}
 
 		[Test]
-		public void testReadingToml(){
-			SetUp(); // aslkdjfaklsjd why tho
-			sdm.ReadSaves();
+		public void testWritingToml(){
+			SetUp();
+			List<Task> tasks = new List<Task>();
+			Task t;
+			for(int i = 0; i < 5; i++){
+				t = new Task();
+				t.name = "test" + i;
+				t.isComplete = (i % 2) == 0;
+				tasks.Add(t);
+			}
+
+			sdm.taskTree = TemporaryTaskConverter.TaskListsToTaskTrees(tasks);
+			sdm.WriteSaves();
+			// "Assets/StateFiles/quest_status.tml"
 		}
 	}
 }

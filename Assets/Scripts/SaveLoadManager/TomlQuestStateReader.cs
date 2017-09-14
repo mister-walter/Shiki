@@ -1,15 +1,20 @@
-﻿using System.Collections;
+/// @author Larisa Motova
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 using Nett;
 
-namespace TomlReaderWriter {
+namespace Shiki.ReaderWriter.TomlImplementation {
 
+	/// <summary>
+	/// Reads in the player's state through quests in the TOML file format
+	/// </summary>
 	public class TomlQuestStateReader : IQuestStateReader {
 
-		public TomlQuestStateReader(){}
-
+		/// <summary>
+		/// Loads in player's state through quests in TOML file format
+		/// </summary>
+		/// <returns>(Incomplete) dictionary of task names to completion status</returns>
+		/// <param name="fileStream">File stream to read from.</param>
 		public Dictionary<string, bool> LoadQuestState(Stream fileStream){
 			Dictionary<string, bool> taskDictionary = new Dictionary<string, bool>();
 
@@ -27,8 +32,6 @@ namespace TomlReaderWriter {
 
 		}
 	}
-
-
 
 }
 

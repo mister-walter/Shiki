@@ -6,19 +6,19 @@ OnComplete = "Player Get Item WhiteMochi"
 [[TemporaryTask]]
 Name = "PoundRice"
 SubTask = "SteamRice"
-Trigger = "Player Pound Item SteamedRice With Item Hammer"
+Trigger = "Player Hit Item SteamedRice With Item Hammer"
 OnComplete = "Player Get Item PoundedRice"
 
 [[TemporaryTask]]
 Name = "SteamRice"
-SubTask = "PutRiceOnBowl"
-Trigger = "Player Put Item RiceInBowl On Item ActiveFire"
+SubTask = "PutRiceInBowl"
+Trigger = "Player Drop Item RiceInBowl On Item ActiveFire"
 OnComplete = "Player Get Item SteamedRice"
 
 [[TemporaryTask]]
 Name = "PutRiceInBowl"
 SubTask = "GetRice GetBowl"
-Trigger = "Player Put Item UncookedRice On Item Bowl"
+Trigger = "Player DROP Item UncookedRice On Item Bowl"
 OnComplete = "Player Get Item RiceInBowl"
 
 [[TemporaryTask]]
