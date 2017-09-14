@@ -1,0 +1,169 @@
+fileFormatVersion: 2
+guid: 5d011c0989538074385774075714a14e
+timeCreated: 1505201749
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Arm1_L
+    100004: Arm1_R
+    100006: Arm4_L
+    100008: Arm4_R
+    100010: Arms
+    100012: foot_L
+    100014: foot_R
+    100016: hair
+    100018: Hair_2
+    100020: Hair_3
+    100022: Hand_L
+    100024: Hand_R
+    100026: Hands
+    100028: Hat
+    100030: Head
+    100032: Head_0
+    100034: Hips
+    100036: Japan_Rig
+    100038: Kimono
+    100040: Legs
+    100042: Long_Tunic
+    100044: shin_L
+    100046: shin_R
+    100048: Short_Tunic
+    100050: Shoulder_L
+    100052: Shoulder_R
+    100054: Sleeves
+    100056: Spine
+    100058: thigh_L
+    100060: thigh_R
+    100062: Torso
+    400000: //RootNode
+    400002: Arm1_L
+    400004: Arm1_R
+    400006: Arm4_L
+    400008: Arm4_R
+    400010: Arms
+    400012: foot_L
+    400014: foot_R
+    400016: hair
+    400018: Hair_2
+    400020: Hair_3
+    400022: Hand_L
+    400024: Hand_R
+    400026: Hands
+    400028: Hat
+    400030: Head
+    400032: Head_0
+    400034: Hips
+    400036: Japan_Rig
+    400038: Kimono
+    400040: Legs
+    400042: Long_Tunic
+    400044: shin_L
+    400046: shin_R
+    400048: Short_Tunic
+    400050: Shoulder_L
+    400052: Shoulder_R
+    400054: Sleeves
+    400056: Spine
+    400058: thigh_L
+    400060: thigh_R
+    400062: Torso
+    4300000: Long_Tunic
+    4300002: Sleeves
+    4300004: Hair_3
+    4300006: Hair_2
+    4300008: Short_Tunic
+    4300010: hair
+    4300012: Hat
+    4300014: Head
+    4300016: Kimono
+    4300018: Arms
+    4300020: Hands
+    4300022: Legs
+    7400000: Default Take
+    7400002: Rig_Action
+    7400004: Walking
+    9500000: //RootNode
+    13700000: Arms
+    13700002: hair
+    13700004: Hair_2
+    13700006: Hair_3
+    13700008: Hands
+    13700010: Hat
+    13700012: Head
+    13700014: Kimono
+    13700016: Legs
+    13700018: Long_Tunic
+    13700020: Short_Tunic
+    13700022: Sleeves
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

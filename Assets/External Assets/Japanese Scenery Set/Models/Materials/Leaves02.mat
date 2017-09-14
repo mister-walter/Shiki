@@ -51,3 +51,5 @@ Material:
     - _Color: {r: 0.6156911, g: 0.56501275, b: 0.48628032, a: 1}
     - _Scale: {r: 1, g: 1, b: 1, a: 1}
     - _TranslucencyColor: {r: 0.5298507, g: 0.4067942, b: 0.21747606, a: 1}
+    - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}

@@ -1,0 +1,991 @@
+fileFormatVersion: 2
+guid: 361aa0bd37c6dde46bfe76ad2a570ea1
+timeCreated: 1505264780
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Arm1_L
+    100004: Arm1_R
+    100006: Arm4_L
+    100008: Arm4_R
+    100010: Core
+    100012: Elbow_L
+    100014: Elbow_R
+    100016: foot_L
+    100018: foot_R
+    100020: footIK_L
+    100022: footIK_R
+    100024: Hand_L
+    100026: Hand_R
+    100028: HandIK_L
+    100030: HandIK_R
+    100032: Head
+    100034: Hips
+    100036: knee_L
+    100038: knee_R
+    100040: Person_1
+    100042: Person_2
+    100044: Person_3
+    100046: Rig
+    100048: shin_L
+    100050: shin_R
+    100052: Shoulder_L
+    100054: Shoulder_R
+    100056: Spine
+    100058: thigh_L
+    100060: thigh_R
+    100062: Torso
+    400000: //RootNode
+    400002: Arm1_L
+    400004: Arm1_R
+    400006: Arm4_L
+    400008: Arm4_R
+    400010: Core
+    400012: Elbow_L
+    400014: Elbow_R
+    400016: foot_L
+    400018: foot_R
+    400020: footIK_L
+    400022: footIK_R
+    400024: Hand_L
+    400026: Hand_R
+    400028: HandIK_L
+    400030: HandIK_R
+    400032: Head
+    400034: Hips
+    400036: knee_L
+    400038: knee_R
+    400040: Person_1
+    400042: Person_2
+    400044: Person_3
+    400046: Rig
+    400048: shin_L
+    400050: shin_R
+    400052: Shoulder_L
+    400054: Shoulder_R
+    400056: Spine
+    400058: thigh_L
+    400060: thigh_R
+    400062: Torso
+    4300000: Person_3
+    4300002: Person_2
+    4300004: Person_1
+    7400000: Default Take
+    7400002: Conversing_1
+    7400004: Conversing_2
+    7400006: Exchanging_1
+    7400008: Exchanging_2
+    7400010: Holding_Basket
+    7400012: Japan_Rig_Japan_Rig_Rig_Action_Japan_Rig_Rig_Action
+    7400014: Japan_Rig_Japan_Rig_Rig_Action_Japan_Rig_Rig_Action_001
+    7400016: Japan_Rig_Japan_Rig_Rig_Action_Japan_Rig_Rig_Action_002
+    7400018: Picking_Up
+    7400020: Rig_Action
+    7400022: Sitting_Bench
+    7400024: Sitting_Porch
+    7400026: Walk
+    7400028: Walking
+    9500000: //RootNode
+    13700000: Person_1
+    13700002: Person_2
+    13700004: Person_3
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Conversing_1
+      takeName: Conversing_1
+      firstFrame: 0
+      lastFrame: 9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Person_1
+        weight: 1
+      - path: Person_2
+        weight: 1
+      - path: Person_3
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: Rig/Core
+        weight: 1
+      - path: Rig/Core/footIK_L
+        weight: 1
+      - path: Rig/Core/footIK_R
+        weight: 1
+      - path: Rig/Core/knee_L
+        weight: 1
+      - path: Rig/Core/knee_R
+        weight: 1
+      - path: Rig/Elbow_L
+        weight: 1
+      - path: Rig/Elbow_R
+        weight: 1
+      - path: Rig/HandIK_L
+        weight: 1
+      - path: Rig/HandIK_R
+        weight: 1
+      - path: Rig/Hips
+        weight: 1
+      - path: Rig/Hips/Spine
+        weight: 1
+      - path: Rig/Hips/Spine/Torso
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Head
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L/Hand_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R/Hand_R
+        weight: 1
+      - path: Rig/Hips/thigh_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: Rig/Hips/thigh_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R/foot_R
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Conversing_2
+      takeName: Conversing_2
+      firstFrame: 0
+      lastFrame: 9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Person_1
+        weight: 1
+      - path: Person_2
+        weight: 1
+      - path: Person_3
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: Rig/Core
+        weight: 1
+      - path: Rig/Core/footIK_L
+        weight: 1
+      - path: Rig/Core/footIK_R
+        weight: 1
+      - path: Rig/Core/knee_L
+        weight: 1
+      - path: Rig/Core/knee_R
+        weight: 1
+      - path: Rig/Elbow_L
+        weight: 1
+      - path: Rig/Elbow_R
+        weight: 1
+      - path: Rig/HandIK_L
+        weight: 1
+      - path: Rig/HandIK_R
+        weight: 1
+      - path: Rig/Hips
+        weight: 1
+      - path: Rig/Hips/Spine
+        weight: 1
+      - path: Rig/Hips/Spine/Torso
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Head
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L/Hand_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R/Hand_R
+        weight: 1
+      - path: Rig/Hips/thigh_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: Rig/Hips/thigh_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R/foot_R
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Exchanging_1
+      takeName: Exchanging_1
+      firstFrame: 0
+      lastFrame: 9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Person_1
+        weight: 1
+      - path: Person_2
+        weight: 1
+      - path: Person_3
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: Rig/Core
+        weight: 1
+      - path: Rig/Core/footIK_L
+        weight: 1
+      - path: Rig/Core/footIK_R
+        weight: 1
+      - path: Rig/Core/knee_L
+        weight: 1
+      - path: Rig/Core/knee_R
+        weight: 1
+      - path: Rig/Elbow_L
+        weight: 1
+      - path: Rig/Elbow_R
+        weight: 1
+      - path: Rig/HandIK_L
+        weight: 1
+      - path: Rig/HandIK_R
+        weight: 1
+      - path: Rig/Hips
+        weight: 1
+      - path: Rig/Hips/Spine
+        weight: 1
+      - path: Rig/Hips/Spine/Torso
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Head
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L/Hand_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R/Hand_R
+        weight: 1
+      - path: Rig/Hips/thigh_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: Rig/Hips/thigh_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R/foot_R
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Exchanging_2
+      takeName: Exchanging_2
+      firstFrame: 0
+      lastFrame: 8
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Person_1
+        weight: 1
+      - path: Person_2
+        weight: 1
+      - path: Person_3
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: Rig/Core
+        weight: 1
+      - path: Rig/Core/footIK_L
+        weight: 1
+      - path: Rig/Core/footIK_R
+        weight: 1
+      - path: Rig/Core/knee_L
+        weight: 1
+      - path: Rig/Core/knee_R
+        weight: 1
+      - path: Rig/Elbow_L
+        weight: 1
+      - path: Rig/Elbow_R
+        weight: 1
+      - path: Rig/HandIK_L
+        weight: 1
+      - path: Rig/HandIK_R
+        weight: 1
+      - path: Rig/Hips
+        weight: 1
+      - path: Rig/Hips/Spine
+        weight: 1
+      - path: Rig/Hips/Spine/Torso
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Head
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L/Hand_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R/Hand_R
+        weight: 1
+      - path: Rig/Hips/thigh_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: Rig/Hips/thigh_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R/foot_R
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Holding_Basket
+      takeName: Holding_Basket
+      firstFrame: 0
+      lastFrame: 9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Person_1
+        weight: 1
+      - path: Person_2
+        weight: 1
+      - path: Person_3
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: Rig/Core
+        weight: 1
+      - path: Rig/Core/footIK_L
+        weight: 1
+      - path: Rig/Core/footIK_R
+        weight: 1
+      - path: Rig/Core/knee_L
+        weight: 1
+      - path: Rig/Core/knee_R
+        weight: 1
+      - path: Rig/Elbow_L
+        weight: 1
+      - path: Rig/Elbow_R
+        weight: 1
+      - path: Rig/HandIK_L
+        weight: 1
+      - path: Rig/HandIK_R
+        weight: 1
+      - path: Rig/Hips
+        weight: 1
+      - path: Rig/Hips/Spine
+        weight: 1
+      - path: Rig/Hips/Spine/Torso
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Head
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L/Hand_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R/Hand_R
+        weight: 1
+      - path: Rig/Hips/thigh_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: Rig/Hips/thigh_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R/foot_R
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Picking_Up
+      takeName: Picking_Up
+      firstFrame: 0
+      lastFrame: 9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Person_1
+        weight: 1
+      - path: Person_2
+        weight: 1
+      - path: Person_3
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: Rig/Core
+        weight: 1
+      - path: Rig/Core/footIK_L
+        weight: 1
+      - path: Rig/Core/footIK_R
+        weight: 1
+      - path: Rig/Core/knee_L
+        weight: 1
+      - path: Rig/Core/knee_R
+        weight: 1
+      - path: Rig/Elbow_L
+        weight: 1
+      - path: Rig/Elbow_R
+        weight: 1
+      - path: Rig/HandIK_L
+        weight: 1
+      - path: Rig/HandIK_R
+        weight: 1
+      - path: Rig/Hips
+        weight: 1
+      - path: Rig/Hips/Spine
+        weight: 1
+      - path: Rig/Hips/Spine/Torso
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Head
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L/Hand_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R/Hand_R
+        weight: 1
+      - path: Rig/Hips/thigh_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: Rig/Hips/thigh_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R/foot_R
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Sitting_Bench
+      takeName: Sitting_Bench
+      firstFrame: 0
+      lastFrame: 9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Person_1
+        weight: 1
+      - path: Person_2
+        weight: 1
+      - path: Person_3
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: Rig/Core
+        weight: 1
+      - path: Rig/Core/footIK_L
+        weight: 1
+      - path: Rig/Core/footIK_R
+        weight: 1
+      - path: Rig/Core/knee_L
+        weight: 1
+      - path: Rig/Core/knee_R
+        weight: 1
+      - path: Rig/Elbow_L
+        weight: 1
+      - path: Rig/Elbow_R
+        weight: 1
+      - path: Rig/HandIK_L
+        weight: 1
+      - path: Rig/HandIK_R
+        weight: 1
+      - path: Rig/Hips
+        weight: 1
+      - path: Rig/Hips/Spine
+        weight: 1
+      - path: Rig/Hips/Spine/Torso
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Head
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L/Hand_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R/Hand_R
+        weight: 1
+      - path: Rig/Hips/thigh_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: Rig/Hips/thigh_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R/foot_R
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Sitting_Porch
+      takeName: Sitting_Porch
+      firstFrame: 0
+      lastFrame: 9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Person_1
+        weight: 1
+      - path: Person_2
+        weight: 1
+      - path: Person_3
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: Rig/Core
+        weight: 1
+      - path: Rig/Core/footIK_L
+        weight: 1
+      - path: Rig/Core/footIK_R
+        weight: 1
+      - path: Rig/Core/knee_L
+        weight: 1
+      - path: Rig/Core/knee_R
+        weight: 1
+      - path: Rig/Elbow_L
+        weight: 1
+      - path: Rig/Elbow_R
+        weight: 1
+      - path: Rig/HandIK_L
+        weight: 1
+      - path: Rig/HandIK_R
+        weight: 1
+      - path: Rig/Hips
+        weight: 1
+      - path: Rig/Hips/Spine
+        weight: 1
+      - path: Rig/Hips/Spine/Torso
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Head
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L/Hand_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R/Hand_R
+        weight: 1
+      - path: Rig/Hips/thigh_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: Rig/Hips/thigh_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R/foot_R
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Walk
+      takeName: Walk
+      firstFrame: 0
+      lastFrame: 9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Person_1
+        weight: 1
+      - path: Person_2
+        weight: 1
+      - path: Person_3
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: Rig/Core
+        weight: 1
+      - path: Rig/Core/footIK_L
+        weight: 1
+      - path: Rig/Core/footIK_R
+        weight: 1
+      - path: Rig/Core/knee_L
+        weight: 1
+      - path: Rig/Core/knee_R
+        weight: 1
+      - path: Rig/Elbow_L
+        weight: 1
+      - path: Rig/Elbow_R
+        weight: 1
+      - path: Rig/HandIK_L
+        weight: 1
+      - path: Rig/HandIK_R
+        weight: 1
+      - path: Rig/Hips
+        weight: 1
+      - path: Rig/Hips/Spine
+        weight: 1
+      - path: Rig/Hips/Spine/Torso
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Head
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_L/Arm1_L/Arm4_L/Hand_L
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R
+        weight: 1
+      - path: Rig/Hips/Spine/Torso/Shoulder_R/Arm1_R/Arm4_R/Hand_R
+        weight: 1
+      - path: Rig/Hips/thigh_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L
+        weight: 1
+      - path: Rig/Hips/thigh_L/shin_L/foot_L
+        weight: 1
+      - path: Rig/Hips/thigh_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R
+        weight: 1
+      - path: Rig/Hips/thigh_R/shin_R/foot_R
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

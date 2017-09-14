@@ -25,6 +25,9 @@ public class SeasonInfo : MonoBehaviour {
     /// </summary>
     public GameObject ground;
 
+    // TODO: @Drew fix this
+    public GameObject villageGround;
+
     void Awake()
     {
         SeasonCoordinateManager.RegisterSeasonStartAngle(seasonName, startAngle);
@@ -97,8 +100,14 @@ public class SeasonInfo : MonoBehaviour {
         position.y = 5; // Make sure it's above the ground
         // TODO: @Drew can we just replace MeshCollider with Collider?
         var collider = ground.GetComponent<MeshCollider>();
+        var vilCollider = villageGround.GetComponent<MeshCollider>();
         var ray = new Ray(position, Vector3.down);
         RaycastHit info;
+        if (vilCollider.Raycast(ray, out info, 10))
+        {
+            return false;
+        }
+        
         var res = collider.Raycast(ray, out info, 10);
         return res;
     }
