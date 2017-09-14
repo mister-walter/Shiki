@@ -18,7 +18,7 @@ OnComplete = "Player Get Item SteamedRice"
 [[TemporaryTask]]
 Name = "PutRiceInBowl"
 SubTask = "GetRice GetBowl"
-Trigger = "Player DROP Item UncookedRice On Item Bowl"
+Trigger = "Player Drop Item UncookedRice On Item Bowl"
 OnComplete = "Player Get Item RiceInBowl"
 
 [[TemporaryTask]]

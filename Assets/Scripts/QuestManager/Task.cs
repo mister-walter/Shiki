@@ -147,7 +147,7 @@ namespace Shiki.Quests {
 			Predicate<InteractionEvent> pred = (InteractionEvent evt) => {
 				// have some sort of dictionary
 				if(pR.InteractionKind == evt.InteractionKind &&
-				   pR.Obj1.Equals(evt.SourceObject.name) &&
+				   pR.Obj1.Equals(evt.SourceObject.name) && // source == tool
 				   pR.Obj2.Equals(evt.TargetObject.name) //&& 
 														 //pR.Location == evt.Location
 				  ) {
@@ -191,11 +191,15 @@ namespace Shiki.Quests {
 		public static ParsingResult ParseString(string s) {
 			
 			// TODO: better documentation
-			// TODO: robust testing of this
 			// EXAMPLES OF LANGUAGE
 			// target WITH source		ex: Cut Tree With Axe
 			// source ON target			ex: Drop Water On ActiveFire
 			// ENTER location			ex: Enter Winter
+
+			// the source object is the tool
+			// 		this is also object 1
+			// the target object is the interacted object
+			//		this is object 2
 
 			// types of actions: Get, Enter, Drop, Cut, Hit, None
 
@@ -203,7 +207,7 @@ namespace Shiki.Quests {
 			// Declares variables:
 			string[] toParse = s.Split(' ');
 			int length = toParse.Length;
-			string obj1 = String.Empty;
+			string obj1 = String.Empty;	// tool or source
 			string obj2 = String.Empty;
 			string location = String.Empty;
 			string objToObjIntrcType = String.Empty;
@@ -244,8 +248,8 @@ namespace Shiki.Quests {
 			}
 
 			parsingResult.InteractionKind = action;
-			parsingResult.Obj1 = obj1;
-			parsingResult.Obj2 = obj2;
+			parsingResult.Obj1 = obj1; // tool
+			parsingResult.Obj2 = obj2; // other
 			parsingResult.Location = location;
 			parsingResult.objToObjInteractionType = objToObjIntrcType;
 

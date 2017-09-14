@@ -45,19 +45,19 @@ namespace Shiki.Quests {
 		/// </summary>
 		/// <param name="evt">Evt.</param>
 		/// <param name="tn">Tn.</param>
-		public void UpdateTaskBranch(InteractionEvent evt, TaskNode tn){
+		public bool UpdateTaskBranch(InteractionEvent evt, TaskNode tn){
 			bool allChildrenComplete = true;
 
 			foreach(TaskNode tchild in tn.Children) {
-				if(!tchild.AssociatedTask.isComplete){
-					allChildrenComplete = false;
-                    UpdateTaskBranch(evt, tchild);
-				}
+				allChildrenComplete &= (tchild.AssociatedTask.isComplete || UpdateTaskBranch(evt, tchild));
+				// if child not complete, and updating child doesn't complete the child, allChildrenComplete = false
 			}
-			if(allChildrenComplete && tn.AssociatedTask.trigger(evt)) {
+			if(allChildrenComplete && (tn.AssociatedTask.trigger == null || tn.AssociatedTask.trigger(evt))){
 				tn.AssociatedTask.isComplete = true;
 				tn.AssociatedTask.onComplete();
+				return true;
 			}
+			return false;
 		}
 
 		/// <summary>
@@ -116,7 +116,7 @@ namespace Shiki.Quests {
 	/// </summary>
 	public class ParsingResult {
 		/// <summary>
-		/// First object found in parsing
+		/// First object found in parsing. This is typically the tool the player is using.
 		/// </summary>
 		public string Obj1 { get; set; }
 

@@ -15,12 +15,22 @@ namespace NUnit.TomlQuestReaderTest {
 		private TomlQuestReader tqr;
 		private TomlQuestStateReader tqsr;
 		private TomlQuestStateWriter tsw;
+		private string[] triggerStringTests;
+		private string[] onCompleteStringTests;
+
 
 		public void SetUp(){
 			tqr = new TomlQuestReader();
 			tqsr = new TomlQuestStateReader();
 			tsw = new TomlQuestStateWriter();
 			sdm = new SaveDataManager(tqr, tqsr, tsw);
+
+			triggerStringTests = new string[2];
+			triggerStringTests[0] = "Player Hit Item SteamedRice With Item Hammer";
+			triggerStringTests[1] = "Player Drop Item RiceInBowl On Item ActiveFire";
+
+			onCompleteStringTests = new string[1];
+			onCompleteStringTests[0] = "Player Get Item WhiteMochi";
 		}
 
 		[Test]
@@ -44,6 +54,33 @@ namespace NUnit.TomlQuestReaderTest {
 			sdm.taskTree = TemporaryTaskConverter.TaskListsToTaskTrees(tasks);
 			sdm.WriteSaves();
 			// "Assets/StateFiles/quest_status.tml"
+		}
+
+		[Test]
+		public void testParser(){
+			SetUp();
+			for(int i = 0; i < triggerStringTests.Length; i++){
+				TemporaryTaskConverter.ParseString(triggerStringTests[i]);
+			}
+			for(int i = 0; i < onCompleteStringTests.Length; i++){
+				TemporaryTaskConverter.ParseString(onCompleteStringTests[i]);
+			}
+		}
+
+		[Test]
+		public void testTriggerCreation(){
+			SetUp();
+			for(int i = 0; i<triggerStringTests.Length; i++){
+				TemporaryTaskConverter.CreateTriggerFunction(triggerStringTests[i]);
+			}
+		}
+
+		[Test]
+		public void testOnCompleteCreation(){
+			SetUp();
+			for(int i = 0; i<onCompleteStringTests.Length; i++){
+				TemporaryTaskConverter.CreateOnCompleteFunction(onCompleteStringTests[i]);
+			}
 		}
 	}
 }
