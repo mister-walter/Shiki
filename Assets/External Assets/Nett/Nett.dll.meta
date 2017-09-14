@@ -11,6 +11,8 @@ PluginImporter:
   platformData:
     data:
       first:
+<<<<<<< HEAD
+=======
         '': Any
       second:
         enabled: 0
@@ -26,6 +28,7 @@ PluginImporter:
           Exclude Win64: 0
     data:
       first:
+>>>>>>> master
         Any: 
       second:
         enabled: 1
@@ -34,6 +37,11 @@ PluginImporter:
       first:
         Editor: Editor
       second:
+<<<<<<< HEAD
+        enabled: 0
+        settings:
+          DefaultValueInitialized: true
+=======
         enabled: 1
         settings:
           CPU: AnyCPU
@@ -107,6 +115,7 @@ PluginImporter:
         enabled: 1
         settings:
           CPU: AnyCPU
+>>>>>>> master
     data:
       first:
         Windows Store Apps: WindowsStoreApps

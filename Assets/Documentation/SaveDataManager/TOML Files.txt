@@ -1,0 +1,46 @@
+General Guidelines:
+Everything is case sensitive.
+TOML works on a key-value pair system. Multiple pairs can be grouped together under tables, which are symbolized by [TableName].
+In order to have multiple tables with the same name, they must be placed in a table array, symbolized by [[TableArrayName]].
+
+The TOML parser I have used will not accept key names that begin with lowercase letters (who knows why). 
+Ex:	Key = “Value” is ok
+	key = “Value” is NOT ok; it will not recognize “key” as being a key
+
+The location of the TOML files are Assets > StateFiles
+
+Comments can be written in TOML with #.
+
+
+quest_list.tml:
+Contains all of the individual tasks for any quest.
+The order in which tasks are written does not matter. 
+Quests are definied as a series of tasks, represented as a tree, where each task can have child tasks. Tasks must have names Before a task can be completed, its child tasks must be completed. Once the child tasks are completed, if a task has a trigger function, it must be able to return true give the player’s circumstances/actions. If the trigger function returns true, the OnComplete function will then be called.
+
+A typical task will take the following format:
+
+[[TemporaryTask]]
+Name = “NameHere”
+SubTask = “SubTaskName1 SubTaskName2”
+Trigger = “Trigger Function Goes Here”
+OnComplete = “OnComplete Function Goes Here”
+
+Example:
+[[TemporaryTask]]
+Name = "PoundRice"
+SubTask = "SteamRice"
+Trigger = "Player Hit Item SteamedRice With Item Hammer"
+OnComplete = "Player Get Item PoundedRice"
+
+The only necessary parameters are the initial “[[TemporaryTask]]” (each new task must begin with this) and the name. All other parameters can be omitted.
+Example:
+[[TemporaryTask]]
+Name = "GetBowl"
+Trigger = "Player Get Item Bowl"
+
+
+quest_status.tml:
+At the moment contains one player’s status through quests. Code can be edited later to support multiple player’s save states.
+Contains the list of names for CompletedTasks for one player in string form.
+Example:
+CompletedTask = “PoundRice SteamRice GetBowl” # Example is not logically sound
