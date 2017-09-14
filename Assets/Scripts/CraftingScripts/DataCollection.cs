@@ -44,11 +44,7 @@ public class DataCollection : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (gripButtonDown && !recording)
-        {
-            record();
             recording = true;
-        }
-            
         if (gripButtonDown && recording)
             recording = false;
         if (recording)
