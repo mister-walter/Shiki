@@ -2178,7 +2178,7 @@ Transform:
   - {fileID: 443925120}
   - {fileID: 931869024}
   m_Father: {fileID: 899284066}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &882557179
 GameObject:
@@ -5629,8 +5629,8 @@ Transform:
   - {fileID: 1514254403}
   - {fileID: 1992282348}
   - {fileID: 1316047027}
-  - {fileID: 1994528465}
   - {fileID: 872347512}
+  - {fileID: 1994528465}
   - {fileID: 923435465}
   - {fileID: 1574152823}
   m_Father: {fileID: 338610663}
@@ -5874,6 +5874,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   locked: 0
   markerActive: 1
+--- !u!64 &926172681
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 926172679}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: a8130fdf0639f8e44875e577062ff03c, type: 3}
 --- !u!1001 &931869023
 Prefab:
   m_ObjectHideFlags: 0
