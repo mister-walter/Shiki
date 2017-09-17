@@ -8,6 +8,7 @@ public class ObjectScript : MonoBehaviour
     //private string tooltype;
     private float hp;
     public Material newMaterial;
+    private bool isChanged = false;
     
 
     // Use this for initialization
@@ -24,25 +25,15 @@ public class ObjectScript : MonoBehaviour
         if (hp <= 0)
         {
             hp = 0;
-            changeObject();
+            if(!isChanged)
+                changeObject();
         }
     }
 
     public void changeObject()
     {
-        GameObject newObject = GameObject.CreatePrimitive(PrimitiveType.Cube); //create a new object
-
-        Vector3 pos = transform.position;   //get old object position
-        Vector3 scale = transform.localScale; //get old object size
-        Quaternion rotation = transform.rotation; //get old object rotation
-        newObject.GetComponent<Renderer>().material = newMaterial; //assign new material to object
-        newObject.AddComponent<Rigidbody>();
-
-        newObject.transform.position = pos; //assign old object's position to new object
-        newObject.transform.localScale = scale; //assign old object's scale to new object
-        newObject.transform.rotation = rotation; //assign old object's rotation to new object
-
-        DestroyObject(gameObject); //destroy the old object
+        gameObject.GetComponent<Renderer>().material = newMaterial; //assign new material to object 
+        isChanged = true;     
     }
 
 }
