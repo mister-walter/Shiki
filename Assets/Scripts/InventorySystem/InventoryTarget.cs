@@ -11,6 +11,7 @@ namespace Shiki.Inventory
 
         void OnTriggerExit(Collider other)
         {
+            Debug.Log("TriggerExit");
             var inventoryItemBehavior = other.gameObject.GetComponent<InventoryItemBehavior>();
             if (inventoryItemBehavior != null)
             {
@@ -21,6 +22,7 @@ namespace Shiki.Inventory
 
         void OnTriggerEnter(Collider other)
         {
+            Debug.Log("TriggerEnter");
             var inventoryItemBehavior = other.gameObject.GetComponent<InventoryItemBehavior>();
             if (inventoryItemBehavior != null)
             {
