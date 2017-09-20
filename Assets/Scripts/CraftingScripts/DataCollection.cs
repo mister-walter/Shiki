@@ -28,6 +28,7 @@ public class DataCollection : MonoBehaviour {
     // END REFERENCE TO VR CONTROLLERS //
     //*********************************//
 
+    private GameObject collidingObject;
     string mydocpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
     // Use this for initialization
@@ -37,35 +38,49 @@ public class DataCollection : MonoBehaviour {
 
         using (StreamWriter datafile = new StreamWriter(mydocpath + @"\data.csv", true))
         {
-            datafile.WriteLine("user, activity, time, p-x, p-y, p-z");
+            datafile.WriteLine("v-x, v-y, v-z, av-x, av-y, av-z"); //remember to change this back later to user-id, activity, time, pos-x, pos-y, pos-z
         }
 
         
     }
 
     // Update is called once per frame
-    void Update() {
+ /*   void Update() {
         triggerButtonDown = controller.GetPressDown(triggerButton);
 
         if (triggerButtonDown)
             record();
         
+    }*/
+
+    void OnCollisionEnter(Collision col)
+    {
+        collidingObject = col.gameObject;
+        float vx = col.relativeVelocity.x;
+        float vy = col.relativeVelocity.y;
+        float vz = col.relativeVelocity.z;
+        float avx = col.rigidbody.angularVelocity.x;
+        float avy = col.rigidbody.angularVelocity.y;
+        float avz = col.rigidbody.angularVelocity.z;
+
+        record(vx, vy, vz, avx, avy, avz);
+
     }
 
-    public void record()
+    public void record(float vx, float vy, float vz, float avx, float avy, float avz)
     {
         string row;
 
-        int user_id = 1;
+       /* int user_id = 1;
         string activity = "pounding";
 
         Int32 i_time = (Int32)((DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds);
         string time = i_time.ToString();
         float pos_x = trackedObj.transform.position.x;
         float pos_y = trackedObj.transform.position.y;
-        float pos_z = trackedObj.transform.position.z;
+        float pos_z = trackedObj.transform.position.z;*/
 
-        row = user_id + "," + activity + "," + time + "," + pos_x + "," + pos_y + "," + pos_z;
+        row = vx + "," + vy + "," + vz + "," + avx + "," + avy + "," + avz; //remember to change this back later to user_id + activity + time + pos_x + pos_y + pos_z
 
         using (StreamWriter datafile = new StreamWriter(mydocpath + @"\data.csv", true)) {
             datafile.WriteLine(row);
