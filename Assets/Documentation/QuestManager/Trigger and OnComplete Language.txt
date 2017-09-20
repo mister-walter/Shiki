@@ -12,7 +12,7 @@ Objects include all named objects in the game, and must follow the form “Item 
 
 
 Actions fall into three categories: ones where two objects must be involved (with a word describing their interaction order); ones involving only one action; or one with a location only.
-The current list of actions are “Get, Enter, Drop, Cut, Hit”.
+The current list of actions are “Get, Enter, Drop, Cut, Hit, Dig, Merge, Become, Open, Play”.
 	Get - Player receives/picks up an item
 		[Not Implemented] can be used to spawn an item in another location
 		Ex: “Player Get Item PoundedRice”
@@ -30,6 +30,13 @@ The current list of actions are “Get, Enter, Drop, Cut, Hit”.
 		Ex: “Player Merge Item MultiTool And Item Shovel”
 	Become - One item transforms into another (to be used in OnComplete)
 		Ex: “Item Rice Become Item CookedRice”
+	Open - Player opens something (atm primarily meant for inventory)
+		Ex: "Player Open Item Inventory"
+	Play - UI plays an action (to be used in OnComplete)
+		Ex: "UI Play Sound SoundName" or "UI Play Dialog DialogName"
+
+Note: Tasks are not required to have Trigger functions, as such, in the event that one would like to combine multiple OnComplete functions, simply create new tasks without triggers, and set their subtasks to be one of the tasks that contains the other OnComplete event you want.
+Children cannot have multiple parents. There is no check for this at the moment, so try to avoid this.
 
 
 Objects are typically separated by prepositions; these describe the order in which they are interacting in.

@@ -173,6 +173,8 @@ namespace Shiki.Quests {
 
 				if(pR.InteractionKind == InteractionKind.Become) {
 					evt = new OnCompleteChangeEvent(pR.Obj1, pR.Obj2);
+				} else if(pR.InteractionKind == InteractionKind.Play) {
+					evt = new OnCompleteUIEvent(pR.UIEventKind, pR.Obj1);
 				} else {
 					evt = new OnCompleteGetEvent(pR.Obj1);
 				}
@@ -201,7 +203,7 @@ namespace Shiki.Quests {
 			// the target object is the interacted object
 			//		this is object 2
 
-			// types of actions: Get, Enter, Drop, Cut, Hit, Dig, Merge, None
+			// types of actions: Get, Enter, Drop, Cut, Hit, Dig, Merge, Open, None
 
 
 			// Declares variables:
@@ -215,6 +217,7 @@ namespace Shiki.Quests {
 			string location = String.Empty;
 			string objToObjIntrcType = String.Empty;
 			InteractionKind action = InteractionKind.None;
+			OnCompleteUIEventKind uiEventKind = OnCompleteUIEventKind.None;
 			ParsingResult parsingResult = new ParsingResult();
 
 			// Goes through string word by word
@@ -256,11 +259,15 @@ namespace Shiki.Quests {
 				} else if(Enum.TryParse<InteractionKind>(toParse[i], out action)) {
 					if(toParse[i].Equals("Becomes")){ // again if an objects interact, set interaction type
 						objToObjIntrcType = toParse[i]; 
+					} else if(toParse[i].Equals("Play") && ++i + 1 < length){
+						Enum.TryParse<OnCompleteUIEventKind>(toParse[i], out uiEventKind);
+						obj1 = toParse[++i];
 					}
 				}
 			}
 
 			parsingResult.InteractionKind = action;
+			parsingResult.UIEventKind = uiEventKind;
 			parsingResult.Obj1 = obj1; // tool
 			parsingResult.Obj2 = obj2; // other
 			parsingResult.Obj1Quantity = obj1Quantity;

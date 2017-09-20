@@ -86,7 +86,15 @@ namespace Shiki.Quests {
 	/// Tasks contain trigger and oncomplete functions in a language where most keywords are associated with one of the following enum values.
 	/// </summary>
 	public enum InteractionKind {
-		Get, Enter, Drop, Cut, Hit, Weave, Dig, Grind, Merge, Become, None
+		Get, Enter, Drop, Cut, Hit, Weave, Dig, Grind, Merge, Become, Open, Play, None
+	};
+
+	/// <summary>
+	/// UI Event kind.
+	/// Requests that the UI perform one of these actions.
+	/// </summary>
+	public enum OnCompleteUIEventKind {
+		Sound, Dialog, None
 	};
 
 	/// <summary>
@@ -150,6 +158,11 @@ namespace Shiki.Quests {
 		public InteractionKind InteractionKind { get; set; }
 
 		/// <summary>
+		/// Event the UI should perform
+		/// </summary>
+		public OnCompleteUIEventKind UIEventKind { get; set; }
+
+		/// <summary>
 		/// Describes relationship the 2 objects, if applicable. (With, on, becomes, etc)
 		/// </summary>
 		public string objToObjInteractionType { get; set; }
@@ -190,6 +203,24 @@ namespace Shiki.Quests {
 		public OnCompleteChangeEvent(string oo, string oct){
 			OrigObject = oo;
 			ObjectChangedTo = oct;
+		}
+	}
+
+	public class OnCompleteUIEvent : IGameEvent {
+
+		/// <summary>
+		/// What the UI should do
+		/// </summary>
+		public OnCompleteUIEventKind uiEventKind { get; set; }
+
+		/// <summary>
+		/// Name of the action to be played
+		/// </summary>
+		public string name { get; set; }
+
+		public OnCompleteUIEvent(OnCompleteUIEventKind uiek, string n){
+			uiEventKind = uiek;
+			name = n;
 		}
 	}
 
