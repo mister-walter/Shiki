@@ -1,0 +1,32 @@
+[[TemporaryTask]]
+Name = "MakeMochi"
+SubTask = "PoundRice"
+OnComplete = "Player Get Item WhiteMochi"
+
+[[TemporaryTask]]
+Name = "PoundRice"
+SubTask = "SteamRice"
+Trigger = "Player Hit Item SteamedRice With Item Hammer"
+OnComplete = "Player Get Item PoundedRice"
+
+[[TemporaryTask]]
+Name = "SteamRice"
+SubTask = "PutRiceInBowl"
+Trigger = "Player Drop Item RiceInBowl On Item ActiveFire"
+OnComplete = "Player Get Item SteamedRice"
+
+[[TemporaryTask]]
+Name = "PutRiceInBowl"
+SubTask = "GetRice GetBowl"
+Trigger = "Player Drop Item UncookedRice On Item Bowl"
+OnComplete = "Player Get Item RiceInBowl"
+
+[[TemporaryTask]]
+Name = "GetRice"
+#SubTask = ""
+Trigger = "Player Get Item UncookedRice"	# is this the trigger or the OnComplete tho
+
+[[TemporaryTask]]
+Name = "GetBowl"
+#SubTask = ""
+Trigger = "Player Get Item Bowl"

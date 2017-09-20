@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
+using Shiki.Inventory;
 
 public class GrabObjects : MonoBehaviour {
 

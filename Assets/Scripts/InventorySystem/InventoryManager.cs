@@ -14,14 +14,36 @@ namespace Shiki.Inventory
     public class InventoryManager : MonoBehaviour
     {
         public Camera cam;
+        public uint numSlots;
         private IInventoryBackend<GameObject> inventory;
+        public GameObject targetPrefab;
+        private float targetWidth = 0.3f;
+        private float targetSeparation = 0.15f;
 
         void Start()
         {
-            this.inventory = new ArrayInventoryBackend(1);
+            InventoryManagerSingleton.SetInventoryManager(this.gameObject);
+            this.inventory = new ArrayInventoryBackend(this.numSlots);
             GameEventSystem.AttachDelegate<ObjectStoredEvent>(this.OnObjectStored);
             GameEventSystem.AttachDelegate<ObjectRetrievedEvent>(this.OnObjectRetrieved);
             GameEventSystem.AttachDelegate<ToggleInventoryEvent>(this.OnInventoryToggled);
+            this.GenerateTargets();
+        }
+
+        void GenerateTargets()
+        {
+            float totalWidth = this.numSlots * targetWidth + (this.numSlots - 1) * targetSeparation;
+            float widthPerSlot = totalWidth / this.numSlots;
+            float zCoord = -targetWidth / 2.0f;
+            float yCoord = 0;
+            for(int i = 0; i < this.numSlots; i++)
+            {
+                float xCoord = i * widthPerSlot;
+                var target = GameObject.Instantiate(this.targetPrefab);
+                target.transform.position = new Vector3(xCoord, yCoord, zCoord);
+                target.transform.localScale = new Vector3(this.targetWidth, this.targetWidth, this.targetWidth);
+                target.transform.parent = this.gameObject.transform;
+            }
         }
 
         void OnDestroy()

@@ -3,33 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryTarget : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    void OnTriggerExit(Collider other)
+namespace Shiki.Inventory
+{
+    public class InventoryTarget : MonoBehaviour
     {
-        var inventoryItemBehavior = other.gameObject.GetComponent<InventoryItemBehavior>();
-        if (inventoryItemBehavior != null)
+        private GameObject storedObject = null;
+
+        void OnTriggerExit(Collider other)
         {
-            inventoryItemBehavior.OnExitInventoryTarget(this);
+            var inventoryItemBehavior = other.gameObject.GetComponent<InventoryItemBehavior>();
+            if (inventoryItemBehavior != null)
+            {
+                inventoryItemBehavior.OnExitInventoryTarget(this);
+                this.storedObject = null;
+            }
         }
-    }
 
-    void OnTriggerEnter(Collider other)
-    {
-        var inventoryItemBehavior = other.gameObject.GetComponent<InventoryItemBehavior>();
-        if(inventoryItemBehavior != null)
+        void OnTriggerEnter(Collider other)
         {
-            inventoryItemBehavior.OnEnterInventoryTarget(this);
+            var inventoryItemBehavior = other.gameObject.GetComponent<InventoryItemBehavior>();
+            if (inventoryItemBehavior != null)
+            {
+                inventoryItemBehavior.OnEnterInventoryTarget(this);
+                this.storedObject = other.gameObject;
+            }
         }
     }
 }
