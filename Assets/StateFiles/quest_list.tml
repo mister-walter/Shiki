@@ -1,4 +1,102 @@
 [[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+[[TemporaryTask]]
+Name = 
+SubTask = 
+Trigger = 
+OnComplete = 
+
+
+
+[[TemporaryTask]]
 Name = "MakeMochi"
 SubTask = "PoundRice"
 OnComplete = "Player Get Item WhiteMochi"
