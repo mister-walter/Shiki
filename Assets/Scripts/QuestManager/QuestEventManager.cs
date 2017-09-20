@@ -31,10 +31,11 @@ namespace Shiki.Quests {
 		/// Whenever an Interaction Event is fired, this runs the event through all task trees recursively to see if a task is now completed
 		/// </summary>
 		/// <param name="evt">The event fired</param>
-		public void UpdateTasks(InteractionEvent evt) {
+		/// <param name="doAll">True if tasks should be run when they completed, regardless of previous completion status. False if a task should only ever be completed once</param>
+		public void UpdateTasks(InteractionEvent evt, bool doAll) {
 			foreach(TaskNode tn in taskTree){
-				if(!tn.AssociatedTask.isComplete){
-	                UpdateTaskBranch(evt, tn);
+				if(!tn.AssociatedTask.isComplete || doAll){
+					UpdateTaskBranch(evt, tn, doAll);
 				}
 			}
 		}
@@ -44,15 +45,18 @@ namespace Shiki.Quests {
 		/// This first checks if a task's child nodes have all been completed, and only then runs the event through the tasks trigger function. 
 		/// </summary>
 		/// <param name="evt">Evt.</param>
-		/// <param name="tn">Tn.</param>
-		public bool UpdateTaskBranch(InteractionEvent evt, TaskNode tn){
+		/// <param name="tn">Current task node</param>
+		/// <param name="doAll">True if trigger should be run regardless of whether task has already been completed once or not</param>
+		public bool UpdateTaskBranch(InteractionEvent evt, TaskNode tn, bool doAll){
 			bool allChildrenComplete = true;
 
 			foreach(TaskNode tchild in tn.Children) {
-				allChildrenComplete &= (tchild.AssociatedTask.isComplete || UpdateTaskBranch(evt, tchild));
+				allChildrenComplete &= (tchild.AssociatedTask.isComplete || UpdateTaskBranch(evt, tchild, doAll));
 				// if child not complete, and updating child doesn't complete the child, allChildrenComplete = false
 			}
-			if(allChildrenComplete && (tn.AssociatedTask.trigger == null || tn.AssociatedTask.trigger(evt))){
+
+			if((doAll || !tn.AssociatedTask.isComplete) && 
+			   (allChildrenComplete && (tn.AssociatedTask.trigger == null || tn.AssociatedTask.trigger(evt)))){
 				tn.AssociatedTask.isComplete = true;
 				tn.AssociatedTask.onComplete();
 				return true;
@@ -82,7 +86,15 @@ namespace Shiki.Quests {
 	/// Tasks contain trigger and oncomplete functions in a language where most keywords are associated with one of the following enum values.
 	/// </summary>
 	public enum InteractionKind {
-		Get, Enter, Drop, Cut, Hit, Weave, Dig, Grind, Merge, Become, None
+		Get, Enter, Drop, Cut, Hit, Weave, Dig, Grind, Merge, Become, Open, Play, None
+	};
+
+	/// <summary>
+	/// UI Event kind.
+	/// Requests that the UI perform one of these actions.
+	/// </summary>
+	public enum OnCompleteUIEventKind {
+		Sound, Dialog, None
 	};
 
 	/// <summary>
@@ -126,6 +138,16 @@ namespace Shiki.Quests {
 		public string Obj2 { get; set; }
 
 		/// <summary>
+		/// Quantity of the first object.
+		/// </summary>
+		public int Obj1Quantity { get; set; }
+
+		/// <summary>
+		/// Quantity of the second object
+		/// </summary>
+		public int Obj2Quantity { get; set; }
+
+		/// <summary>
 		/// Location listed in parsing
 		/// </summary>
 		public string Location { get; set; }
@@ -134,6 +156,11 @@ namespace Shiki.Quests {
 		/// Interaction required from player (enters, hits, etc)
 		/// </summary>
 		public InteractionKind InteractionKind { get; set; }
+
+		/// <summary>
+		/// Event the UI should perform
+		/// </summary>
+		public OnCompleteUIEventKind UIEventKind { get; set; }
 
 		/// <summary>
 		/// Describes relationship the 2 objects, if applicable. (With, on, becomes, etc)
@@ -176,6 +203,24 @@ namespace Shiki.Quests {
 		public OnCompleteChangeEvent(string oo, string oct){
 			OrigObject = oo;
 			ObjectChangedTo = oct;
+		}
+	}
+
+	public class OnCompleteUIEvent : IGameEvent {
+
+		/// <summary>
+		/// What the UI should do
+		/// </summary>
+		public OnCompleteUIEventKind uiEventKind { get; set; }
+
+		/// <summary>
+		/// Name of the action to be played
+		/// </summary>
+		public string name { get; set; }
+
+		public OnCompleteUIEvent(OnCompleteUIEventKind uiek, string n){
+			uiEventKind = uiek;
+			name = n;
 		}
 	}
 

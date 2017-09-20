@@ -173,6 +173,8 @@ namespace Shiki.Quests {
 
 				if(pR.InteractionKind == InteractionKind.Become) {
 					evt = new OnCompleteChangeEvent(pR.Obj1, pR.Obj2);
+				} else if(pR.InteractionKind == InteractionKind.Play) {
+					evt = new OnCompleteUIEvent(pR.UIEventKind, pR.Obj1);
 				} else {
 					evt = new OnCompleteGetEvent(pR.Obj1);
 				}
@@ -190,7 +192,7 @@ namespace Shiki.Quests {
 		/// <param name="s">Function string to be parsed</param>
 		public static ParsingResult ParseString(string s) {
 			
-			// TODO: better documentation
+			// Better documentation is in a text file
 			// EXAMPLES OF LANGUAGE
 			// target WITH source		ex: Cut Tree With Axe
 			// source ON target			ex: Drop Water On ActiveFire
@@ -201,7 +203,7 @@ namespace Shiki.Quests {
 			// the target object is the interacted object
 			//		this is object 2
 
-			// types of actions: Get, Enter, Drop, Cut, Hit, Dig, Merge, None
+			// types of actions: Get, Enter, Drop, Cut, Hit, Dig, Merge, Open, None
 
 
 			// Declares variables:
@@ -209,31 +211,45 @@ namespace Shiki.Quests {
 			int length = toParse.Length;
 			string obj1 = String.Empty;	// tool or source
 			string obj2 = String.Empty;
+			int tempQuantity = 1;
+			int obj1Quantity = 0;
+			int obj2Quantity = 0;
 			string location = String.Empty;
 			string objToObjIntrcType = String.Empty;
 			InteractionKind action = InteractionKind.None;
+			OnCompleteUIEventKind uiEventKind = OnCompleteUIEventKind.None;
 			ParsingResult parsingResult = new ParsingResult();
 
 			// Goes through string word by word
 			for(int i = 0; i < length; i++) {   
 				if(toParse[i].Equals("Player") || toParse[i].Equals("Object")) { // ignores these for now
 					//
-				} else if(toParse[i].Equals("Item") && ++i < length) { 
+				} else if(toParse[i].Equals("Item") && ++i < length) {
+					// next expected word might be a quantity
+					if(Int32.TryParse(toParse[i], out tempQuantity)){
+						i++;
+					}
+
 					// if next expected word is an item, get the item
 					if(!String.IsNullOrEmpty(objToObjIntrcType)) {
 						// figure out which item is being referred to
 						if(objToObjIntrcType.Equals("With")) {
-							obj2 = obj1;		// target item
-							obj1 = toParse[i];	// source item = this current item
+							obj2 = obj1;        // target item
+							obj2Quantity = obj1Quantity;
+							obj1 = toParse[i];  // source item = this current item
+							obj1Quantity = tempQuantity;
 						} else if(objToObjIntrcType.Equals("On") || objToObjIntrcType.Equals("And")) {
-							obj2 = toParse[i];	// target item = this current item
+							obj2 = toParse[i];  // target item = this current item
+							obj2Quantity = tempQuantity;
 						}
 					} else if(action == InteractionKind.Become && ++i < length) {
 						// in the case of an OnComplete being parsed:
 						obj2 = toParse[i];
+						obj2Quantity = tempQuantity;
 					} else {
 						// if this is the first reference to an item:
 						obj1 = toParse[i];
+						obj1Quantity = tempQuantity;
 					}
 				} else if(toParse[i].Equals("With") || toParse[i].Equals("On") || toParse[i].Equals("And")) {
 					objToObjIntrcType = toParse[i]; //if objects interact, set the interaction type
@@ -243,13 +259,19 @@ namespace Shiki.Quests {
 				} else if(Enum.TryParse<InteractionKind>(toParse[i], out action)) {
 					if(toParse[i].Equals("Becomes")){ // again if an objects interact, set interaction type
 						objToObjIntrcType = toParse[i]; 
+					} else if(toParse[i].Equals("Play") && ++i + 1 < length){
+						Enum.TryParse<OnCompleteUIEventKind>(toParse[i], out uiEventKind);
+						obj1 = toParse[++i];
 					}
 				}
 			}
 
 			parsingResult.InteractionKind = action;
+			parsingResult.UIEventKind = uiEventKind;
 			parsingResult.Obj1 = obj1; // tool
 			parsingResult.Obj2 = obj2; // other
+			parsingResult.Obj1Quantity = obj1Quantity;
+			parsingResult.Obj2Quantity = obj2Quantity;
 			parsingResult.Location = location;
 			parsingResult.objToObjInteractionType = objToObjIntrcType;
 
