@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿/// @author Andrew Walter
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +9,9 @@ using Shiki.EventSystem.Events;
 using Shiki.Constants;
 
 namespace Shiki.Inventory {
+    /// <summary>
+    /// MonoBehavior that allows a GameObject to be stored in the player's inventory.
+    /// </summary>
     public class InventoryItemBehavior : MonoBehaviour {
         internal InventoryTarget target;
         //TODO: change this to a collection that stores insertion order
@@ -34,7 +39,6 @@ namespace Shiki.Inventory {
         {
             if (evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID())
             {
-                Debug.Log("Our object was placed into an inventory!");
                 this.target = this.currentTargets.GetOne();
                 var rigidBody = this.gameObject.GetComponent<Rigidbody>();
                 this.gameObject.transform.rotation = Quaternion.identity;
@@ -55,7 +59,6 @@ namespace Shiki.Inventory {
         {
             if (evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID())
             {
-                Debug.Log("Our object was removed from an inventory!");
                 var rigidBody = this.gameObject.GetComponent<Rigidbody>();
                 rigidBody.useGravity = true;
                 this.gameObject.transform.SetParent(this.oldParent);
@@ -65,16 +68,21 @@ namespace Shiki.Inventory {
 
         internal void OnEnterInventoryTarget(InventoryTarget target)
         {
-            Debug.Log("Enter Inventory Target");
-            this.currentTargets.Add(target);
+            if(target.IsEmpty())
+                this.currentTargets.Add(target);
         }
 
         internal void OnExitInventoryTarget(InventoryTarget target)
         {
-            Debug.Log("Exit Inventory Target");
+            // We don't need to check if the target was a valid one for us, (i.e. empty when we entered)
+            // because Remove will just do nothing if target isn't inside currentTargets
             this.currentTargets.Remove(target);
         }
 
+        /// <summary>
+        /// Determines whether or not the item is currently inside of an InventoryTarget
+        /// </summary>
+        /// <returns>True if the item is currently inside of an InventoryTarget, false otherwise</returns>
         public bool IsInsideTarget()
         {
             return this.currentTargets.Count > 0;
