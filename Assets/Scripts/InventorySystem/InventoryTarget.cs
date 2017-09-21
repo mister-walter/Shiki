@@ -31,5 +31,11 @@ namespace Shiki.Inventory {
         public bool IsEmpty() {
             return this.storedObject == null;
         }
+
+        public void SetItem(GameObject go) {
+            this.storedObject = go;
+            var inventoryItemBehavior = go.GetComponent<InventoryItemBehavior>();
+            inventoryItemBehavior.PositionObjectInsideTarget(this);
+        }
     }
 }

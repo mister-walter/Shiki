@@ -103,7 +103,7 @@ Trigger = "Player Drop Item YorishiroSapling On Item WideHole"
 [[TemporaryTask]]
 Name = "WidenHole"
 SubTask = "PickUpShovel"
-Trigger = "Player Dig Location WinterHole With Shovel"
+Trigger = "Player Dig Item WideHole With Shovel"
 OnComplete =  "Item Hole Become WideHole"
 
 [[TemporaryTask]]

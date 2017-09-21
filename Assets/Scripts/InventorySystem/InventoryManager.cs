@@ -16,6 +16,7 @@ namespace Shiki.Inventory {
     public class InventoryManager : MonoBehaviour {
         public Camera cam;
         public uint numSlots;
+        private InventoryTarget[] slots;
         private IInventoryBackend<GameObject> inventory;
         public GameObject targetPrefab;
         private float targetWidth = 0.3f;
@@ -28,7 +29,9 @@ namespace Shiki.Inventory {
             EventManager.AttachDelegate<ObjectAcceptedByInventoryTargetEvent>(this.OnObjectStored);
             EventManager.AttachDelegate<ObjectEjectedByInventoryTargetEvent>(this.OnObjectRetrieved);
             EventManager.AttachDelegate<PlayerOpenedInventoryEvent>(this.OnInventoryToggled);
+            EventManager.AttachDelegate<TaskCompletedGetObjectEvent>(this.OnTaskCompletedGetObjectEvent);
             this.GenerateTargets();
+            this.slots = new InventoryTarget[this.numSlots];
         }
 
         /// <summary>
@@ -47,6 +50,7 @@ namespace Shiki.Inventory {
                 target.transform.parent = this.gameObject.transform;
                 InventoryTarget it = target.GetComponent<InventoryTarget>();
                 it.index = i;
+                this.slots[i] = it;
             }
         }
 
@@ -54,6 +58,12 @@ namespace Shiki.Inventory {
             EventManager.RemoveDelegate<ObjectAcceptedByInventoryTargetEvent>(this.OnObjectStored);
             EventManager.RemoveDelegate<ObjectEjectedByInventoryTargetEvent>(this.OnObjectRetrieved);
             EventManager.RemoveDelegate<PlayerOpenedInventoryEvent>(this.OnInventoryToggled);
+            EventManager.RemoveDelegate<TaskCompletedGetObjectEvent>(this.OnTaskCompletedGetObjectEvent);
+        }
+
+        void OnTaskCompletedGetObjectEvent(TaskCompletedGetObjectEvent evt) {
+            var obj = Instantiate(Resources.Load<GameObject>(evt.objectToReceive));
+            this.AddToInventory(obj);
         }
 
         void OnInventoryToggled(PlayerOpenedInventoryEvent evt) {
@@ -82,6 +92,11 @@ namespace Shiki.Inventory {
         /// <returns></returns>
         public List<GameObject> GetInventoryItems() {
             return new List<GameObject>(this.inventory);
+        }
+
+        // TODO: make this function append to the inventory instead of overwriting the first slot
+        public void AddToInventory(GameObject obj) {
+            this.slots[0].SetItem(obj);
         }
 
         /// <summary>

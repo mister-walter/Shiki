@@ -117,12 +117,20 @@ namespace Shiki.Quests {
             this.UpdateTasks(ievt, false);
         }
 
+        private void OnObjectHitEvent(ObjectHitEvent evt) {
+            InteractionEvent ievt = new InteractionEvent();
+            ievt.kind = InteractionKind.Hit;
+            ievt.targetObject = evt.hitObject;
+            this.UpdateTasks(ievt, false);
+        }
+
         private void AttachHandlers() {
             EventManager.AttachDelegate<ObjectPlacedInSeasonFinishedEvent>(this.OnObjectPlacedInSeasonFinishedEvent);
             EventManager.AttachDelegate<PlayerEnteredAreaEvent>(this.OnPlayerEnteredAreaEvent);
             EventManager.AttachDelegate<PlayerOpenedInventoryEvent>(this.OnPlayerOpenedInventoryEvent);
             EventManager.AttachDelegate<ObjectStoredEvent>(this.OnObjectStoredEvent);
             EventManager.AttachDelegate<ObjectRetrievedEvent>(this.OnObjectRetrievedEvent);
+            EventManager.AttachDelegate<ObjectHitEvent>(this.OnObjectHitEvent);
         }
 
         private void DetachHandlers() {
@@ -131,6 +139,7 @@ namespace Shiki.Quests {
             EventManager.RemoveDelegate<PlayerOpenedInventoryEvent>(this.OnPlayerOpenedInventoryEvent);
             EventManager.RemoveDelegate<ObjectStoredEvent>(this.OnObjectStoredEvent);
             EventManager.RemoveDelegate<ObjectRetrievedEvent>(this.OnObjectRetrievedEvent);
+            EventManager.RemoveDelegate<ObjectHitEvent>(this.OnObjectHitEvent);
         }
     }
     #endregion

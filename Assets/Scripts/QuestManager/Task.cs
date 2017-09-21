@@ -153,9 +153,18 @@ namespace Shiki.Quests {
                 // For this group, we just check that the object names match.
                 case InteractionKind.Store:
                 case InteractionKind.Retrieve:
-                case InteractionKind.Drop:
                 case InteractionKind.Get:
                     pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name;
+                    break;
+                case InteractionKind.Drop:
+                    pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name && pR.obj2 == evt.targetObject.name;
+                    break;
+                // TODO: Hack to work around current lack of activity recognition
+                case InteractionKind.Cut:
+                case InteractionKind.Dig:
+                case InteractionKind.Hit:
+                case InteractionKind.Grind:
+                    pred = (InteractionEvent evt) => pR.obj2 == evt.targetObject.name;
                     break;
                 // check that the two objects are the ones we're looking for
                 case InteractionKind.Merge:
@@ -172,14 +181,32 @@ namespace Shiki.Quests {
                     throw new NotImplementedException(string.Format("Support for this interaction kind is not yet implemented: {0}", pR.interactionKind));
             }
 
+            Predicate<InteractionEvent> finalPred;
             // Add the check for event kind
-            Predicate<InteractionEvent> finalPred = (InteractionEvent evt) => {
-                if(evt.kind == pR.interactionKind) {
-                    return pred(evt);
-                } else {
-                    return false;
-                }
-            };
+            switch(pR.interactionKind) {
+                // TODO: Hack to work around current lack of activity recognition
+                case InteractionKind.Cut:
+                case InteractionKind.Dig:
+                case InteractionKind.Hit:
+                case InteractionKind.Grind:
+                    finalPred = (InteractionEvent evt) => {
+                        if(evt.kind == InteractionKind.Hit) {
+                            return pred(evt);
+                        } else {
+                            return false;
+                        }
+                    };
+                    break;
+                default:
+                    finalPred = (InteractionEvent evt) => {
+                        if(evt.kind == pR.interactionKind) {
+                            return pred(evt);
+                        } else {
+                            return false;
+                        }
+                    };
+                    break;
+            }
 
             return finalPred;
         }

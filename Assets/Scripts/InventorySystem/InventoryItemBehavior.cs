@@ -38,19 +38,22 @@ namespace Shiki.Inventory {
         void OnObjectPlacedInInventory(ObjectPlacedOnInventoryTargetEvent evt) {
             if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
                 this.target = this.currentTargets.GetOne();
-                var rigidBody = this.gameObject.GetComponent<Rigidbody>();
-                this.gameObject.transform.rotation = Quaternion.identity;
-                this.gameObject.transform.position = this.target.transform.position;
-                rigidBody.velocity = Vector3.zero;
-                rigidBody.angularVelocity = Vector3.zero;
-                rigidBody.useGravity = false;
-                this.oldScene = this.gameObject.scene;
-                this.gameObject.transform.parent = null;
-                SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetSceneByName(SceneName.Main));
-                this.oldParent = this.gameObject.transform.parent;
-                //Debug.Log(string.Format("{0}", this.oldParent));
-                this.gameObject.transform.SetParent(this.inventoryManager.transform);
+                this.PositionObjectInsideTarget(this.target);
             }
+        }
+
+        internal void PositionObjectInsideTarget(InventoryTarget aTarget) {
+            var rigidBody = this.gameObject.GetComponent<Rigidbody>();
+            this.gameObject.transform.rotation = Quaternion.identity;
+            this.gameObject.transform.position = aTarget.transform.position;
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.angularVelocity = Vector3.zero;
+            rigidBody.useGravity = false;
+            this.oldScene = this.gameObject.scene;
+            this.gameObject.transform.parent = null;
+            SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetSceneByName(SceneName.Main));
+            this.oldParent = this.gameObject.transform.parent;
+            this.gameObject.transform.SetParent(this.inventoryManager.transform);
         }
 
         void OnObjectRemovedFromInventory(ObjectRemovedFromInventoryTargetEvent evt) {

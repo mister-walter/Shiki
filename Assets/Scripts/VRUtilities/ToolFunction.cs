@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Shiki.EventSystem;
+using Shiki.EventSystem.Events;
 
 // ToolFunction.cs
 //
@@ -25,6 +27,7 @@ public class ToolFunction : MonoBehaviour {
 
     void hit(GameObject material, float velocity) {
         if(velocity >= strengthThreshold) //if player collides tool with object hard enough
-            Destroy(material);  //destroy material
+            //Destroy(material);  //destroy material
+            EventManager.FireEvent(new ObjectHitEvent(material));
     }
 }
