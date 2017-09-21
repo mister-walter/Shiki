@@ -17,6 +17,8 @@ public class ReplaceableBehavior : MonoBehaviour {
     }
 
     void OnTaskCompletedChangeEvent(TaskCompletedChangeEvent evt) {
+        Debug.Log("Task completed change event recieved");
+        Debug.Log(string.Format("{0} - {1}", evt.origObject, evt.objectChangedTo));
         if(evt.origObject == this.gameObject.name) {
             var newObject = Instantiate(Resources.Load<GameObject>(evt.objectChangedTo));
             SceneManager.MoveGameObjectToScene(newObject, this.gameObject.scene);

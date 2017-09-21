@@ -16,12 +16,19 @@ using Shiki.EventSystem.Events;
 public class ToolFunction : MonoBehaviour {
     private GameObject material; //object player is colliding tool with
     private float velocity; //velocity with which to apply tool force
-    public float strengthThreshold = 5.0f; //strength at which collision of object produces a result
+    public float strengthThreshold = 0.25f; //strength at which collision of object produces a result
 
     void OnCollisionEnter(Collision col) {
-        velocity = col.relativeVelocity.magnitude;
-        material = col.gameObject;
-        hit(material, velocity);
+        if (col.other.GetComponent<ReplaceableBehavior>() != null)
+        {
+            Debug.Log("Collision entered");
+            Debug.Log(this.gameObject.name);
+            Debug.Log(col.other.name);
+            velocity = col.relativeVelocity.magnitude;
+            Debug.Log(velocity);
+            material = col.gameObject;
+            hit(material, velocity);
+        }
 
     }
 

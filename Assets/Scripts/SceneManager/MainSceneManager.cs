@@ -29,7 +29,7 @@ public class MainSceneManager : MonoBehaviour {
                 new TomlQuestStateWriter()
         );
         this.questEventManager = new QuestEventManager(saveDataManager);
-        this.questEventManager.ReadSaves();
+        this.questEventManager.Init();
     }
 
     /// <summary>

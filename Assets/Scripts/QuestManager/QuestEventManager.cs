@@ -18,14 +18,14 @@ namespace Shiki.Quests {
         /// </summary>
         SaveDataManager saveDataManager;
 
-        /// <summary>
-        /// The task trees that hold the individual tasks that must be completed in each quest
-        /// </summary>
-        IEnumerable<TaskNode> taskTree;
-
         public QuestEventManager(SaveDataManager sdm) {
             saveDataManager = sdm;
-            taskTree = saveDataManager.taskTree;
+        }
+
+        public void Init()
+        {
+            this.ReadSaves();
+            this.AttachHandlers();
         }
 
         /// <summary>
@@ -34,7 +34,8 @@ namespace Shiki.Quests {
         /// <param name="evt">The event fired</param>
         /// <param name="doAll">True if tasks should be run when they completed, regardless of previous completion status. False if a task should only ever be completed once</param>
         public void UpdateTasks(InteractionEvent evt, bool doAll) {
-            foreach(TaskNode tn in taskTree) {
+            Debug.Log(saveDataManager.taskTree);
+            foreach(TaskNode tn in this.saveDataManager.taskTree) {
                 if(!tn.AssociatedTask.isComplete || doAll) {
                     UpdateTaskBranch(evt, tn, doAll);
                 }
@@ -69,7 +70,6 @@ namespace Shiki.Quests {
         /// Writes the task tree to a file using the save data manager
         /// </summary>
         public void SaveQuestStatus() {
-            saveDataManager.taskTree = taskTree;
             saveDataManager.WriteSaves();
         }
 
@@ -78,7 +78,6 @@ namespace Shiki.Quests {
         /// </summary>
         public void ReadSaves() {
             saveDataManager.ReadSaves();
-            taskTree = saveDataManager.taskTree;
         }
 
         #region Event Handlers
@@ -118,6 +117,7 @@ namespace Shiki.Quests {
         }
 
         private void OnObjectHitEvent(ObjectHitEvent evt) {
+            Debug.Log("Object hit event");
             InteractionEvent ievt = new InteractionEvent();
             ievt.kind = InteractionKind.Hit;
             ievt.targetObject = evt.hitObject;
@@ -127,7 +127,7 @@ namespace Shiki.Quests {
         private void AttachHandlers() {
             EventManager.AttachDelegate<ObjectPlacedInSeasonFinishedEvent>(this.OnObjectPlacedInSeasonFinishedEvent);
             EventManager.AttachDelegate<PlayerEnteredAreaEvent>(this.OnPlayerEnteredAreaEvent);
-            EventManager.AttachDelegate<PlayerOpenedInventoryEvent>(this.OnPlayerOpenedInventoryEvent);
+            //EventManager.AttachDelegate<PlayerOpenedInventoryEvent>(this.OnPlayerOpenedInventoryEvent);
             EventManager.AttachDelegate<ObjectStoredEvent>(this.OnObjectStoredEvent);
             EventManager.AttachDelegate<ObjectRetrievedEvent>(this.OnObjectRetrievedEvent);
             EventManager.AttachDelegate<ObjectHitEvent>(this.OnObjectHitEvent);
@@ -136,7 +136,7 @@ namespace Shiki.Quests {
         private void DetachHandlers() {
             EventManager.RemoveDelegate<ObjectPlacedInSeasonFinishedEvent>(this.OnObjectPlacedInSeasonFinishedEvent);
             EventManager.RemoveDelegate<PlayerEnteredAreaEvent>(this.OnPlayerEnteredAreaEvent);
-            EventManager.RemoveDelegate<PlayerOpenedInventoryEvent>(this.OnPlayerOpenedInventoryEvent);
+           // EventManager.RemoveDelegate<PlayerOpenedInventoryEvent>(this.OnPlayerOpenedInventoryEvent);
             EventManager.RemoveDelegate<ObjectStoredEvent>(this.OnObjectStoredEvent);
             EventManager.RemoveDelegate<ObjectRetrievedEvent>(this.OnObjectRetrievedEvent);
             EventManager.RemoveDelegate<ObjectHitEvent>(this.OnObjectHitEvent);

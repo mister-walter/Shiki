@@ -26,12 +26,12 @@ namespace Shiki.Inventory {
         void Start() {
             InventoryManagerSingleton.SetInventoryManager(this.gameObject);
             this.inventory = new ArrayInventoryBackend(this.numSlots);
+            this.slots = new InventoryTarget[this.numSlots];
             EventManager.AttachDelegate<ObjectAcceptedByInventoryTargetEvent>(this.OnObjectStored);
             EventManager.AttachDelegate<ObjectEjectedByInventoryTargetEvent>(this.OnObjectRetrieved);
             EventManager.AttachDelegate<PlayerOpenedInventoryEvent>(this.OnInventoryToggled);
             EventManager.AttachDelegate<TaskCompletedGetObjectEvent>(this.OnTaskCompletedGetObjectEvent);
             this.GenerateTargets();
-            this.slots = new InventoryTarget[this.numSlots];
         }
 
         /// <summary>
