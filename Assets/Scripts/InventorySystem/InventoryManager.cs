@@ -19,6 +19,7 @@ namespace Shiki.Inventory
         public GameObject targetPrefab;
         private float targetWidth = 0.3f;
         private float targetSeparation = 0.15f;
+        private float inventoryDistance = 0.5f;
 
         void Start()
         {
@@ -62,7 +63,7 @@ namespace Shiki.Inventory
             else
             {
                 this.gameObject.transform.LookAt(cam.transform);
-                this.gameObject.transform.position = cam.transform.position + cam.transform.forward * 2;
+                this.gameObject.transform.position = cam.transform.position + cam.transform.forward * inventoryDistance;
                 this.gameObject.SetActive(true);
             }
         }
