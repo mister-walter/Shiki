@@ -1,10 +1,15 @@
-﻿using System;
+﻿/// @author Andrew Walter
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Shiki.Inventory.Backend
 {
+    /// <summary>
+    /// IInventoryBackend implementation that is backed by an array
+    /// </summary>
     public class ArrayInventoryBackend : IInventoryBackend<GameObject>
     {
         private GameObject[] backingArray;
@@ -71,6 +76,24 @@ namespace Shiki.Inventory.Backend
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.backingArray.GetEnumerator();
+        }
+
+        public void SetItems(List<GameObject> items)
+        {
+            if(items.Count > this.Capacity())
+            {
+                throw new IndexOutOfRangeException("Too many items given for inventory backend capacity!");
+            }
+            for(var i = 0; i < this.Capacity(); i++)
+            {
+                if(i < items.Count)
+                {
+                    this.backingArray[i] = items[i];
+                } else
+                {
+                    this.backingArray[i] = null;
+                }
+            }
         }
     }
 }

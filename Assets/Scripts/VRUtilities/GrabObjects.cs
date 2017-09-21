@@ -98,7 +98,7 @@ public class GrabObjects : MonoBehaviour {
             GetComponent<FixedJoint>().connectedBody = null;
             Destroy(GetComponent<FixedJoint>());
 
-            if (objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.isInInventoryTarget))
+            if (objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.IsInsideTarget()))
             {
                 GameEventSystem.FireEvent(new ObjectPlacedInInventoryEvent(objInHand));
             } else {

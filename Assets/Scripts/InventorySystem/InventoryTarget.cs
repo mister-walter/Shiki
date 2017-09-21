@@ -7,6 +7,7 @@ namespace Shiki.Inventory
 {
     public class InventoryTarget : MonoBehaviour
     {
+        internal uint index;
         private GameObject storedObject = null;
 
         void OnTriggerExit(Collider other)
@@ -27,6 +28,15 @@ namespace Shiki.Inventory
                 inventoryItemBehavior.OnEnterInventoryTarget(this);
                 this.storedObject = other.gameObject;
             }
+        }
+
+        /// <summary>
+        /// Determines whether this InventoryTarget contains an item or not
+        /// </summary>
+        /// <returns>True if this InventoryTarget does not contain an item, false otherwise</returns>
+        public bool IsEmpty()
+        {
+            return this.storedObject == null;
         }
     }
 }

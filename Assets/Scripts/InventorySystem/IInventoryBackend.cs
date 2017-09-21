@@ -1,9 +1,14 @@
-﻿using System.Collections;
+﻿/// @author Andrew Walter
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Shiki.Inventory
 {
+    /// <summary>
+    /// Interface for a backend for the inventory
+    /// </summary>
+    /// <typeparam name="T">The type that the inventory can store</typeparam>
     public interface IInventoryBackend<T> : IEnumerable<T>
     {
         int AddToEnd(T item);
@@ -13,5 +18,6 @@ namespace Shiki.Inventory
         int Remove(T item);
         int Capacity();
         int NumItems();
+        void SetItems(List<GameObject> items);
     }
 }
