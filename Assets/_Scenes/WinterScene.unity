@@ -863,6 +863,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 6bd84e3cbf2a537428d554ce0781a01f, type: 2}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6bd84e3cbf2a537428d554ce0781a01f, type: 2}
   m_IsPrefabParent: 0
@@ -1778,6 +1782,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: dbe96cbdf557a804a9531886314fed9e, type: 2}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dbe96cbdf557a804a9531886314fed9e, type: 2}
   m_IsPrefabParent: 0
@@ -2353,7 +2361,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -961662381
+  randomSeed: 401122994
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -5633,6 +5641,7 @@ Transform:
   - {fileID: 1994528465}
   - {fileID: 923435465}
   - {fileID: 1574152823}
+  - {fileID: 1622572013}
   m_Father: {fileID: 338610663}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 225, z: 0}
@@ -5854,6 +5863,10 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 417e639b66cd3a24e9c5312be99ce3bd, type: 2}
+    - target: {fileID: 2300000, guid: a8130fdf0639f8e44875e577062ff03c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a8130fdf0639f8e44875e577062ff03c, type: 3}
   m_IsPrefabParent: 0
@@ -6003,7 +6016,7 @@ Terrain:
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 80
+  m_DetailObjectDistance: 9
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
@@ -7181,6 +7194,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 13ebf22ff0cc1a14f94b6885dbe11950, type: 2}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13ebf22ff0cc1a14f94b6885dbe11950, type: 2}
   m_IsPrefabParent: 0
@@ -8102,6 +8119,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: a3a038ac142def04e9900220a393eea1, type: 2}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a3a038ac142def04e9900220a393eea1, type: 2}
   m_IsPrefabParent: 0
@@ -8146,6 +8167,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 302398d4ad791b94b9e0229c0d19729d, type: 2}
       propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 302398d4ad791b94b9e0229c0d19729d, type: 2}
+      propertyPath: m_SelectedEditorRenderState
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8389,6 +8414,115 @@ Tree:
   m_GameObject: {fileID: 1574152822}
   m_SpeedTreeWindAsset: {fileID: 0}
   m_TreeData: {fileID: 11400000, guid: 588bc99a2ffd2e54799f61d2ef01f3ee, type: 2}
+--- !u!1001 &1622572012
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 899284066}
+    m_Modifications:
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 489
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13378.495
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6353.9995
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.68301284
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.18301237
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.18301237
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.68301284
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_RootOrder
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 141.54782
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 141.5478
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4529.5166
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_Name
+      value: Japanese_bridge_red_teleport
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 417e639b66cd3a24e9c5312be99ce3bd, type: 2}
+    - target: {fileID: 2300000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+  m_IsPrefabParent: 0
+--- !u!4 &1622572013 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+  m_PrefabInternal: {fileID: 1622572012}
+--- !u!1 &1622572014 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
+  m_PrefabInternal: {fileID: 1622572012}
+--- !u!114 &1622572015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1622572014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a4f15a3179f1d4993aded11f4d0232, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  locked: 0
+  markerActive: 0
+--- !u!64 &1622572016
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1622572014}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: e0a08ee1796c34144a13efb86d578bee, type: 3}
 --- !u!1001 &1623707139
 Prefab:
   m_ObjectHideFlags: 0
@@ -8780,6 +8914,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: a62dea0456b557c4a90d93278f1caadc, type: 2}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a62dea0456b557c4a90d93278f1caadc, type: 2}
   m_IsPrefabParent: 0
@@ -8824,6 +8962,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 8a6f6eb4f8d2acd49b91ffd380ec0219, type: 2}
       propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 8a6f6eb4f8d2acd49b91ffd380ec0219, type: 2}
+      propertyPath: m_SelectedEditorRenderState
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -9311,10 +9453,10 @@ WindZone:
   m_Enabled: 1
   m_Mode: 1
   m_Radius: 30.9
-  m_WindMain: 5
-  m_WindTurbulence: 0.5
-  m_WindPulseMagnitude: 0.5
-  m_WindPulseFrequency: 0.5
+  m_WindMain: 0.25
+  m_WindTurbulence: 0.25
+  m_WindPulseMagnitude: 1
+  m_WindPulseFrequency: 1
 --- !u!1001 &1992282347
 Prefab:
   m_ObjectHideFlags: 0
@@ -9490,6 +9632,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: ea26373ab64d09a46b571c2d28f4a780, type: 2}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ea26373ab64d09a46b571c2d28f4a780, type: 2}
   m_IsPrefabParent: 0
@@ -9602,6 +9748,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 7df3bae49f323814bb2171369f060cf5, type: 2}
+      propertyPath: m_SelectedEditorRenderState
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7df3bae49f323814bb2171369f060cf5, type: 2}
   m_IsPrefabParent: 0
@@ -9646,6 +9796,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c27b1623576bce049a94c1656baabc10, type: 2}
       propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: c27b1623576bce049a94c1656baabc10, type: 2}
+      propertyPath: m_SelectedEditorRenderState
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
