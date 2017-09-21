@@ -252,8 +252,8 @@ namespace Shiki.Quests {
             // Goes through string word by word
             for(int i = 0; i < length; i++) {
                 if(toParse[i].Equals("Player") || toParse[i].Equals("Object")) { // ignores these for now
-                                                                                 //
-                } else if(toParse[i].Equals("Item") && ++i < length) {
+                } else if(toParse[i].Equals("Item") && i + 1 < length) {
+                    i++;
                     // next expected word might be a quantity
                     if(Int32.TryParse(toParse[i], out tempQuantity)) {
                         i++;
@@ -271,7 +271,8 @@ namespace Shiki.Quests {
                             obj2 = toParse[i];  // target item = this current item
                             obj2Quantity = tempQuantity;
                         }
-                    } else if(action == InteractionKind.Become && ++i < length) {
+                    } else if(action == InteractionKind.Become && i + 1 < length) {
+                        i++;
                         // in the case of an OnComplete being parsed:
                         obj2 = toParse[i];
                         obj2Quantity = tempQuantity;
@@ -283,13 +284,14 @@ namespace Shiki.Quests {
                 } else if(toParse[i].Equals("With") || toParse[i].Equals("On") || toParse[i].Equals("And")) {
                     objToObjIntrcType = toParse[i]; //if objects interact, set the interaction type
 
-                } else if(toParse[i].Equals("Location") && ++i < length) {
+                } else if(toParse[i].Equals("Location") && i + 1 < length) {
+                    i++;
                     location = toParse[i];
                 } else if(Enum.TryParse<InteractionKind>(toParse[i], out action)) {
                     if(toParse[i].Equals("Becomes")) { // again if an objects interact, set interaction type
                         objToObjIntrcType = toParse[i];
-                    } else if(toParse[i].Equals("Play") && ++i + 1 < length) {
-                        Enum.TryParse<UIActionKind>(toParse[i], out uiEventKind);
+                    } else if(toParse[i].Equals("Play") && i + 2 < length) {
+                        Enum.TryParse<UIActionKind>(toParse[++i], out uiEventKind);
                         obj1 = toParse[++i];
                     }
                 }
