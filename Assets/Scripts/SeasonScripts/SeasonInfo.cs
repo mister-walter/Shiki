@@ -73,6 +73,7 @@ public class SeasonInfo : MonoBehaviour {
 
     public void OnSeasonalObjectPlacedForFirstTime(SeasonalObjectPlacedForFirstTime evt)
     {
+        Debug.Log(string.Format("Placed for first time in season {0}", evt.placedInSeason));
         // We want to ignore this event if the object that fired this event came from this season
         if (evt.placedInSeason != this.seasonName)
         {
