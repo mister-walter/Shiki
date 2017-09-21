@@ -28,7 +28,7 @@ public class DataCollection : MonoBehaviour {
     // END REFERENCE TO VR CONTROLLERS //
     //*********************************//
 
-    private GameObject collidingObject;
+    //private GameObject collidingObject;
     string mydocpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
     // Use this for initialization
@@ -55,7 +55,8 @@ public class DataCollection : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        collidingObject = col.gameObject;
+        //Debug.Log(string.Format("Collision detected {0}", col));
+        //collidingObject = col.gameObject;
         float vx = col.relativeVelocity.x;
         float vy = col.relativeVelocity.y;
         float vz = col.relativeVelocity.z;
