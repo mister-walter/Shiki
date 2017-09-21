@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
+using Shiki.EventSystem.InternalEvents;
 using Shiki.Inventory;
 
 public class GrabObjects : MonoBehaviour {
@@ -44,7 +45,7 @@ public class GrabObjects : MonoBehaviour {
 
         if(controller.GetHairTriggerDown())
         {
-            GameEventSystem.FireEvent(new ToggleInventoryEvent());
+            EventManager.FireEvent(new PlayerOpenedInventoryEvent());
         }
 	}
 
@@ -83,7 +84,7 @@ public class GrabObjects : MonoBehaviour {
         // Get the seasonal effect of the object, if any
         var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
         // Fire an event to notify any listeners
-        GameEventSystem.FireEvent(new ObjectPickedUpEvent(objInHand, seasonalEffect));
+        EventManager.FireEvent(new ObjectPickedUpEvent(objInHand, seasonalEffect));
     }
 
 	private FixedJoint AddFixedJoint(){
@@ -100,10 +101,10 @@ public class GrabObjects : MonoBehaviour {
 
             if (objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.IsInsideTarget()))
             {
-                GameEventSystem.FireEvent(new ObjectPlacedInInventoryEvent(objInHand));
+                EventManager.FireEvent(new ObjectPlacedOnInventoryTargetEvent(objInHand));
             } else {
-                if (objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.target != null)) {
-                    GameEventSystem.FireEvent(new ObjectRemovedFromInventoryEvent(objInHand));
+                if (objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.HasTarget())) {
+                    EventManager.FireEvent(new ObjectRemovedFromInventoryTargetEvent(objInHand));
                 }
 
                 objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
@@ -111,7 +112,7 @@ public class GrabObjects : MonoBehaviour {
                 // Get the seasonal effect of the object, if any
                 var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
                 // Fire an event to notify any listeners
-                GameEventSystem.FireEvent(new ObjectPutDownEvent(objInHand, seasonalEffect));
+                EventManager.FireEvent(new ObjectPlacedEvent(objInHand, seasonalEffect));
             }
         }
 		objInHand = null;

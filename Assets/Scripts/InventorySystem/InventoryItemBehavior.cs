@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
+using Shiki.EventSystem.InternalEvents;
 using Shiki.Constants;
 
 namespace Shiki.Inventory {
@@ -25,20 +26,17 @@ namespace Shiki.Inventory {
         void Start() {
             this.currentTargets = new HashSet<InventoryTarget>();
             this.inventoryManager = InventoryManagerSingleton.GetInventoryManager();
-            GameEventSystem.AttachDelegate<ObjectPlacedInInventoryEvent>(this.OnObjectPlacedInInventory);
-            GameEventSystem.AttachDelegate<ObjectRemovedFromInventoryEvent>(this.OnObjectRemovedFromInventory);
+            EventManager.AttachDelegate<ObjectPlacedOnInventoryTargetEvent>(this.OnObjectPlacedInInventory);
+            EventManager.AttachDelegate<ObjectRemovedFromInventoryTargetEvent>(this.OnObjectRemovedFromInventory);
         }
 
-        void OnDestroy()
-        {
-            GameEventSystem.RemoveDelegate<ObjectPlacedInInventoryEvent>(this.OnObjectPlacedInInventory);
-            GameEventSystem.RemoveDelegate<ObjectRemovedFromInventoryEvent>(this.OnObjectRemovedFromInventory);
+        void OnDestroy() {
+            EventManager.RemoveDelegate<ObjectPlacedOnInventoryTargetEvent>(this.OnObjectPlacedInInventory);
+            EventManager.RemoveDelegate<ObjectRemovedFromInventoryTargetEvent>(this.OnObjectRemovedFromInventory);
         }
 
-        void OnObjectPlacedInInventory(ObjectPlacedInInventoryEvent evt)
-        {
-            if (evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID())
-            {
+        void OnObjectPlacedInInventory(ObjectPlacedOnInventoryTargetEvent evt) {
+            if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
                 this.target = this.currentTargets.GetOne();
                 var rigidBody = this.gameObject.GetComponent<Rigidbody>();
                 this.gameObject.transform.rotation = Quaternion.identity;
@@ -55,10 +53,8 @@ namespace Shiki.Inventory {
             }
         }
 
-        void OnObjectRemovedFromInventory(ObjectRemovedFromInventoryEvent evt)
-        {
-            if (evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID())
-            {
+        void OnObjectRemovedFromInventory(ObjectRemovedFromInventoryTargetEvent evt) {
+            if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
                 var rigidBody = this.gameObject.GetComponent<Rigidbody>();
                 rigidBody.useGravity = true;
                 this.gameObject.transform.SetParent(this.oldParent);
@@ -66,14 +62,12 @@ namespace Shiki.Inventory {
             }
         }
 
-        internal void OnEnterInventoryTarget(InventoryTarget target)
-        {
+        internal void OnEnterInventoryTarget(InventoryTarget target) {
             if(target.IsEmpty())
                 this.currentTargets.Add(target);
         }
 
-        internal void OnExitInventoryTarget(InventoryTarget target)
-        {
+        internal void OnExitInventoryTarget(InventoryTarget target) {
             // We don't need to check if the target was a valid one for us, (i.e. empty when we entered)
             // because Remove will just do nothing if target isn't inside currentTargets
             this.currentTargets.Remove(target);
@@ -83,17 +77,22 @@ namespace Shiki.Inventory {
         /// Determines whether or not the item is currently inside of an InventoryTarget
         /// </summary>
         /// <returns>True if the item is currently inside of an InventoryTarget, false otherwise</returns>
-        public bool IsInsideTarget()
-        {
+        public bool IsInsideTarget() {
             return this.currentTargets.Count > 0;
+        }
+
+        /// <summary>
+        /// Determines whether or not the item is currently placed inside of an InventoryTarget
+        /// </summary>
+        /// <returns></returns>
+        public bool HasTarget() {
+            return this.target != null;
         }
     }
 }
 
-public static class HashSetExtensions
-{
-    public static T GetOne<T>(this HashSet<T> set)
-    {
+public static class HashSetExtensions {
+    public static T GetOne<T>(this HashSet<T> set) {
         var enumerator = set.GetEnumerator();
         enumerator.MoveNext();
         return enumerator.Current;

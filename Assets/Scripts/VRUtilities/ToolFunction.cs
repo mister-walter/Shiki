@@ -11,23 +11,20 @@ using UnityEngine;
 // but is something easily testable and integratable to the project currently. Once
 // we figure out how we want our tools to affect other objects, we can add that functionally.
 
-public class ToolFunction : MonoBehaviour
-{
+public class ToolFunction : MonoBehaviour {
     private GameObject material; //object player is colliding tool with
     private float velocity; //velocity with which to apply tool force
     public float strengthThreshold = 5.0f; //strength at which collision of object produces a result
 
-    void OnCollisionEnter(Collision col)
-    {
+    void OnCollisionEnter(Collision col) {
         velocity = col.relativeVelocity.magnitude;
         material = col.gameObject;
         hit(material, velocity);
-        
+
     }
 
-    void hit(GameObject material, float velocity)
-    {
-        if (velocity >= strengthThreshold) //if player collides tool with object hard enough
+    void hit(GameObject material, float velocity) {
+        if(velocity >= strengthThreshold) //if player collides tool with object hard enough
             Destroy(material);  //destroy material
     }
 }

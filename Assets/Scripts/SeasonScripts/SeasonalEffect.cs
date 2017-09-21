@@ -1,8 +1,11 @@
-﻿using System;
+﻿// @author Andrew Walter
+
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
+using Shiki.EventSystem.InternalEvents;
 using Shiki.Constants;
 
 /// <summary>
@@ -20,64 +23,65 @@ public class SeasonalEffect : MonoBehaviour {
     /// </summary>
     public Guid id = Guid.Empty;
 
-    void Awake ()
-    {
-        GameEventSystem.AttachDelegate<ObjectPlacedInSeasonEvent>(this.OnPlacedInSeason);
-        GameEventSystem.AttachDelegate<ObjectPickedUpEvent>(this.OnPickedUp);
+    void Awake() {
+        EventManager.AttachDelegate<ObjectPlacedInSeasonStartEvent>(this.OnPlacedInSeason);
+        EventManager.AttachDelegate<ObjectPickedUpEvent>(this.OnPickedUp);
     }
 
-	void Start () {
+    void Start() {
         seasonName = MainSceneManager.SceneNameToSeasonName(this.gameObject.scene.name);
         UpdateColor();
-	}
+    }
 
-    void OnDestroy()
-    {
-        GameEventSystem.RemoveDelegate<ObjectPlacedInSeasonEvent>(this.OnPlacedInSeason);
-        GameEventSystem.RemoveDelegate<ObjectPickedUpEvent>(this.OnPickedUp);
+    void OnDestroy() {
+        EventManager.RemoveDelegate<ObjectPlacedInSeasonStartEvent>(this.OnPlacedInSeason);
+        EventManager.RemoveDelegate<ObjectPickedUpEvent>(this.OnPickedUp);
     }
 
     /// <summary>
     /// Updates the color of this GameObject depending on the season it is in.
     /// </summary>
-    public void UpdateColor()
-    {
-        switch (this.seasonName)
-        {
-            case SeasonName.Winter: this.GetComponent<Renderer>().material.SetColor("_Color", Color.blue); break; //turns blue
-            case SeasonName.Spring: this.GetComponent<Renderer>().material.SetColor("_Color", Color.magenta); break; //turns pink
-            case SeasonName.Summer: this.GetComponent<Renderer>().material.SetColor("_Color", Color.green); break; //turns green
-            case SeasonName.Fall: this.GetComponent<Renderer>().material.SetColor("_Color", Color.yellow); break; //turns yellow
-            default: this.GetComponent<Renderer>().material.SetColor("_Color", Color.white); break; ; //turns to white
+    public void UpdateColor() {
+        switch(this.seasonName) {
+            case SeasonName.Winter:
+                this.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+                break; //turns blue
+            case SeasonName.Spring:
+                this.GetComponent<Renderer>().material.SetColor("_Color", Color.magenta);
+                break; //turns pink
+            case SeasonName.Summer:
+                this.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+                break; //turns green
+            case SeasonName.Fall:
+                this.GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
+                break; //turns yellow
+            default:
+                this.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+                break;
+                ; //turns to white
         }
     }
 
     #region Event Handlers
-    public void OnPlacedInSeason(ObjectPlacedInSeasonEvent evt)
-    {
+    public void OnPlacedInSeason(ObjectPlacedInSeasonStartEvent evt) {
         Debug.Log("Placed in season");
         Debug.Log(evt.seasonName);
-        if (evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID())
-        {
+        if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
             this.seasonName = evt.seasonName;
             UpdateColor();
 
             // check if this object has a unique id yet
-            if (this.id == Guid.Empty)
-            {
+            if(this.id == Guid.Empty) {
                 // if not, this is the first time this object has been placed, so we fire an event that causes the
                 // other seasons to create their own variant of this object
                 this.id = Guid.NewGuid();
-                GameEventSystem.FireEvent(new SeasonalObjectPlacedForFirstTime(this.gameObject, this, evt.seasonName, evt.coord));
+                EventManager.FireEvent(new SeasonalObjectPlacedForFirstTime(this.gameObject, this, evt.seasonName, evt.coord));
             }
-        } else
-        {
-            if (this.IsSeasonalVariantOf(evt.placedObject, evt.effect))
-            {
+        } else {
+            if(this.IsSeasonalVariantOf(evt.placedObject, evt.effect)) {
                 // If another variant was placed in the same season as us, we have to move to the season that the
                 // variant originally came from
-                if(this.seasonName == evt.seasonName)
-                {
+                if(this.seasonName == evt.seasonName) {
                     this.seasonName = MainSceneManager.SceneNameToSeasonName(evt.previousSeason);
                     SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetSceneByName(evt.previousSeason));
                     UpdateColor();
@@ -88,13 +92,10 @@ public class SeasonalEffect : MonoBehaviour {
         }
     }
 
-    internal void OnPickedUp(ObjectPickedUpEvent evt)
-    {
+    internal void OnPickedUp(ObjectPickedUpEvent evt) {
         // We only care when this happens for seasonal objects
-        if (evt.effect != null)
-        {
-            if(this.IsSeasonalVariantOf(evt.pickedUpObject, evt.effect))
-            {
+        if(evt.effect != null) {
+            if(this.IsSeasonalVariantOf(evt.pickedUpObject, evt.effect)) {
                 // Hide seasonal variants of the object being picked up
                 this.gameObject.SetActive(false);
             }
@@ -108,8 +109,7 @@ public class SeasonalEffect : MonoBehaviour {
     /// <param name="otherObj"></param>
     /// <param name="otherEffect"></param>
     /// <returns>True if the other GameObject is a seasonal variant of this SeasonalEffect's GameObject, false otherwise.</returns>
-    private bool IsSeasonalVariantOf(GameObject otherObj, SeasonalEffect otherEffect)
-    {
+    private bool IsSeasonalVariantOf(GameObject otherObj, SeasonalEffect otherEffect) {
         return otherEffect.id != Guid.Empty &&
                otherEffect.id == this.id &&
                otherObj.GetInstanceID() != this.gameObject.GetInstanceID();

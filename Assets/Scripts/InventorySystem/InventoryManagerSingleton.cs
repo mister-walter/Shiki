@@ -9,13 +9,11 @@ namespace Shiki.Inventory {
     public static class InventoryManagerSingleton {
         private static GameObject manager;
 
-        public static GameObject GetInventoryManager()
-        {
+        public static GameObject GetInventoryManager() {
             return manager;
         }
 
-        public static void SetInventoryManager(GameObject aManager)
-        {
+        public static void SetInventoryManager(GameObject aManager) {
             manager = aManager;
         }
     }
