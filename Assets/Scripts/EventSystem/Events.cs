@@ -5,13 +5,14 @@ using UnityEngine;
 /// <summary>
 /// Events for use with GameEventSystem
 /// </summary>
-namespace Shiki.EventSystem.Events {
+namespace Shiki.EventSystem.Events
+{
     /// <summary>
     /// Fired by: GrabObjects
     /// Fires: When an object is placed
     /// Listened for by: SeasonInfo, which then fires ObjectPlacedInSeasonEvent if the object was placed in its season
     /// </summary>
-    public class ObjectPlacedEvent : IGameEvent
+    public class ObjectPutDownEvent : IGameEvent
     {
         /// <summary>
         /// The GameObject that was placed.
@@ -23,11 +24,11 @@ namespace Shiki.EventSystem.Events {
         /// </summary>
         public SeasonalEffect effect = null;
 
-        public ObjectPlacedEvent(GameObject go)
+        public ObjectPutDownEvent(GameObject go)
         {
             this.placedObject = go;
         }
-        public ObjectPlacedEvent(GameObject go, SeasonalEffect effect)
+        public ObjectPutDownEvent(GameObject go, SeasonalEffect effect)
         {
             this.placedObject = go;
             this.effect = effect;
@@ -36,7 +37,7 @@ namespace Shiki.EventSystem.Events {
 
     /// <summary>
     /// Fired by: SeasonInfo
-    /// Fires: When an object is placed into a season (after ObjectPlacedEvent)
+    /// Fires: When an object is placed into a season (after ObjectPutDownEvent)
     /// Listened for by: SeasonalEffect
     /// </summary>
     public class ObjectPlacedInSeasonEvent : IGameEvent
@@ -45,12 +46,12 @@ namespace Shiki.EventSystem.Events {
         /// The GameObject that was placed
         /// </summary>
         public GameObject placedObject;
-        
+
         /// <summary>
         /// The SeasonCoordinate where the object was placed
         /// </summary>
         public SeasonCoordinate coord;
-        
+
         /// <summary>
         /// The name of the season in which the object was placed
         /// </summary>
@@ -148,5 +149,48 @@ namespace Shiki.EventSystem.Events {
             this.effect = effect;
         }
     }
+
+    /// <summary>
+    /// Fired by: TODO
+    /// Fires: TODO
+    /// Listened for by: InventoryManager
+    /// </summary>
+    public class ObjectStoredEvent : IGameEvent
+    {
+        /// <summary>
+        /// The object that was stored.
+        /// </summary>
+        public GameObject storedObject;
+
+        public ObjectStoredEvent(GameObject go)
+        {
+            this.storedObject = go;
+        }
+    }
+
+    public class ObjectRetrievedEvent : IGameEvent
+    {
+        public GameObject retrievedObject;
+    }
+
+    public class ObjectPlacedInInventoryEvent : IGameEvent
+    {
+        public GameObject placedObject;
+        public ObjectPlacedInInventoryEvent(GameObject go)
+        {
+            this.placedObject = go;
+        }
+    }
+
+    public class ObjectRemovedFromInventoryEvent : IGameEvent
+    {
+        public GameObject placedObject;
+        public ObjectRemovedFromInventoryEvent(GameObject go)
+        {
+            this.placedObject = go;
+        }
+    }
+
+    public class ToggleInventoryEvent : IGameEvent { }
 }
 

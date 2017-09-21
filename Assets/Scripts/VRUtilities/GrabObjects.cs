@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
+using Shiki.Inventory;
 
 public class GrabObjects : MonoBehaviour {
 
@@ -40,6 +41,11 @@ public class GrabObjects : MonoBehaviour {
 				ReleaseObject();
 			}
 		}
+
+        if(controller.GetHairTriggerDown())
+        {
+            GameEventSystem.FireEvent(new ToggleInventoryEvent());
+        }
 	}
 
 	public void OnTriggerEnter(Collider c){
@@ -52,7 +58,6 @@ public class GrabObjects : MonoBehaviour {
 	}
 
 	public void OnTriggerExit(Collider c){
-		//		Debug.Log("Tigger exited");
 		if(!collidingObj){
 			return;
 		}
@@ -89,19 +94,26 @@ public class GrabObjects : MonoBehaviour {
 	}
 
 	private void ReleaseObject(){
-		if(GetComponent<FixedJoint>()){
-			GetComponent<FixedJoint>().connectedBody = null;
-			Destroy(GetComponent<FixedJoint>());
+        if (GetComponent<FixedJoint>()) {
+            GetComponent<FixedJoint>().connectedBody = null;
+            Destroy(GetComponent<FixedJoint>());
 
-			objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
-			objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
+            if (objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.IsInsideTarget()))
+            {
+                GameEventSystem.FireEvent(new ObjectPlacedInInventoryEvent(objInHand));
+            } else {
+                if (objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.target != null)) {
+                    GameEventSystem.FireEvent(new ObjectRemovedFromInventoryEvent(objInHand));
+                }
 
-            // Get the seasonal effect of the object, if any
-            var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
-            // Fire an event to notify any listeners
-            GameEventSystem.FireEvent(new ObjectPlacedEvent(objInHand, seasonalEffect));
+                objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
+                objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
+                // Get the seasonal effect of the object, if any
+                var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
+                // Fire an event to notify any listeners
+                GameEventSystem.FireEvent(new ObjectPutDownEvent(objInHand, seasonalEffect));
+            }
         }
 		objInHand = null;
 	}
-		
 }
