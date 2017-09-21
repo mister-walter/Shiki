@@ -795,7 +795,7 @@ MeshRenderer:
     type: 3}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 175046956}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -11663,7 +11663,6 @@ GameObject:
   - component: {fileID: 1860152450}
   - component: {fileID: 1860152449}
   - component: {fileID: 1860152448}
-  - component: {fileID: 1860152447}
   m_Layer: 0
   m_Name: Tree3_7
   m_TagString: Untagged
@@ -11671,22 +11670,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1860152447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1860152446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e77727a177d08954b9fba91f85af5ab0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  seasonalLeaves:
-  - {fileID: 2100000, guid: 741d293aa0b7bbe4da5da093b639ff65, type: 2}
-  - {fileID: 2100000, guid: 1e421bfe62518c14a9cc12b4469891e1, type: 2}
-  - {fileID: 2100000, guid: 1507977cc3e74144ebe21afcf44b6ce3, type: 2}
-  - {fileID: 2100000, guid: 1003044245365c04687603a8a8fd99ba, type: 2}
 --- !u!23 &1860152448
 MeshRenderer:
   m_ObjectHideFlags: 0

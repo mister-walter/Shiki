@@ -154,6 +154,7 @@ namespace Shiki.Quests {
                 case InteractionKind.Store:
                 case InteractionKind.Retrieve:
                 case InteractionKind.Drop:
+                case InteractionKind.Get:
                     pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name;
                     break;
                 // check that the two objects are the ones we're looking for

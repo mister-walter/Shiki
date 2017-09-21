@@ -5865,7 +5865,7 @@ Prefab:
       objectReference: {fileID: 2100000, guid: 417e639b66cd3a24e9c5312be99ce3bd, type: 2}
     - target: {fileID: 2300000, guid: a8130fdf0639f8e44875e577062ff03c, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a8130fdf0639f8e44875e577062ff03c, type: 3}
@@ -8315,7 +8315,6 @@ GameObject:
   - component: {fileID: 1574152827}
   - component: {fileID: 1574152826}
   - component: {fileID: 1574152825}
-  - component: {fileID: 1574152824}
   m_Layer: 0
   m_Name: Tree3_7
   m_TagString: Untagged
@@ -8347,22 +8346,6 @@ Transform:
   m_Father: {fileID: 899284066}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: -132.533, z: 0}
---- !u!114 &1574152824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1574152822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e77727a177d08954b9fba91f85af5ab0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  seasonalLeaves:
-  - {fileID: 2100000, guid: 741d293aa0b7bbe4da5da093b639ff65, type: 2}
-  - {fileID: 2100000, guid: 1e421bfe62518c14a9cc12b4469891e1, type: 2}
-  - {fileID: 2100000, guid: 1507977cc3e74144ebe21afcf44b6ce3, type: 2}
-  - {fileID: 2100000, guid: 1003044245365c04687603a8a8fd99ba, type: 2}
 --- !u!23 &1574152825
 MeshRenderer:
   m_ObjectHideFlags: 0
