@@ -1,0 +1,30 @@
+﻿[[TemporaryTask]]
+Name = "Beta1puzzle"
+SubTask = "Cook"
+#Trigger = 
+OnComplete = "Player Get Item CookedRice"
+
+[[TemporaryTask]]
+Name = "Cook"
+SubTask = "HarvestRice"
+Trigger = "Player Drop Item Rice On Item Fire"
+OnComplete = "Item Rice Become Item CookedRice"
+
+[[TemporaryTask]]
+Name = "HarvestRice"
+SubTask = "EnterAutumn"
+Trigger = "Player Cut Item Rice With Item Tool"
+OnComplete = "Player Get Item Rice"
+
+[[TemporaryTask]]
+Name = "EnterAutumn"
+SubTask = "PlantRice"
+Trigger = "Player Enter Location Autumn"
+OnComplete = "Item RiceSeed Become Rice"
+
+[[TemporaryTask]]
+Name = "PlantRice"
+#SubTask =
+Trigger = "Player Drop Item RiceSeed Location Spring"
+#OnComplete =
+
