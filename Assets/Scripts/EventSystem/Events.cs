@@ -169,5 +169,7 @@ namespace Shiki.EventSystem.Events {
             this.hitObject = go;
         }
     }
+
+    public class AllScenesLoadedEvent : IGameEvent { }
 }
 

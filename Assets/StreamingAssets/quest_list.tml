@@ -2,3 +2,8 @@
 Name = "Test"
 Trigger = "Item Foo Hit Item TestCube"
 OnComplete = "Item TestCube Become Item TestSphere"
+
+[[TemporaryTask]]
+Name = "Test2"
+Trigger = "Player Enter Location Winter"
+OnComplete = "Item TestSphere Become Item TestCube"

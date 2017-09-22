@@ -34,7 +34,6 @@ namespace Shiki.Quests {
         /// <param name="evt">The event fired</param>
         /// <param name="doAll">True if tasks should be run when they completed, regardless of previous completion status. False if a task should only ever be completed once</param>
         public void UpdateTasks(InteractionEvent evt, bool doAll) {
-            Debug.Log(saveDataManager.taskTree);
             foreach(TaskNode tn in this.saveDataManager.taskTree) {
                 if(!tn.AssociatedTask.isComplete || doAll) {
                     UpdateTaskBranch(evt, tn, doAll);

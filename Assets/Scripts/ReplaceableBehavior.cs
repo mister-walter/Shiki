@@ -12,7 +12,7 @@ public class ReplaceableBehavior : MonoBehaviour {
         EventManager.AttachDelegate<TaskCompletedChangeEvent>(this.OnTaskCompletedChangeEvent);
 	}
 
-    void Destroy() {
+    void OnDestroy() {
         EventManager.RemoveDelegate<TaskCompletedChangeEvent>(this.OnTaskCompletedChangeEvent);
     }
 
@@ -23,6 +23,8 @@ public class ReplaceableBehavior : MonoBehaviour {
             SceneManager.MoveGameObjectToScene(newObject, this.gameObject.scene);
             newObject.transform.position = this.gameObject.transform.position;
             newObject.transform.rotation = this.gameObject.transform.rotation;
+            newObject.name = evt.objectChangedTo;
+            Debug.Log("Destroying self...");
             Destroy(this.gameObject);
         }
     }

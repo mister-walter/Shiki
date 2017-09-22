@@ -6,6 +6,9 @@ using Shiki.Constants;
 using Shiki.Quests;
 using Shiki.ReaderWriter;
 using Shiki.ReaderWriter.TomlImplementation;
+using Shiki.EventSystem;
+using Shiki.EventSystem.Events;
+using System.Collections.Generic;
 
 /// <summary>
 /// Main entry point for the game.
@@ -13,7 +16,13 @@ using Shiki.ReaderWriter.TomlImplementation;
 public class MainSceneManager : MonoBehaviour {
     public QuestEventManager questEventManager;
 
-    void Start() {
+    IEnumerable<Scene> GetAllScenes() {
+        for(var i = 0; i < SceneManager.sceneCount; i++) {
+            yield return SceneManager.GetSceneAt(i);
+        }
+    }
+
+    IEnumerator Start() {
         // Load all of the scenes, additively
         AsyncOperation[] sceneLoadOperations = {
             SceneManager.LoadSceneAsync(SceneName.Village, LoadSceneMode.Additive),
@@ -22,7 +31,13 @@ public class MainSceneManager : MonoBehaviour {
             SceneManager.LoadSceneAsync(SceneName.Fall, LoadSceneMode.Additive),
             SceneManager.LoadSceneAsync(SceneName.Winter, LoadSceneMode.Additive)
         };
-        AsyncOperationHelper.WaitForAll(sceneLoadOperations);
+        foreach(var op in sceneLoadOperations) {
+            yield return op.Await();
+        }
+        foreach(var scene in this.GetAllScenes()) {
+            yield return scene.AwaitLoad();
+        }
+        EventManager.FireEvent(new AllScenesLoadedEvent());
         var saveDataManager = new SaveDataManager(
                 new TomlQuestReader(),
                 new TomlQuestStateReader(),

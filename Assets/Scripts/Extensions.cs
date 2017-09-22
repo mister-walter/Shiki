@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class GameObjectExtensions {
     /// <summary>
@@ -30,6 +31,22 @@ public static class AsyncOperationExtensions {
     public static IEnumerator Await(this AsyncOperation operation) {
         while(!operation.isDone)
             yield return operation;
+    }
+}
+
+public static class SceneExtensions {
+    public static T FindInSceneShallow<T>(this Scene scene) where T: class {
+        foreach(var go in scene.GetRootGameObjects()) {
+            var component = go.GetComponent<T>();
+            if(component != null) {
+                return component;
+            }
+        }
+        return null;
+    }
+
+    public static IEnumerator AwaitLoad(this Scene scene) {
+        yield return new WaitUntil(() => scene.isLoaded);
     }
 }
 
