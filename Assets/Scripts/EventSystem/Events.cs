@@ -171,5 +171,15 @@ namespace Shiki.EventSystem.Events {
     }
 
     public class AllScenesLoadedEvent : IGameEvent { }
+
+    public class ObjectDroppedOntoDropTargetEvent : IGameEvent {
+        public GameObject droppedObject;
+        public GameObject dropTarget;
+
+        public ObjectDroppedOntoDropTargetEvent(GameObject droppedObject, GameObject dropTarget) {
+            this.droppedObject = droppedObject;
+            this.dropTarget = dropTarget;
+        }
+    }
 }
 

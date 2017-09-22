@@ -123,6 +123,14 @@ namespace Shiki.Quests {
             this.UpdateTasks(ievt, false);
         }
 
+        private void OnObjectDroppedOntoDropTargetEvent(ObjectDroppedOntoDropTargetEvent evt) {
+            InteractionEvent ievt = new InteractionEvent();
+            ievt.kind = InteractionKind.Drop;
+            ievt.sourceObject = evt.droppedObject;
+            ievt.targetObject = evt.dropTarget;
+            this.UpdateTasks(ievt, false);
+        }
+
         private void AttachHandlers() {
             EventManager.AttachDelegate<ObjectPlacedInSeasonFinishedEvent>(this.OnObjectPlacedInSeasonFinishedEvent);
             EventManager.AttachDelegate<PlayerEnteredAreaEvent>(this.OnPlayerEnteredAreaEvent);
@@ -130,6 +138,7 @@ namespace Shiki.Quests {
             EventManager.AttachDelegate<ObjectStoredEvent>(this.OnObjectStoredEvent);
             EventManager.AttachDelegate<ObjectRetrievedEvent>(this.OnObjectRetrievedEvent);
             EventManager.AttachDelegate<ObjectHitEvent>(this.OnObjectHitEvent);
+            EventManager.AttachDelegate<ObjectDroppedOntoDropTargetEvent>(this.OnObjectDroppedOntoDropTargetEvent);
         }
 
         private void DetachHandlers() {
@@ -139,6 +148,7 @@ namespace Shiki.Quests {
             EventManager.RemoveDelegate<ObjectStoredEvent>(this.OnObjectStoredEvent);
             EventManager.RemoveDelegate<ObjectRetrievedEvent>(this.OnObjectRetrievedEvent);
             EventManager.RemoveDelegate<ObjectHitEvent>(this.OnObjectHitEvent);
+            EventManager.RemoveDelegate<ObjectDroppedOntoDropTargetEvent>(this.OnObjectDroppedOntoDropTargetEvent);
         }
     }
     #endregion

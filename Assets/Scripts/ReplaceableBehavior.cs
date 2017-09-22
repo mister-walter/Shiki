@@ -24,7 +24,6 @@ public class ReplaceableBehavior : MonoBehaviour {
             newObject.transform.position = this.gameObject.transform.position;
             newObject.transform.rotation = this.gameObject.transform.rotation;
             newObject.name = evt.objectChangedTo;
-            Debug.Log("Destroying self...");
             Destroy(this.gameObject);
         }
     }

@@ -142,14 +142,6 @@ namespace Shiki.Quests {
             return task;
         }
 
-        static string nameOrEmpty(GameObject go) {
-            if(go == null) {
-                return "";
-            } else {
-                return go.name;
-            }
-        }
-
         /// <summary>
         /// Creates the trigger function from a trigger string
         /// </summary>
@@ -171,25 +163,26 @@ namespace Shiki.Quests {
                     pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name;
                     break;
                 case InteractionKind.Drop:
-                    pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name && pR.obj2 == evt.targetObject.name;
+                    if(pR.obj1 == string.Empty) {
+                        pred = (InteractionEvent evt) => pR.obj2 == evt.targetObject.name;
+                    } else {
+                        pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name && pR.obj2 == evt.targetObject.name;
+                    }
                     break;
                 // TODO: Hack to work around current lack of activity recognition
                 case InteractionKind.Cut:
                 case InteractionKind.Dig:
                 case InteractionKind.Hit:
                 case InteractionKind.Grind:
-                    pred = (InteractionEvent evt) => {
-                        Debug.Log(string.Format("{0} - {1} - {2} - {3}", pR.obj1, pR.obj2, nameOrEmpty(evt.sourceObject), nameOrEmpty(evt.targetObject)));
-                        return pR.obj1 == evt.targetObject.name;
-                    };
+                    pred = (InteractionEvent evt) => pR.obj1 == evt.targetObject.name;
                     break;
                 // check that the two objects are the ones we're looking for
-                case InteractionKind.Merge:
-                    pred = (InteractionEvent evt) => {
-                        return (evt.sourceObject.name == pR.obj1 && evt.targetObject.name == pR.obj2)
-                            || (evt.targetObject.name == pR.obj1 && evt.sourceObject.name == pR.obj2);
-                    };
-                    break;
+                //case InteractionKind.Merge:
+                //    pred = (InteractionEvent evt) => {
+                //        return (evt.sourceObject.name == pR.obj1 && evt.targetObject.name == pR.obj2)
+                //            || (evt.targetObject.name == pR.obj1 && evt.sourceObject.name == pR.obj2);
+                //    };
+                //    break;
                 // For this group we don't need any extra logic.
                 case InteractionKind.Open:
                     pred = (InteractionEvent evt) => true;
@@ -240,8 +233,6 @@ namespace Shiki.Quests {
                 IGameEvent evt;
                 switch(pR.interactionKind) {
                     case InteractionKind.Become:
-                        Debug.Log("Making new task change event");
-                        Debug.Log(string.Format("{0} - {1}", pR.obj1, pR.obj2));
                         evt = new TaskCompletedChangeEvent(pR.obj2, pR.obj1);
                         break;
                     case InteractionKind.Play:

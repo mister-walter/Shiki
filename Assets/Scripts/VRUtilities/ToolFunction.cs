@@ -19,7 +19,7 @@ public class ToolFunction : MonoBehaviour {
     public float strengthThreshold = 0.25f; //strength at which collision of object produces a result
 
     void OnCollisionEnter(Collision col) {
-        if(col.other.GetComponent<ReplaceableBehavior>() != null) {
+        if(col.collider.gameObject.GetComponent<ReplaceableBehavior>() != null) {
             velocity = col.relativeVelocity.magnitude;
             material = col.gameObject;
             hit(material, velocity);
