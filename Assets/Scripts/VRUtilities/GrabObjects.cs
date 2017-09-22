@@ -9,7 +9,7 @@ public class GrabObjects : MonoBehaviour {
 	// https://www.raywenderlich.com/149239/htc-vive-tutorial-unity
 
 	private Valve.VR.EVRButtonId gripButton = Valve.VR.EVRButtonId.k_EButton_Grip;
-	//	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
+	private Valve.VR.EVRButtonId triggerButton = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
 
 	// device to get easy access to the controller
 	private SteamVR_Controller.Device controller { get { return SteamVR_Controller.Input((int)trackedObj.index); } }
@@ -30,27 +30,26 @@ public class GrabObjects : MonoBehaviour {
 
 	private void CheckButtonStatus(){
 		// grip button pressed down
-		if(controller.GetPressDown(gripButton)){
+		if(controller.GetPressDown(triggerButton)){
 			if(collidingObj){
 				GrabObject();
 			}
 		}
 
 		// grip button let go of
-		if(controller.GetPressUp(gripButton)){
+		if(controller.GetPressUp(triggerButton)){
 			if(objInHand){
 				ReleaseObject();
 			}
 		}
 
-        if(controller.GetHairTriggerDown())
+        if(controller.GetPressDown(gripButton))
         {
             EventManager.FireEvent(new PlayerOpenedInventoryEvent());
         }
 	}
 
 	public void OnTriggerEnter(Collider c){
-		//		Debug.Log("Tigger entered");
 		SetCollidingObject(c);
 	}
 
