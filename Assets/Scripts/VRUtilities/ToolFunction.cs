@@ -21,20 +21,14 @@ public class ToolFunction : MonoBehaviour {
     void OnCollisionEnter(Collision col) {
         if (col.other.GetComponent<ReplaceableBehavior>() != null)
         {
-            Debug.Log("Collision entered");
-            Debug.Log(this.gameObject.name);
-            Debug.Log(col.other.name);
             velocity = col.relativeVelocity.magnitude;
-            Debug.Log(velocity);
             material = col.gameObject;
             hit(material, velocity);
         }
-
     }
 
     void hit(GameObject material, float velocity) {
         if(velocity >= strengthThreshold) //if player collides tool with object hard enough
-            //Destroy(material);  //destroy material
             EventManager.FireEvent(new ObjectHitEvent(material));
     }
 }

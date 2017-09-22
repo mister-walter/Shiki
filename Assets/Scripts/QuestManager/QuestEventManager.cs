@@ -183,12 +183,12 @@ namespace Shiki.Quests {
     /// </summary>
     public class ParsingResult {
         /// <summary>
-        /// First object found in parsing. This is typically the tool the player is using.
+        /// First object found in parsing.
         /// </summary>
         public string obj1 { get; set; }
 
         /// <summary>
-        /// Second object found in parsing
+        /// Second object found in parsing. This is typically the tool the player is using.
         /// </summary>
         public string obj2 { get; set; }
 

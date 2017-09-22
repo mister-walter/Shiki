@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Shiki.Quests;
-
+using UnityEngine;
 
 namespace Shiki.ReaderWriter {
     /// <summary>
@@ -13,7 +13,7 @@ namespace Shiki.ReaderWriter {
         /// <summary>
         /// The file path to the list of quests
         /// </summary>
-        private string questFilePath = "Assets/StateFiles/quest_list.tml";
+        private string questFilePath = Application.dataPath + "/StreamingAssets/quest_list.tml";
 
         /// <summary>
         /// The file path to the player's quest state

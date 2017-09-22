@@ -107,8 +107,15 @@ namespace Shiki.Quests {
             bool exists, isTempComplete;
             List<Task> taskList = new List<Task>();
 
-            foreach(TemporaryTask tt in tempTasks) {    // turns each temporary task into a task
-                exists = questStates.TryGetValue(tt.Name, out isTempComplete);
+            foreach (TemporaryTask tt in tempTasks) {    // turns each temporary task into a task
+                if (questStates == null)
+                {
+                    exists = false;
+                    isTempComplete = false;
+                } else
+                {
+                    exists = questStates.TryGetValue(tt.Name, out isTempComplete);
+                }
                 taskList.Add(TempTaskToTask(tt, exists && isTempComplete));
             }
 

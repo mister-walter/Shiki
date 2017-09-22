@@ -1000,7 +1000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e9c5ba68650b8b4f9e910bbe9024fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strengthThreshold: 0.1
+  strengthThreshold: 0
 --- !u!1001 &25743994
 Prefab:
   m_ObjectHideFlags: 0
