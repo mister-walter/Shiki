@@ -32,12 +32,10 @@ public class SeasonalEffect : MonoBehaviour {
 
     void Start() {
         var initSeason = this.gameObject.GetComponent<InitialSeason>();
-        if (initSeason != null)
-        {
+        if(initSeason != null) {
             seasonName = initSeason.initialSeasonName;
             Destroy(initSeason);
-        } else
-        {
+        } else {
             seasonName = MainSceneManager.SceneNameToSeasonName(this.gameObject.scene.name);
         }
 
@@ -53,10 +51,8 @@ public class SeasonalEffect : MonoBehaviour {
     /// Updates the color of this GameObject depending on the season it is in.
     /// </summary>
     public void UpdateColor() {
-        if (!this.wasPlacedVariant)
-        {
-            switch (this.seasonName)
-            {
+        if(!this.wasPlacedVariant) {
+            switch(this.seasonName) {
                 case SeasonName.Winter:
                     this.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
                     break; //turns blue

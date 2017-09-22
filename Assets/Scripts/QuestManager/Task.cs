@@ -107,13 +107,11 @@ namespace Shiki.Quests {
             bool exists, isTempComplete;
             List<Task> taskList = new List<Task>();
 
-            foreach (TemporaryTask tt in tempTasks) {    // turns each temporary task into a task
-                if (questStates == null)
-                {
+            foreach(TemporaryTask tt in tempTasks) {    // turns each temporary task into a task
+                if(questStates == null) {
                     exists = false;
                     isTempComplete = false;
-                } else
-                {
+                } else {
                     exists = questStates.TryGetValue(tt.Name, out isTempComplete);
                 }
                 taskList.Add(TempTaskToTask(tt, exists && isTempComplete));
@@ -144,14 +142,10 @@ namespace Shiki.Quests {
             return task;
         }
 
-        static string nameOrEmpty(GameObject go)
-        {
-            if (go == null)
-            {
+        static string nameOrEmpty(GameObject go) {
+            if(go == null) {
                 return "";
-            }
-            else
-            {
+            } else {
                 return go.name;
             }
         }
@@ -184,9 +178,8 @@ namespace Shiki.Quests {
                 case InteractionKind.Dig:
                 case InteractionKind.Hit:
                 case InteractionKind.Grind:
-                    pred = (InteractionEvent evt) =>
-                    {
-                        Debug.Log(string.Format("{0} - {1} - {2} - {3}", pR.obj1, pR.obj2,nameOrEmpty( evt.sourceObject), nameOrEmpty(evt.targetObject)));
+                    pred = (InteractionEvent evt) => {
+                        Debug.Log(string.Format("{0} - {1} - {2} - {3}", pR.obj1, pR.obj2, nameOrEmpty(evt.sourceObject), nameOrEmpty(evt.targetObject)));
                         return pR.obj1 == evt.targetObject.name;
                     };
                     break;

@@ -3,13 +3,11 @@
 /// <summary>
 /// Constants used within Shiki
 /// </summary>
-namespace Shiki.Constants
-{
+namespace Shiki.Constants {
     /// <summary>
     /// Contains the name of each scene.
     /// </summary>
-    public static class SceneName
-    {
+    public static class SceneName {
         public const String Summer = "SummerScene";
         public const String Winter = "WinterScene";
         public const String Spring = "SpringScene";
@@ -21,8 +19,7 @@ namespace Shiki.Constants
     /// <summary>
     /// Contains the name of each season.
     /// </summary>
-    public static class SeasonName
-    {
+    public static class SeasonName {
         public const String Summer = "Summer";
         public const String Winter = "Winter";
         public const String Spring = "Spring";
