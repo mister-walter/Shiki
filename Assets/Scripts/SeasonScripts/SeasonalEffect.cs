@@ -23,13 +23,24 @@ public class SeasonalEffect : MonoBehaviour {
     /// </summary>
     public Guid id = Guid.Empty;
 
+    public bool wasPlacedVariant = false;
+
     void Awake() {
         EventManager.AttachDelegate<ObjectPlacedInSeasonStartEvent>(this.OnPlacedInSeason);
         EventManager.AttachDelegate<ObjectPickedUpEvent>(this.OnPickedUp);
     }
 
     void Start() {
-        seasonName = MainSceneManager.SceneNameToSeasonName(this.gameObject.scene.name);
+        var initSeason = this.gameObject.GetComponent<InitialSeason>();
+        if (initSeason != null)
+        {
+            seasonName = initSeason.initialSeasonName;
+            Destroy(initSeason);
+        } else
+        {
+            seasonName = MainSceneManager.SceneNameToSeasonName(this.gameObject.scene.name);
+        }
+
         UpdateColor();
     }
 
@@ -42,23 +53,27 @@ public class SeasonalEffect : MonoBehaviour {
     /// Updates the color of this GameObject depending on the season it is in.
     /// </summary>
     public void UpdateColor() {
-        switch(this.seasonName) {
-            case SeasonName.Winter:
-                this.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-                break; //turns blue
-            case SeasonName.Spring:
-                this.GetComponent<Renderer>().material.SetColor("_Color", Color.magenta);
-                break; //turns pink
-            case SeasonName.Summer:
-                this.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
-                break; //turns green
-            case SeasonName.Fall:
-                this.GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
-                break; //turns yellow
-            default:
-                this.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
-                break;
-                ; //turns to white
+        if (!this.wasPlacedVariant)
+        {
+            switch (this.seasonName)
+            {
+                case SeasonName.Winter:
+                    this.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+                    break; //turns blue
+                case SeasonName.Spring:
+                    this.GetComponent<Renderer>().material.SetColor("_Color", Color.magenta);
+                    break; //turns pink
+                case SeasonName.Summer:
+                    this.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+                    break; //turns green
+                case SeasonName.Fall:
+                    this.GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
+                    break; //turns yellow
+                default:
+                    this.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+                    break;
+                    ; //turns to white
+            }
         }
     }
 
@@ -68,6 +83,7 @@ public class SeasonalEffect : MonoBehaviour {
         Debug.Log(evt.seasonName);
         if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
             this.seasonName = evt.seasonName;
+            this.wasPlacedVariant = true;
             UpdateColor();
 
             // check if this object has a unique id yet
@@ -79,6 +95,7 @@ public class SeasonalEffect : MonoBehaviour {
             }
         } else {
             if(this.IsSeasonalVariantOf(evt.placedObject, evt.effect)) {
+                this.wasPlacedVariant = false;
                 // If another variant was placed in the same season as us, we have to move to the season that the
                 // variant originally came from
                 if(this.seasonName == evt.seasonName) {
@@ -88,6 +105,7 @@ public class SeasonalEffect : MonoBehaviour {
                 }
                 this.gameObject.SetActive(true);
                 this.gameObject.transform.position = SeasonCoordinateManager.SeasonToGlobalCoordinate(this.seasonName, evt.coord);
+                UpdateColor();
             }
         }
     }

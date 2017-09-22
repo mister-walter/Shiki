@@ -27,5 +27,6 @@ namespace Shiki.Constants
         public const String Winter = "Winter";
         public const String Spring = "Spring";
         public const String Fall = "Fall";
+        public const String None = "None";
     }
 }

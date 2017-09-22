@@ -15901,6 +15901,7 @@ GameObject:
   - component: {fileID: 796921006}
   - component: {fileID: 796921005}
   - component: {fileID: 796921011}
+  - component: {fileID: 796921012}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -15934,6 +15935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 420690c0d8efcfc41a51b457984efed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wasPlacedVariant: 0
 --- !u!23 &796921007
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16009,6 +16011,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5dee82056be874f86405a83c835cc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &796921012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 796921004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba216d4559518f04bb72534273f448a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialSeasonName: Winter
 --- !u!1001 &797062527
 Prefab:
   m_ObjectHideFlags: 0

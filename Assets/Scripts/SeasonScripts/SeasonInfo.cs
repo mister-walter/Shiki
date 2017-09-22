@@ -76,6 +76,7 @@ public class SeasonInfo : MonoBehaviour {
             var newSeasonalEffect = newObject.GetComponent<SeasonalEffect>();
             // Set the new object's seasonal effect id so that we can tell the new object is a variant of the original
             newSeasonalEffect.id = evt.effect.id;
+            newSeasonalEffect.wasPlacedVariant = false;
             SceneManager.MoveGameObjectToScene(newObject, this.gameObject.scene);
             newSeasonalEffect.UpdateColor();
             newObject.SetActive(true);
