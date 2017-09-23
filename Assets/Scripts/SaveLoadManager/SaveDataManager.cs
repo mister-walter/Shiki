@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Shiki.Quests;
-
+using UnityEngine;
 
 namespace Shiki.ReaderWriter {
 	/// <summary>
@@ -139,5 +139,37 @@ namespace Shiki.ReaderWriter {
 		/// <param name="tn">Task Node tree to save.</param>
 		void SaveQuestState(Stream fileStream, IEnumerable<TaskNode> tn);
 
+	}
+
+	/// <summary>
+	/// Reads in the inventory state from the filestream provided
+	/// </summary>
+	public interface IInventoryStateReader {
+
+		List<GameObject> LoadInventoryState(Stream fileStream);
+	}
+
+	/// <summary>
+	/// Writes in the inventory state into the filestream provided
+	/// </summary>
+	public interface IInventoryStateWriter {
+
+		void SaveInventoryState(Stream fileStream, List<GameObject> gameObjs);
+	}
+
+	/// <summary>
+	/// Reads the states of objects found in the filestream provided
+	/// </summary>
+	public interface IObjectStateReader {
+
+		List<GameObject> LoadObjectStates(Stream fileStream);
+	}
+
+	/// <summary>
+	/// Writes the states of all relevant objects in the game
+	/// </summary>
+	public interface IObjectStateWriter{
+
+		void SaveObjectStates(Stream fileStream, List<GameObject> objsToWrite);
 	}
 }
