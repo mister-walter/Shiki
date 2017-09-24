@@ -20,7 +20,7 @@ public class ToolScript : MonoBehaviour {
         if (collidingObject.GetComponent("ObjectScript"))
         {
             collidingObject.GetComponent<ObjectScript>().hit(strength);
-            Debug.Log(strength);
+            //Debug.Log(strength);
         }
         /*collidingObject = col.gameObject;
         ObjectScript other = (ObjectScript) collidingObject.GetComponent(typeof(ObjectScript));

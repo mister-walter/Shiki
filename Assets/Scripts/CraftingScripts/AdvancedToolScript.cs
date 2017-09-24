@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.IO;
 
 public class AdvancedToolScript : MonoBehaviour {
 
@@ -21,14 +22,6 @@ public class AdvancedToolScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         numHits = 0;
-        hitThreshold = 2;           //can be set in editor
-        posXminThreshold = 0.5f;    //can be set in editor
-        posYminThreshold = 0.5f;    //can be set in editor
-        posZminThreshold = 0.5f;    //can be set in editor
-        posXmaxThreshold = 1.5f;    //can be set in editor
-        posYmaxThreshold = 1.5f;    //can be set in editor 
-        posZmaxThreshold = 1.5f;    //can be set in editor
-        attentionSpan = 1500;       //can be set in editor
         activity = behavior.NONE;
         lastKnown = behavior.NONE;
         force = 0;
@@ -36,10 +29,11 @@ public class AdvancedToolScript : MonoBehaviour {
 	
     public void OnCollisionEnter(Collision col)
     {
+        Debug.Log("Collision detected");
         //initialize position and time values
         if(numHits == 0) //no prior collision
         {
-            oldPos = col.contacts[0].point; //get the first point to collide, I don't even give a shit which one it is tbh
+            oldPos = col.contacts[0].point; //get the first point to collide
             newPos = col.contacts[0].point; //get the first point to collide
             oldTime = DateTime.UtcNow;
             newTime = DateTime.UtcNow;
@@ -47,7 +41,7 @@ public class AdvancedToolScript : MonoBehaviour {
         else //prior collision detected
         {
             oldPos = newPos;
-            newPos = col.contacts[0].point; //get the first point to collide, I don't even give a shit which one it is tbh
+            newPos = col.contacts[0].point; //get the first point to collide
             oldTime = newTime;
             newTime = DateTime.UtcNow;
         }
@@ -73,6 +67,7 @@ public class AdvancedToolScript : MonoBehaviour {
         if (Math.Abs(deltaPos.x) <= posXmaxThreshold && (Math.Abs(deltaPos.y) > posYminThreshold && Math.Abs(deltaPos.z) > posZminThreshold))
         {
             activity = behavior.PAINTING;
+            Debug.Log(activity);
             if (activity != lastKnown && lastKnown != behavior.NONE) //user isn't hitting object in line with any behavior
                 resetTracking();
             else
@@ -86,6 +81,7 @@ public class AdvancedToolScript : MonoBehaviour {
         else if (Math.Abs(deltaPos.y) <= posYmaxThreshold && (Math.Abs(deltaPos.x) > posXminThreshold && Math.Abs(deltaPos.z) > posZminThreshold))
         {
             activity = behavior.CHOPPING;
+            Debug.Log(activity);
             if (activity != lastKnown && lastKnown != behavior.NONE) //user isn't hitting object in line with any behavior
                 resetTracking();
             else
@@ -99,6 +95,7 @@ public class AdvancedToolScript : MonoBehaviour {
         else if (Math.Abs(deltaPos.z) <= posZmaxThreshold && (Math.Abs(deltaPos.x) > posXminThreshold && Math.Abs(deltaPos.y) > posYminThreshold))
         {
             activity = behavior.POUNDING;
+            Debug.Log(activity);
             if (activity != lastKnown && lastKnown != behavior.NONE) //user isn't hitting object in line with any behavior
                 resetTracking();
             else
@@ -118,5 +115,6 @@ public class AdvancedToolScript : MonoBehaviour {
         activity = behavior.NONE;
         lastKnown = behavior.NONE;
         force = 0;
+        Debug.Log("Reset Tracking");
     }
 }
