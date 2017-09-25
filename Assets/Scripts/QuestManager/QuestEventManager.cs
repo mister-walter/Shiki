@@ -132,6 +132,7 @@ namespace Shiki.Quests {
         }
 
         public void OnObjectMergeEvent(ObjectMergeEvent evt) {
+            Debug.Log("Objects merged");
             InteractionEvent ievt = new InteractionEvent();
             ievt.kind = InteractionKind.Merge;
             ievt.sourceObject = evt.obj1;
