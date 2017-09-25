@@ -181,5 +181,29 @@ namespace Shiki.EventSystem.Events {
             this.dropTarget = dropTarget;
         }
     }
+
+    public class PlaySoundEvent : IGameEvent {
+        public string soundName;
+        public PlaySoundEvent(string soundName) {
+            this.soundName = soundName;
+        }
+    }
+
+    public class ShowTextEvent : IGameEvent {
+        public string text;
+        public ShowTextEvent(string text) {
+            this.text = text;
+        }
+    }
+
+    public class ObjectMergeEvent : IGameEvent {
+        public GameObject obj1;
+        public GameObject obj2;
+
+        public ObjectMergeEvent(GameObject obj1, GameObject obj2) {
+            this.obj1 = obj1;
+            this.obj2 = obj2;
+        }
+    }
 }
 

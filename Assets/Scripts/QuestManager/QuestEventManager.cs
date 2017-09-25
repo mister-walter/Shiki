@@ -131,6 +131,14 @@ namespace Shiki.Quests {
             this.UpdateTasks(ievt, false);
         }
 
+        public void OnObjectMergeEvent(ObjectMergeEvent evt) {
+            InteractionEvent ievt = new InteractionEvent();
+            ievt.kind = InteractionKind.Merge;
+            ievt.sourceObject = evt.obj1;
+            ievt.targetObject = evt.obj2;
+            this.UpdateTasks(ievt, false);
+        }
+
         private void AttachHandlers() {
             EventManager.AttachDelegate<ObjectPlacedInSeasonFinishedEvent>(this.OnObjectPlacedInSeasonFinishedEvent);
             EventManager.AttachDelegate<PlayerEnteredAreaEvent>(this.OnPlayerEnteredAreaEvent);
@@ -139,6 +147,7 @@ namespace Shiki.Quests {
             EventManager.AttachDelegate<ObjectRetrievedEvent>(this.OnObjectRetrievedEvent);
             EventManager.AttachDelegate<ObjectHitEvent>(this.OnObjectHitEvent);
             EventManager.AttachDelegate<ObjectDroppedOntoDropTargetEvent>(this.OnObjectDroppedOntoDropTargetEvent);
+            EventManager.AttachDelegate<ObjectMergeEvent>(this.OnObjectMergeEvent);
         }
 
         private void DetachHandlers() {
@@ -149,6 +158,7 @@ namespace Shiki.Quests {
             EventManager.RemoveDelegate<ObjectRetrievedEvent>(this.OnObjectRetrievedEvent);
             EventManager.RemoveDelegate<ObjectHitEvent>(this.OnObjectHitEvent);
             EventManager.RemoveDelegate<ObjectDroppedOntoDropTargetEvent>(this.OnObjectDroppedOntoDropTargetEvent);
+            EventManager.RemoveDelegate<ObjectMergeEvent>(this.OnObjectMergeEvent);
         }
     }
     #endregion

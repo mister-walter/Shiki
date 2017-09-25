@@ -236,7 +236,16 @@ namespace Shiki.Quests {
                         evt = new TaskCompletedChangeEvent(pR.obj2, pR.obj1);
                         break;
                     case InteractionKind.Play:
-                        evt = new TaskCompletedUIEvent(pR.uiEventKind, pR.obj1);
+                        switch(pR.uiEventKind) {
+                            case UIActionKind.Dialog:
+                                evt = new ShowTextEvent(pR.obj1);
+                                break;
+                            case UIActionKind.Sound:
+                                evt = new PlaySoundEvent(pR.obj1);
+                                break;
+                            default:
+                                throw new ArgumentException("Play must be followed by Dialog or Sound");
+                        }
                         break;
                     case InteractionKind.Get:
                         evt = new TaskCompletedGetObjectEvent(pR.obj1);
