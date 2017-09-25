@@ -63,10 +63,10 @@ public class GrabObjects : MonoBehaviour {
 
     private void SetCollidingObject(Collider c) {
         // can't grab the thing if it's not a rigidbody or if player is already holding something
-        if(collidingObj || !c.GetComponent<Rigidbody>()) {
+        if(collidingObj || !c.attachedRigidbody) {
             return;
         }
-        collidingObj = c.gameObject;
+        collidingObj = c.attachedRigidbody.gameObject;
     }
 
     private void GrabObject() {

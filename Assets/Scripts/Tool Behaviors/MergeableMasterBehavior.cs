@@ -4,7 +4,7 @@ using UnityEngine;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
 
-public class MergeableBehavior : MonoBehaviour {
+public class MergeableMasterBehavior : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -17,8 +17,9 @@ public class MergeableBehavior : MonoBehaviour {
 	}
 
     private void OnCollisionEnter(Collision collision) {
-        if(collision.collider.gameObject.GetComponent<MergeableBehavior>() != null) {
-            EventManager.FireEvent(new ObjectMergeEvent(this.gameObject, collision.collider.gameObject));
+        Debug.Log("On collision enter");
+        if (collision.rigidbody && collision.rigidbody.gameObject.GetComponent<MergeableSlaveBehavior>() != null) {
+            EventManager.FireEvent(new ObjectMergeEvent(this.gameObject, collision.rigidbody.gameObject));
         }
     }
 }
