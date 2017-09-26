@@ -48,7 +48,7 @@ public class WieldTool : MonoBehaviour {
             if (controller.GetPressDown(triggerButton))
             {
                 Debug.Log("Double click");
-                if(collidingObj.GetComponent<ToolScript>())
+                if(collidingObj.GetComponent<ToolScript>() != null)
                 {
                     GrabObject();
                 }
@@ -70,7 +70,7 @@ public class WieldTool : MonoBehaviour {
         
 
         // grip button let go of
-        if (controller.GetPressUp(gripButton))
+        if (controller.GetPressDown(gripButton))
         {
             if (objInHand)
             {
@@ -115,9 +115,18 @@ public class WieldTool : MonoBehaviour {
         objInHand = collidingObj;
         collidingObj = null;
 
+        Vector3 hand = gameObject.transform.position;
+        Quaternion angle = gameObject.transform.rotation;
+
+        objInHand.transform.position = hand; //set position of tool to hand position
+        objInHand.transform.rotation = angle; //set rotation of tool to hand rotation
+        objInHand.transform.Rotate(90, 0, 0, Space.Self); //adjust rotation for pointing tool
+        objInHand.transform.Translate(0, 0.5f, 0, Space.Self); //adjust position for where tool is in hand
+
         // this connects the new object to the controller so it acts as part of the controller collision-wise
         var joint = AddFixedJoint();
         joint.connectedBody = objInHand.GetComponent<Rigidbody>();
+        //objInHand.transform.localPosition.Set(0, 0, 0);
 
         // Get the seasonal effect of the object, if any
         var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
