@@ -56,10 +56,12 @@ public class ATS_switchv : MonoBehaviour {
         deltaTime = (Int32)newTime.Subtract(oldTime).TotalMilliseconds;
         deltaNormal = newNormal - oldNormal;
 
-        string debug = "oldPos: " + oldPos + "\tnewPos: " + newPos + "\tdeltaPos: " + deltaPos +
-                       "\noldTime: " + oldTime + "\tnewTime: " + newTime + "\tdeltaTime: " + deltaTime +
-                       "\noldNormal: " + oldNormal + "\tnewNormal: " + newNormal + "\tdeltaNormal: " + deltaNormal;
-        Debug.Log(debug);
+        string debug1 = "oldPos: " + oldPos + "\tnewPos: " + newPos + "\tdeltaPos: " + deltaPos;
+        string debug2 = "oldTime: " + oldTime + "\tnewTime: " + newTime + "\tdeltaTime: " + deltaTime;
+        string debug3 = "oldNormal: " + oldNormal + "\tnewNormal: " + newNormal + "\tdeltaNormal: " + deltaNormal;
+        Debug.Log(debug1);
+        Debug.Log(debug2);
+        Debug.Log(debug3);
 
         //increment number of collisions detected
         numHits += 1;
