@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using Shiki.EventSystem;
+using Shiki.EventSystem.Events;
 
 public class WieldTool : MonoBehaviour {
 
@@ -18,11 +20,14 @@ public class WieldTool : MonoBehaviour {
 
     // reference to object being tracked
     private SteamVR_TrackedObject trackedObj;
+    // reference to object colliding with trigger
+    private GameObject collidingObj;
+    // reference to object in hand
+    private GameObject objInHand;
 
-    //public delegate void ClickAction();
-    //public static event ClickAction OnDoubleClick;
     private bool firstClick = false; //true when player clicks trigger button for the first time
     private float clickTimer = 0.0f;
+    
 
     // Use this for initialization
     void Start () {
@@ -31,10 +36,7 @@ public class WieldTool : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(controller.GetPressDown(triggerButton) && !firstClick)
-        {
-            StartCoroutine(DoubleClick());
-        }
+        CheckButtonStatus();
 	}
 
     private IEnumerator DoubleClick()
@@ -46,6 +48,10 @@ public class WieldTool : MonoBehaviour {
             if (controller.GetPressDown(triggerButton))
             {
                 Debug.Log("Double click");
+                if(collidingObj.GetComponent<ToolScript>())
+                {
+                    GrabObject();
+                }
                 break;
             }
             clickTimer += Time.deltaTime;
@@ -53,22 +59,95 @@ public class WieldTool : MonoBehaviour {
         }
         firstClick = false;
         clickTimer = 0.0f;
-        
     }
 
-    /*
-     *
-     * fuck it, I'll finish this later 
-     * 
-     * (but basically, if the player double clicks the trigger button near the tool object, they 
-     *  will then wield the tool object. This will prevent hand fatigue since they won't have to 
-     *  physically be holding the tool the entire time they want to use it. This will also orient
-     *  the tool in such a way that it's always in the proper position in their hand, so that it 
-     *  doesn't matter what angle their hand approaches it from when they go to pick it up. When 
-     *  they are done holding the tool and want to drop it, they will double click the trigger 
-     *  button again and the tool will drop. While they're holding the tool, they should not be 
-     *  allowed to pick up another object with that hand. This script, once working, should probably 
-     *  just be added as an extension of GrabObject.cs so that we don't have two competing functionalities.)
-     * 
-     */
+    private void CheckButtonStatus()
+    {
+        if (controller.GetPressUp(triggerButton) && !firstClick)
+        {
+            StartCoroutine(DoubleClick());
+        }
+        
+
+        // grip button let go of
+        if (controller.GetPressUp(gripButton))
+        {
+            if (objInHand)
+            {
+                ReleaseObject();
+            }
+        }
+    }
+
+    public void OnTriggerEnter(Collider c)
+    {
+        //		Debug.Log("Tigger entered");
+        SetCollidingObject(c);
+    }
+
+    public void OnTriggerStay(Collider c)
+    {
+        SetCollidingObject(c);
+    }
+
+    public void OnTriggerExit(Collider c)
+    {
+        //		Debug.Log("Tigger exited");
+        if (!collidingObj)
+        {
+            return;
+        }
+        collidingObj = null;
+    }
+
+    private void SetCollidingObject(Collider c)
+    {
+        // can't grab the thing if it's not a rigidbody or if player is already holding something
+        if (collidingObj || !c.GetComponent<Rigidbody>())
+        {
+            return;
+        }
+        collidingObj = c.gameObject;
+    }
+
+    private void GrabObject()
+    {
+        objInHand = collidingObj;
+        collidingObj = null;
+
+        // this connects the new object to the controller so it acts as part of the controller collision-wise
+        var joint = AddFixedJoint();
+        joint.connectedBody = objInHand.GetComponent<Rigidbody>();
+
+        // Get the seasonal effect of the object, if any
+        var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
+        // Fire an event to notify any listeners
+        GameEventSystem.FireEvent(new ObjectPickedUpEvent(objInHand, seasonalEffect));
+    }
+
+    private FixedJoint AddFixedJoint()
+    {
+        FixedJoint fx = gameObject.AddComponent<FixedJoint>();
+        fx.breakForce = 20000;
+        fx.breakTorque = 20000;
+        return fx;
+    }
+
+    private void ReleaseObject()
+    {
+        if (GetComponent<FixedJoint>())
+        {
+            GetComponent<FixedJoint>().connectedBody = null;
+            Destroy(GetComponent<FixedJoint>());
+
+            objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
+            objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
+
+            // Get the seasonal effect of the object, if any
+            var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
+            // Fire an event to notify any listeners
+            GameEventSystem.FireEvent(new ObjectPlacedEvent(objInHand, seasonalEffect));
+        }
+        objInHand = null;
+    }
 }
