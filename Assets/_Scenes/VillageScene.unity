@@ -44467,7 +44467,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1557576071718292, guid: fbe9e4d7b1c3c8a4c9cb43dab425d737, type: 2}
       propertyPath: m_Name
-      value: Tool
+      value: MultiTool
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fbe9e4d7b1c3c8a4c9cb43dab425d737, type: 2}

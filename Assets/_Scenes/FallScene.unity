@@ -6012,6 +6012,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 45
       objectReference: {fileID: 0}
+    - target: {fileID: 156964, guid: 4a78a3412fcbf8a46b113062b19b4e44, type: 2}
+      propertyPath: m_Name
+      value: Sickle
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6599578, guid: 4a78a3412fcbf8a46b113062b19b4e44, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 4a78a3412fcbf8a46b113062b19b4e44, type: 2}

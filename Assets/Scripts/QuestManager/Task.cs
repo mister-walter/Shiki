@@ -179,7 +179,6 @@ namespace Shiki.Quests {
             // check that the two objects are the ones we're looking for
             case InteractionKind.Merge:
                 pred = (InteractionEvent evt) => {
-                    Debug.Log(string.Format("{0} {1} {2} {3}", evt.sourceObject.name, evt.targetObject.name, pR.obj1, pR.obj2));
                     return (evt.sourceObject.name == pR.obj1 && evt.targetObject.name == pR.obj2)
                         || (evt.targetObject.name == pR.obj1 && evt.sourceObject.name == pR.obj2);
                 };

@@ -56,6 +56,10 @@ namespace Shiki.Quests {
                 // if child not complete, and updating child doesn't complete the child, allChildrenComplete = false
             }
 
+            if(tn.Children.Count > 0 && allChildrenComplete) {
+                Debug.Log("All children complete");
+            }
+
             if((doAll || !tn.AssociatedTask.isComplete) &&
                (allChildrenComplete && (tn.AssociatedTask.trigger == null || tn.AssociatedTask.trigger(evt)))) {
                 tn.AssociatedTask.isComplete = true;
@@ -116,7 +120,6 @@ namespace Shiki.Quests {
         }
 
         private void OnObjectHitEvent(ObjectHitEvent evt) {
-            Debug.Log("Object hit event");
             InteractionEvent ievt = new InteractionEvent();
             ievt.kind = InteractionKind.Hit;
             ievt.targetObject = evt.hitObject;
@@ -132,7 +135,6 @@ namespace Shiki.Quests {
         }
 
         public void OnObjectMergeEvent(ObjectMergeEvent evt) {
-            Debug.Log("Objects merged");
             InteractionEvent ievt = new InteractionEvent();
             ievt.kind = InteractionKind.Merge;
             ievt.sourceObject = evt.obj1;
@@ -143,7 +145,7 @@ namespace Shiki.Quests {
         private void AttachHandlers() {
             EventManager.AttachDelegate<ObjectPlacedInSeasonFinishedEvent>(this.OnObjectPlacedInSeasonFinishedEvent);
             EventManager.AttachDelegate<PlayerEnteredAreaEvent>(this.OnPlayerEnteredAreaEvent);
-            //EventManager.AttachDelegate<PlayerOpenedInventoryEvent>(this.OnPlayerOpenedInventoryEvent);
+            EventManager.AttachDelegate<PlayerOpenedInventoryEvent>(this.OnPlayerOpenedInventoryEvent);
             EventManager.AttachDelegate<ObjectStoredEvent>(this.OnObjectStoredEvent);
             EventManager.AttachDelegate<ObjectRetrievedEvent>(this.OnObjectRetrievedEvent);
             EventManager.AttachDelegate<ObjectHitEvent>(this.OnObjectHitEvent);
@@ -154,7 +156,7 @@ namespace Shiki.Quests {
         private void DetachHandlers() {
             EventManager.RemoveDelegate<ObjectPlacedInSeasonFinishedEvent>(this.OnObjectPlacedInSeasonFinishedEvent);
             EventManager.RemoveDelegate<PlayerEnteredAreaEvent>(this.OnPlayerEnteredAreaEvent);
-           // EventManager.RemoveDelegate<PlayerOpenedInventoryEvent>(this.OnPlayerOpenedInventoryEvent);
+            EventManager.RemoveDelegate<PlayerOpenedInventoryEvent>(this.OnPlayerOpenedInventoryEvent);
             EventManager.RemoveDelegate<ObjectStoredEvent>(this.OnObjectStoredEvent);
             EventManager.RemoveDelegate<ObjectRetrievedEvent>(this.OnObjectRetrievedEvent);
             EventManager.RemoveDelegate<ObjectHitEvent>(this.OnObjectHitEvent);

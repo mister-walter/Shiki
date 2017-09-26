@@ -1,19 +1,37 @@
 [[TemporaryTask]]
-Name = "Test"
-Trigger = "Item Foo Hit Item TestCube"
-OnComplete = "Item TestCube Become Item TestSphere"
-
-[[TemporaryTask]]
-Name = "Test2"
-Trigger = "Player Enter Location Winter"
-OnComplete = "Item TestSphere Become Item TestCube"
-
-[[TemporaryTask]]
-Name = "Test3"
-Trigger = "Merge Item Axe And Item Tool"
+Name = "CompleteMultitool"
+SubTask = "MergeShovel MergeAxe MergeShears MergeMallet"
 OnComplete = "Play Sound jupee"
+#Trigger = 
+#OnComplete = "Item MultiTool Become Item FinishedMultitool"
 
 [[TemporaryTask]]
-Name = "Test4"
-Trigger = "Player Enter Location Fall"
-OnComplete = "Play Sound jupee"
+Name = "MergeShovel"
+#SubTask = 
+Trigger = "Player Merge Item MultiTool And Item Shovel"
+#OnComplete = 
+
+[[TemporaryTask]]
+Name = "MergeAxe"
+#SubTask = 
+Trigger = "Player Merge Item MultiTool And Item Axe"
+#OnComplete = 
+
+[[TemporaryTask]]
+Name = "MergeMallet"
+#SubTask = 
+Trigger = "Player Merge Item MultiTool And Item Hammer"
+#OnComplete = 
+
+[[TemporaryTask]]
+Name = "MergeShears"
+#SubTask = 
+Trigger = "Player Merge Item MultiTool And Item Sickle"
+#OnComplete = 
+
+#[[TemporaryTask]]
+#Name = "MergeNeedle"
+#SubTask = 
+#Trigger = "Player Merge Item MultiTool And Item Needle"
+#OnComplete = 
+

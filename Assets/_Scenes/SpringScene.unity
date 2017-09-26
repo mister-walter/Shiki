@@ -5639,6 +5639,10 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 134250, guid: 4002d0ec3a96a464a9070409be1ade68, type: 2}
+      propertyPath: m_Name
+      value: Hammer
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4002d0ec3a96a464a9070409be1ade68, type: 2}
   m_IsPrefabParent: 0

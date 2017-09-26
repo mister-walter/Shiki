@@ -1958,6 +1958,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 174154, guid: df49161344bb1984fa65e7ccd3a06653, type: 2}
+      propertyPath: m_Name
+      value: Shovel
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: df49161344bb1984fa65e7ccd3a06653, type: 2}
   m_IsPrefabParent: 0

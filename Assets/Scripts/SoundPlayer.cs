@@ -17,7 +17,6 @@ public class SoundPlayer : MonoBehaviour {
     }
 
     void OnPlaySoundEvent(PlaySoundEvent evt) {
-        Debug.Log("Got PlaySoundEvent");
         var audioClip = Resources.Load<AudioClip>("Sounds/" + evt.soundName);
         this.audioSource.PlayOneShot(audioClip);
     }
