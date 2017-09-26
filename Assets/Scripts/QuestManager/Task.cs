@@ -371,7 +371,7 @@ namespace Shiki.Quests {
                     if(lookup.TryGetValue(st, out proposedChild)) {
                         proposedChild.Parent = item;
                         item.Children.Add(proposedChild);
-					} else {
+					} else if(!String.IsNullOrEmpty(st)) {
 						throw new Exception("Could not find subtask with name '" + st + "'.");
 					}
                 }
