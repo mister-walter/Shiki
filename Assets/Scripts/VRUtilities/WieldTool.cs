@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class WieldTool : MonoBehaviour {
@@ -18,6 +19,11 @@ public class WieldTool : MonoBehaviour {
     // reference to object being tracked
     private SteamVR_TrackedObject trackedObj;
 
+    //public delegate void ClickAction();
+    //public static event ClickAction OnDoubleClick;
+    private bool firstClick = false; //true when player clicks trigger button for the first time
+    private float clickTimer = 0.0f;
+
     // Use this for initialization
     void Start () {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
@@ -25,8 +31,30 @@ public class WieldTool : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(controller.GetPressDown(triggerButton) && !firstClick)
+        {
+            StartCoroutine(DoubleClick());
+        }
 	}
+
+    private IEnumerator DoubleClick()
+    {
+        yield return new WaitForEndOfFrame();
+        firstClick = true;
+        while (clickTimer < 0.2f)
+        {
+            if (controller.GetPressDown(triggerButton))
+            {
+                Debug.Log("Double click");
+                break;
+            }
+            clickTimer += Time.deltaTime;
+            yield return null;
+        }
+        firstClick = false;
+        clickTimer = 0.0f;
+        
+    }
 
     /*
      *
