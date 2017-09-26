@@ -68,7 +68,7 @@ Trigger = "Player PickUp Item Bucket"
 
 [[TemporaryTask]]
 Name = "EnterSpring"
-SubTask = "PlantYorishiro"
+#SubTask = "PlantYorishiro"
 Trigger = "Player Enter Location Spring"
 
 [[TemporaryTask]]

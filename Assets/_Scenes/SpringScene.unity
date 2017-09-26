@@ -5752,6 +5752,7 @@ GameObject:
   - component: {fileID: 831696897}
   - component: {fileID: 831696896}
   - component: {fileID: 831696900}
+  - component: {fileID: 831696901}
   m_Layer: 0
   m_Name: River
   m_TagString: Untagged
@@ -5838,6 +5839,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &831696901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 831696895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63d4ad71b64760641bf1c1070561cfac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &834408113
 Prefab:
   m_ObjectHideFlags: 0
