@@ -8,6 +8,7 @@ using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
 using Shiki.EventSystem.InternalEvents;
 using Shiki.Constants;
+using System;
 
 namespace Shiki.Inventory {
     /// <summary>
@@ -15,17 +16,23 @@ namespace Shiki.Inventory {
     /// </summary>
     public class InventoryItemBehavior : MonoBehaviour {
         internal InventoryTarget target;
+        private Vector3 oldScale;
+        private float cubeSize = 0.25f;
         //TODO: change this to a collection that stores insertion order
         // this is so that we can put the item in the most recently entered inventory target (which seems to be more convenient)
         internal HashSet<InventoryTarget> currentTargets;
-        private GameObject inventoryManager;
+        private GameObject inventoryManager {
+            get {
+                return InventoryManagerSingleton.GetInventoryManager();
+            }
+        }
         private Transform oldParent;
         private Scene oldScene;
 
         // Use this for initialization
         void Start() {
+            this.oldScale = this.gameObject.transform.lossyScale;
             this.currentTargets = new HashSet<InventoryTarget>();
-            this.inventoryManager = InventoryManagerSingleton.GetInventoryManager();
             EventManager.AttachDelegate<ObjectPlacedOnInventoryTargetEvent>(this.OnObjectPlacedInInventory);
             EventManager.AttachDelegate<ObjectRemovedFromInventoryTargetEvent>(this.OnObjectRemovedFromInventory);
         }
@@ -44,8 +51,10 @@ namespace Shiki.Inventory {
 
         internal void PositionObjectInsideTarget(InventoryTarget aTarget) {
             var rigidBody = this.gameObject.GetComponent<Rigidbody>();
-            this.gameObject.transform.rotation = Quaternion.identity;
+            ScaleToFit(cubeSize);
+            this.gameObject.transform.rotation = aTarget.transform.rotation;
             this.gameObject.transform.position = aTarget.transform.position;
+
             rigidBody.velocity = Vector3.zero;
             rigidBody.angularVelocity = Vector3.zero;
             rigidBody.useGravity = false;
@@ -56,12 +65,25 @@ namespace Shiki.Inventory {
             this.gameObject.transform.SetParent(this.inventoryManager.transform);
         }
 
+        internal void ScaleToFit(float size) {
+            var extents = this.gameObject.GetComponent<MeshFilter>().mesh.bounds.extents;
+            extents.x *= this.gameObject.transform.lossyScale.x;
+            extents.y *= this.gameObject.transform.lossyScale.y;
+            extents.z *= this.gameObject.transform.lossyScale.z;
+            var maxDim = Mathf.Max(extents.x, extents.y, extents.z);
+            var currentScale = this.gameObject.transform.localScale.x;
+            float scale = currentScale * size * 0.5f / maxDim;
+            this.gameObject.transform.localScale = new Vector3(scale, scale, scale);
+        }
+
         void OnObjectRemovedFromInventory(ObjectRemovedFromInventoryTargetEvent evt) {
             if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
+                this.gameObject.transform.localScale = oldScale;
                 var rigidBody = this.gameObject.GetComponent<Rigidbody>();
                 rigidBody.useGravity = true;
                 this.gameObject.transform.SetParent(this.oldParent);
                 SceneManager.MoveGameObjectToScene(this.gameObject, this.oldScene);
+                EventManager.FireEvent(new ObjectRetrievedEvent(this.gameObject));
             }
         }
 

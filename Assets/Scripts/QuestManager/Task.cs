@@ -137,7 +137,16 @@ namespace Shiki.Quests {
             task.onComplete = null;
 
             task.subTasks = tempTask.SubTask.Split(' ');
-            task.trigger = CreateTriggerFunction(tempTask.Trigger);
+            //task.trigger = CreateTriggerFunction(tempTask.Trigger);
+            var originalTrigger = CreateTriggerFunction(tempTask.Trigger);
+            task.trigger = (InteractionEvent evt) => {
+                Debug.Log(string.Format("Checking trigger for task {0}", tempTask.Name));
+                var res = originalTrigger(evt);
+                if(res) {
+                    Debug.Log("Trigger was true!");
+                }
+                return res;
+            };
             task.onComplete = CreateOnCompleteFunction(tempTask.OnComplete);
             return task;
         }
@@ -153,69 +162,76 @@ namespace Shiki.Quests {
 
             // Don't worry about checking for the kind inside these predicates, we'll add that before we return
             switch(pR.interactionKind) {
-            case InteractionKind.Enter:
-                pred = (InteractionEvent evt) => pR.location == evt.location;
-                break;
-            // For this group, we just check that the object names match.
-            case InteractionKind.Store:
-            case InteractionKind.Retrieve:
-            case InteractionKind.Get:
-                pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name;
-                break;
-            case InteractionKind.Drop:
-                if(pR.obj1 == string.Empty) {
-                    pred = (InteractionEvent evt) => pR.obj2 == evt.targetObject.name;
-                } else {
-                    pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name && pR.obj2 == evt.targetObject.name;
-                }
-                break;
-            // TODO: Hack to work around current lack of activity recognition
-            case InteractionKind.Cut:
-            case InteractionKind.Dig:
-            case InteractionKind.Hit:
-            case InteractionKind.Grind:
-                pred = (InteractionEvent evt) => pR.obj1 == evt.targetObject.name;
-                break;
-            // check that the two objects are the ones we're looking for
-            case InteractionKind.Merge:
-                pred = (InteractionEvent evt) => {
-                    return (evt.sourceObject.name == pR.obj1 && evt.targetObject.name == pR.obj2)
-                        || (evt.targetObject.name == pR.obj1 && evt.sourceObject.name == pR.obj2);
-                };
-                break;
-            // For this group we don't need any extra logic.
-            case InteractionKind.Open:
-                pred = (InteractionEvent evt) => true;
-                break;
-            default:
-                throw new NotImplementedException(string.Format("Support for this interaction kind is not yet implemented: {0}", pR.interactionKind));
+                case InteractionKind.Enter:
+                    pred = (InteractionEvent evt) => pR.location == evt.location;
+                    break;
+                // For this group, we just check that the object names match.
+                case InteractionKind.Store:
+                case InteractionKind.Retrieve:
+                case InteractionKind.Get:
+                case InteractionKind.PickUp:
+                    pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name;
+                    break;
+                case InteractionKind.Drop:
+                    if(pR.obj1 == string.Empty) {
+                        pred = (InteractionEvent evt) => pR.obj2 == evt.targetObject.name;
+                    } else {
+                        pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name && pR.obj2 == evt.targetObject.name;
+                    }
+                    break;
+                // TODO: Hack to work around current lack of activity recognition
+                case InteractionKind.Cut:
+                case InteractionKind.Dig:
+                case InteractionKind.Hit:
+                case InteractionKind.Grind:
+                    pred = (InteractionEvent evt) => {
+                        Debug.Log(string.Format("Hit event: {0} {1} {2} {3}", evt.sourceObject.name, evt.targetObject.name, pR.obj1, pR.obj2));
+                        return pR.obj2 == evt.targetObject.name;
+                    };
+                    break;
+                // check that the two objects are the ones we're looking for
+                case InteractionKind.Merge:
+                    pred = (InteractionEvent evt) => {
+                        return (evt.sourceObject.name == pR.obj1 && evt.targetObject.name == pR.obj2)
+                            || (evt.targetObject.name == pR.obj1 && evt.sourceObject.name == pR.obj2);
+                    };
+                    break;
+                // For this group we don't need any extra logic.
+                case InteractionKind.Open:
+                    pred = (InteractionEvent evt) => true;
+                    break;
+                default:
+                    throw new NotImplementedException(string.Format("Support for this interaction kind is not yet implemented: {0}", pR.interactionKind));
             }
 
             Predicate<InteractionEvent> finalPred;
             // Add the check for event kind
             switch(pR.interactionKind) {
-            // TODO: Hack to work around current lack of activity recognition
-            case InteractionKind.Cut:
-            case InteractionKind.Dig:
-            case InteractionKind.Hit:
-            case InteractionKind.Grind:
-                finalPred = (InteractionEvent evt) => {
-                    if(evt.kind == InteractionKind.Hit) {
-                        return pred(evt);
-                    } else {
-                        return false;
-                    }
-                };
-                break;
-            default:
-                finalPred = (InteractionEvent evt) => {
-                    if(evt.kind == pR.interactionKind) {
-                        return pred(evt);
-                    } else {
-                        return false;
-                    }
-                };
-                break;
+                // TODO: Hack to work around current lack of activity recognition
+                case InteractionKind.Cut:
+                case InteractionKind.Dig:
+                case InteractionKind.Hit:
+                case InteractionKind.Grind:
+                    finalPred = (InteractionEvent evt) => {
+                        Debug.Log(string.Format("kind inside hit: {0},{1},{2}", pR.interactionKind, evt.kind, pR.obj1));
+                        if(evt.kind == InteractionKind.Hit) {
+                            Debug.Log("Got a hit event inside outer pred");
+                            return pred(evt);
+                        } else {
+                            return false;
+                        }
+                    };
+                    break;
+                default:
+                    finalPred = (InteractionEvent evt) => {
+                        Debug.Log(string.Format("kind: {0},{1},{2}", pR.interactionKind, evt.kind, pR.obj1));
+                        if(evt.kind == pR.interactionKind) {
+                            return pred(evt);
+                        } else {
+                            return false;
+                        }
+                    };
+                    break;
             }
 
             return finalPred;
@@ -227,31 +243,37 @@ namespace Shiki.Quests {
         /// <returns>The on complete function in the form of an Action.</returns>
         /// <param name="oc">OnComplete function in string form.</param>
         public static Action CreateOnCompleteFunction(string oc) {
+            if(string.IsNullOrEmpty(oc)) {
+                return () => { };
+            }
             ParsingResult pR = ParseString(oc);
 
             Action ac = () => {
                 IGameEvent evt;
                 switch(pR.interactionKind) {
-                case InteractionKind.Become:
-                    evt = new TaskCompletedChangeEvent(pR.obj2, pR.obj1);
-                    break;
-                case InteractionKind.Play:
-                    switch(pR.uiEventKind) {
-                    case UIActionKind.Dialog:
-                        evt = new ShowTextEvent(pR.obj1);
+                    case InteractionKind.Become:
+                        Debug.Log("Become InteractionKind");
+                        Debug.Log(string.Format("{0} {1}", pR.obj1, pR.obj2));
+                        evt = new TaskCompletedChangeEvent(pR.obj1, pR.obj2);
                         break;
-                    case UIActionKind.Sound:
-                        evt = new PlaySoundEvent(pR.obj1);
+                    case InteractionKind.Play:
+                        switch(pR.uiEventKind) {
+                            case UIActionKind.Dialog:
+                                evt = new ShowTextEvent(pR.obj1);
+                                break;
+                            case UIActionKind.Sound:
+                                evt = new PlaySoundEvent(pR.obj1);
+                                break;
+                            default:
+                                throw new ArgumentException("Play must be followed by Dialog or Sound");
+                        }
+                        break;
+                    case InteractionKind.Get:
+                        Debug.Log(string.Format("Get {0} {1}", pR.obj1, pR.obj2));
+                        evt = new TaskCompletedGetObjectEvent(pR.obj1);
                         break;
                     default:
-                        throw new ArgumentException("Play must be followed by Dialog or Sound");
-                    }
-                    break;
-                case InteractionKind.Get:
-                    evt = new TaskCompletedGetObjectEvent(pR.obj1);
-                    break;
-                default:
-                    throw new ArgumentException(string.Format("Invalid interaction kind in OnComplete: {0} (OnComplete string: {1})", pR.interactionKind, oc));
+                        throw new ArgumentException(string.Format("Invalid interaction kind in OnComplete: {0} (OnComplete string: {1})", pR.interactionKind, oc));
                 }
                 EventManager.FireEvent(evt);
             };
@@ -317,8 +339,8 @@ namespace Shiki.Quests {
                             obj2 = toParse[i];  // target item = this current item
                             obj2Quantity = tempQuantity;
                         }
-                    } else if(action == InteractionKind.Become && i + 1 < length) {
-                        i++;
+                    } else if(action == InteractionKind.Become) {
+                        //i++;
                         // in the case of an OnComplete being parsed:
                         obj2 = toParse[i];
                         obj2Quantity = tempQuantity;
@@ -334,12 +356,19 @@ namespace Shiki.Quests {
                     i++;
                     location = toParse[i];
                 } else if(Enum.TryParse<InteractionKind>(toParse[i], out action)) {
-                    if(toParse[i].Equals("Become")) { // again if an objects interact, set interaction type
-                        objToObjIntrcType = toParse[i];
-                    } else if(toParse[i].Equals("Play") && i + 2 < length) {
+                    Debug.Log(string.Format("ikind: {0}", action));
+                    if(action == InteractionKind.Play) {
+                        Debug.Log("Found a play statement");
                         Enum.TryParse<UIActionKind>(toParse[++i], out uiEventKind);
                         obj1 = toParse[++i];
                     }
+                    //if(toParse[i].Equals("Become")) { // again if an objects interact, set interaction type
+                    //    objToObjIntrcType = toParse[i];
+                    //    action = InteractionKind.Become;
+                    //} else if(toParse[i].Equals("Play") && i + 2 < length) {
+                    //    Enum.TryParse<UIActionKind>(toParse[++i], out uiEventKind);
+                    //    obj1 = toParse[++i];
+                    //}
                 }
             }
 
@@ -371,9 +400,9 @@ namespace Shiki.Quests {
                     if(lookup.TryGetValue(st, out proposedChild)) {
                         proposedChild.Parent = item;
                         item.Children.Add(proposedChild);
-					} else if(!String.IsNullOrEmpty(st)) {
-						throw new Exception("Could not find subtask with name '" + st + "'.");
-					}
+                    } else if(!String.IsNullOrEmpty(st)) {
+                        throw new Exception("Could not find subtask with name '" + st + "'.");
+                    }
                 }
 
             }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Shiki;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
 
@@ -17,7 +18,7 @@ public class SoundPlayer : MonoBehaviour {
     }
 
     void OnPlaySoundEvent(PlaySoundEvent evt) {
-        var audioClip = Resources.Load<AudioClip>("Sounds/" + evt.soundName);
+        var audioClip = Shiki.Loader.LoadSound(evt.soundName);
         this.audioSource.PlayOneShot(audioClip);
     }
 }

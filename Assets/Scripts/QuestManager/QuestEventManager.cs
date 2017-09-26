@@ -22,8 +22,7 @@ namespace Shiki.Quests {
             saveDataManager = sdm;
         }
 
-        public void Init()
-        {
+        public void Init() {
             this.ReadSaves();
             this.AttachHandlers();
         }
@@ -56,12 +55,9 @@ namespace Shiki.Quests {
                 // if child not complete, and updating child doesn't complete the child, allChildrenComplete = false
             }
 
-            if(tn.Children.Count > 0 && allChildrenComplete) {
-                Debug.Log("All children complete");
-            }
-
             if((doAll || !tn.AssociatedTask.isComplete) &&
                (allChildrenComplete && (tn.AssociatedTask.trigger == null || tn.AssociatedTask.trigger(evt)))) {
+                Debug.Log(string.Format("Task {0} complete", tn.AssociatedTask.name));
                 tn.AssociatedTask.isComplete = true;
                 tn.AssociatedTask.onComplete();
                 return true;
@@ -120,9 +116,11 @@ namespace Shiki.Quests {
         }
 
         private void OnObjectHitEvent(ObjectHitEvent evt) {
+            Debug.Log("Object Hit");
             InteractionEvent ievt = new InteractionEvent();
             ievt.kind = InteractionKind.Hit;
             ievt.targetObject = evt.hitObject;
+            ievt.sourceObject = evt.tool;
             this.UpdateTasks(ievt, false);
         }
 
@@ -131,6 +129,13 @@ namespace Shiki.Quests {
             ievt.kind = InteractionKind.Drop;
             ievt.sourceObject = evt.droppedObject;
             ievt.targetObject = evt.dropTarget;
+            this.UpdateTasks(ievt, false);
+        }
+
+        private void OnObjectPickedUpEvent(ObjectPickedUpEvent evt) {
+            InteractionEvent ievt = new InteractionEvent();
+            ievt.kind = InteractionKind.PickUp;
+            ievt.sourceObject = evt.pickedUpObject;
             this.UpdateTasks(ievt, false);
         }
 
@@ -151,6 +156,7 @@ namespace Shiki.Quests {
             EventManager.AttachDelegate<ObjectHitEvent>(this.OnObjectHitEvent);
             EventManager.AttachDelegate<ObjectDroppedOntoDropTargetEvent>(this.OnObjectDroppedOntoDropTargetEvent);
             EventManager.AttachDelegate<ObjectMergeEvent>(this.OnObjectMergeEvent);
+            EventManager.AttachDelegate<ObjectPickedUpEvent>(this.OnObjectPickedUpEvent);
         }
 
         private void DetachHandlers() {
@@ -162,6 +168,7 @@ namespace Shiki.Quests {
             EventManager.RemoveDelegate<ObjectHitEvent>(this.OnObjectHitEvent);
             EventManager.RemoveDelegate<ObjectDroppedOntoDropTargetEvent>(this.OnObjectDroppedOntoDropTargetEvent);
             EventManager.RemoveDelegate<ObjectMergeEvent>(this.OnObjectMergeEvent);
+            EventManager.RemoveDelegate<ObjectPickedUpEvent>(this.OnObjectPickedUpEvent);
         }
     }
     #endregion
@@ -171,7 +178,7 @@ namespace Shiki.Quests {
     /// Tasks contain trigger and oncomplete functions in a language where most keywords are associated with one of the following enum values.
     /// </summary>
     public enum InteractionKind {
-        Get, Enter, Drop, Cut, Hit, Weave, Dig, Grind, Merge, Become, Open, Play, Store, Retrieve, None
+        Get, Enter, Drop, Cut, Hit, Weave, Dig, Grind, Merge, Become, Open, Play, Store, Retrieve, PickUp, None
     };
 
     /// <summary>

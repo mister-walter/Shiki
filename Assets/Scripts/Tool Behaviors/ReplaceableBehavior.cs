@@ -19,11 +19,10 @@ public class ReplaceableBehavior : MonoBehaviour {
     void OnTaskCompletedChangeEvent(TaskCompletedChangeEvent evt) {
         Debug.Log("Task completed change event recieved");
         if(evt.origObject == this.gameObject.name) {
-            var newObject = Instantiate(Resources.Load<GameObject>(evt.objectChangedTo));
+            var newObject = Shiki.Loader.LoadPrefabInstance(evt.objectChangedTo);
             SceneManager.MoveGameObjectToScene(newObject, this.gameObject.scene);
             newObject.transform.position = this.gameObject.transform.position;
             newObject.transform.rotation = this.gameObject.transform.rotation;
-            newObject.name = evt.objectChangedTo;
             Destroy(this.gameObject);
         }
     }

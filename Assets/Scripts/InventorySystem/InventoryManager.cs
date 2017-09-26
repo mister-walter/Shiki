@@ -62,7 +62,7 @@ namespace Shiki.Inventory {
         }
 
         void OnTaskCompletedGetObjectEvent(TaskCompletedGetObjectEvent evt) {
-            var obj = Instantiate(Resources.Load<GameObject>(evt.objectToReceive));
+            var obj = Shiki.Loader.LoadPrefabInstance(evt.objectToReceive);
             this.AddToInventory(obj);
         }
 
@@ -82,6 +82,7 @@ namespace Shiki.Inventory {
         }
 
         void OnObjectRetrieved(ObjectEjectedByInventoryTargetEvent evt) {
+            Debug.Log("Object retrieved!");
             inventory.Remove(evt.ejectedObject);
             EventManager.FireEvent(new ObjectRetrievedEvent(evt.ejectedObject));
         }

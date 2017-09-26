@@ -69,11 +69,15 @@ namespace Shiki.ReaderWriter {
 
             // find the quest lists and tasks file
             if(File.Exists(questFilePath)) {
+                Debug.Log(string.Format("QuestFilePath {0}", questFilePath));
+                using(var sr = File.OpenText(questFilePath)) {
+                    Debug.Log(sr.ReadToEnd());
+                }
                 questFileStream = File.OpenRead(questFilePath);
                 taskTree = QuestReader.LoadQuestTasks(questFileStream, currentState);
                 questFileStream.Close();
             } else {
-                System.Console.WriteLine("File " + questFilePath + " was not found. Cannot run game properly.");
+                Debug.LogError("File " + questFilePath + " was not found. Cannot run game properly.");
                 return;
             }
 

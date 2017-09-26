@@ -164,9 +164,11 @@ namespace Shiki.EventSystem.Events {
 
     public class ObjectHitEvent : IGameEvent {
         public GameObject hitObject;
+        public GameObject tool;
 
-        public ObjectHitEvent(GameObject go) {
+        public ObjectHitEvent(GameObject go, GameObject tool) {
             this.hitObject = go;
+            this.tool = tool;
         }
     }
 
