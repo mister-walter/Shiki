@@ -7,11 +7,14 @@ using Shiki.Constants;
 public class MainSceneManager : MonoBehaviour {
 	void Start () {
         // Load all of the scenes, additively
+#if UNITY_EDITOR
+#else
         SceneManager.LoadSceneAsync(SceneName.Village, LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync(SceneName.Spring, LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync(SceneName.Summer, LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync(SceneName.Fall, LoadSceneMode.Additive);
         SceneManager.LoadSceneAsync(SceneName.Winter, LoadSceneMode.Additive);
+#endif
     }
 
     /// <summary>
