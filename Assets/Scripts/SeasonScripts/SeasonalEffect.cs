@@ -67,8 +67,7 @@ public class SeasonalEffect : MonoBehaviour {
                     break; //turns yellow
                 default:
                     this.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
-                    break;
-                    ; //turns to white
+                    break; //turns to white
             }
         }
     }

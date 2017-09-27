@@ -23,6 +23,10 @@ public class MainSceneManager : MonoBehaviour {
     }
 
     IEnumerator Start() {
+#if UNITY_EDITOR
+        // Needed to keep the compiler happy
+        yield return null;
+#else
         // Load all of the scenes, additively
         AsyncOperation[] sceneLoadOperations = {
             SceneManager.LoadSceneAsync(SceneName.Village, LoadSceneMode.Additive),
@@ -37,6 +41,7 @@ public class MainSceneManager : MonoBehaviour {
         foreach(var scene in this.GetAllScenes()) {
             yield return scene.AwaitLoad();
         }
+#endif
         EventManager.FireEvent(new AllScenesLoadedEvent());
         var saveDataManager = new SaveDataManager(
                 new TomlQuestReader(),
@@ -45,6 +50,7 @@ public class MainSceneManager : MonoBehaviour {
         );
         this.questEventManager = new QuestEventManager(saveDataManager);
         this.questEventManager.Init();
+        yield break;
     }
 
     /// <summary>
