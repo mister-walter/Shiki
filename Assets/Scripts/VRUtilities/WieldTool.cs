@@ -24,6 +24,9 @@ public class WieldTool : MonoBehaviour {
     private GameObject collidingObj;
     // reference to object in hand
     private GameObject objInHand;
+    // reference to tools hold position
+    private Transform holdPosition;
+    
 
     private bool firstClick = false; //true when player clicks trigger button for the first time
     private float clickTimer = 0.0f;
@@ -72,7 +75,7 @@ public class WieldTool : MonoBehaviour {
     }
 
     public void OnTriggerEnter(Collider c) {
-        //		Debug.Log("Tigger entered");
+        Debug.Log("Trigger entered");
         SetCollidingObject(c);
     }
 
@@ -90,10 +93,11 @@ public class WieldTool : MonoBehaviour {
 
     private void SetCollidingObject(Collider c) {
         // can't grab the thing if it's not a rigidbody or if player is already holding something
-        if(collidingObj || !c.GetComponent<Rigidbody>()) {
+        if(collidingObj != null || c.attachedRigidbody == null) {
+            Debug.Log("Cant grab this");
             return;
         }
-        collidingObj = c.gameObject;
+        collidingObj = c.attachedRigidbody.gameObject;
     }
 
     private void GrabObject() {
@@ -103,10 +107,24 @@ public class WieldTool : MonoBehaviour {
         Vector3 hand = gameObject.transform.position;
         Quaternion angle = gameObject.transform.rotation;
 
-        objInHand.transform.position = hand; //set position of tool to hand position
-        objInHand.transform.rotation = angle; //set rotation of tool to hand rotation
-        objInHand.transform.Rotate(90, 0, 0, Space.Self); //adjust rotation for pointing tool
-        objInHand.transform.Translate(0, 0.5f, 0, Space.Self); //adjust position for where tool is in hand
+        
+
+        if((objInHand.GetComponent<isTool>()) != null)
+        {
+            holdPosition = objInHand.transform.GetChild(0); //get hold position transform
+            var worldCoord = holdPosition.position;
+
+            Vector3 positionDifference = hand - worldCoord;
+
+            objInHand.transform.Rotate(90, 0, 0, Space.Self); //adjust rotation for pointing tool
+            objInHand.transform.Translate(positionDifference); //adjust position for where the hold position is (hopefully)
+        } else {
+            objInHand.transform.position = hand; //set position of tool to hand position
+            objInHand.transform.rotation = angle; //set rotation of tool to hand rotation
+        }
+         
+
+        
 
         // this connects the new object to the controller so it acts as part of the controller collision-wise
         var joint = AddFixedJoint();
