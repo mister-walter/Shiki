@@ -207,5 +207,12 @@ namespace Shiki.EventSystem.Events {
             this.obj2 = obj2;
         }
     }
+
+    public class DeleteObjectEvent : IGameEvent {
+        public string toDelete;
+        public DeleteObjectEvent(string toDelete) {
+            this.toDelete = toDelete;
+        }
+    }
 }
 

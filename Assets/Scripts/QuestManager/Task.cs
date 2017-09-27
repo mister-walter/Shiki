@@ -243,6 +243,7 @@ namespace Shiki.Quests {
         /// <returns>The on complete function in the form of an Action.</returns>
         /// <param name="oc">OnComplete function in string form.</param>
         public static Action CreateOnCompleteFunction(string oc) {
+            // Just return a no-op if the user didn't provide an OnComplete string
             if(string.IsNullOrEmpty(oc)) {
                 return () => { };
             }
@@ -252,9 +253,12 @@ namespace Shiki.Quests {
                 IGameEvent evt;
                 switch(pR.interactionKind) {
                     case InteractionKind.Become:
-                        Debug.Log("Become InteractionKind");
-                        Debug.Log(string.Format("{0} {1}", pR.obj1, pR.obj2));
                         evt = new TaskCompletedChangeEvent(pR.obj1, pR.obj2);
+                        break;
+                    case InteractionKind.Delete:
+                        Debug.Log("Delete InteractionKind");
+                        Debug.Log(string.Format("{0} {1}", pR.obj1, pR.obj2));
+                        evt = new DeleteObjectEvent(pR.obj1);
                         break;
                     case InteractionKind.Play:
                         switch(pR.uiEventKind) {
@@ -269,7 +273,6 @@ namespace Shiki.Quests {
                         }
                         break;
                     case InteractionKind.Get:
-                        Debug.Log(string.Format("Get {0} {1}", pR.obj1, pR.obj2));
                         evt = new TaskCompletedGetObjectEvent(pR.obj1);
                         break;
                     default:
