@@ -27,29 +27,25 @@ public class WieldTool : MonoBehaviour {
 
     private bool firstClick = false; //true when player clicks trigger button for the first time
     private float clickTimer = 0.0f;
-    
+
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-        CheckButtonStatus();
-	}
 
-    private IEnumerator DoubleClick()
-    {
+    // Update is called once per frame
+    void Update() {
+        CheckButtonStatus();
+    }
+
+    private IEnumerator DoubleClick() {
         yield return new WaitForEndOfFrame();
         firstClick = true;
-        while (clickTimer < 0.2f)
-        {
-            if (controller.GetPressDown(triggerButton))
-            {
+        while(clickTimer < 0.2f) {
+            if(controller.GetPressDown(triggerButton)) {
                 Debug.Log("Double click");
-                if(collidingObj.GetComponent<ToolScript>() != null)
-                {
+                if(collidingObj.GetComponent<ToolFunction>() != null) {
                     GrabObject();
                 }
                 break;
@@ -61,57 +57,46 @@ public class WieldTool : MonoBehaviour {
         clickTimer = 0.0f;
     }
 
-    private void CheckButtonStatus()
-    {
-        if (controller.GetPressUp(triggerButton) && !firstClick)
-        {
+    private void CheckButtonStatus() {
+        if(controller.GetPressUp(triggerButton) && !firstClick) {
             StartCoroutine(DoubleClick());
         }
-        
+
 
         // grip button let go of
-        if (controller.GetPressDown(gripButton))
-        {
-            if (objInHand)
-            {
+        if(controller.GetPressDown(gripButton)) {
+            if(objInHand) {
                 ReleaseObject();
             }
         }
     }
 
-    public void OnTriggerEnter(Collider c)
-    {
+    public void OnTriggerEnter(Collider c) {
         //		Debug.Log("Tigger entered");
         SetCollidingObject(c);
     }
 
-    public void OnTriggerStay(Collider c)
-    {
+    public void OnTriggerStay(Collider c) {
         SetCollidingObject(c);
     }
 
-    public void OnTriggerExit(Collider c)
-    {
+    public void OnTriggerExit(Collider c) {
         //		Debug.Log("Tigger exited");
-        if (!collidingObj)
-        {
+        if(!collidingObj) {
             return;
         }
         collidingObj = null;
     }
 
-    private void SetCollidingObject(Collider c)
-    {
+    private void SetCollidingObject(Collider c) {
         // can't grab the thing if it's not a rigidbody or if player is already holding something
-        if (collidingObj || !c.GetComponent<Rigidbody>())
-        {
+        if(collidingObj || !c.GetComponent<Rigidbody>()) {
             return;
         }
         collidingObj = c.gameObject;
     }
 
-    private void GrabObject()
-    {
+    private void GrabObject() {
         objInHand = collidingObj;
         collidingObj = null;
 
@@ -134,18 +119,15 @@ public class WieldTool : MonoBehaviour {
         GameEventSystem.FireEvent(new ObjectPickedUpEvent(objInHand, seasonalEffect));
     }
 
-    private FixedJoint AddFixedJoint()
-    {
+    private FixedJoint AddFixedJoint() {
         FixedJoint fx = gameObject.AddComponent<FixedJoint>();
         fx.breakForce = 20000;
         fx.breakTorque = 20000;
         return fx;
     }
 
-    private void ReleaseObject()
-    {
-        if (GetComponent<FixedJoint>())
-        {
+    private void ReleaseObject() {
+        if(GetComponent<FixedJoint>()) {
             GetComponent<FixedJoint>().connectedBody = null;
             Destroy(GetComponent<FixedJoint>());
 
@@ -155,7 +137,7 @@ public class WieldTool : MonoBehaviour {
             // Get the seasonal effect of the object, if any
             var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
             // Fire an event to notify any listeners
-            GameEventSystem.FireEvent(new ObjectPlacedEvent(objInHand, seasonalEffect));
+            GameEventSystem.FireEvent(new ObjectPutDownEvent(objInHand, seasonalEffect));
         }
         objInHand = null;
     }
