@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Name: Tree Data
   m_EditorClassIdentifier: 
   _uniqueID: 4836
-  materialHash: 3afe524d8794b08dabfed3f047c4752c215482368
+  materialHash: b0741541ee5a24dbc37be73092234974215482368
   root:
     _uniqueID: 1
     seed: 5854084
@@ -396,7 +396,7 @@ MonoBehaviour:
     childGroupIDs: 05000000
     lodQualityMultiplier: 2
     geometryMode: 0
-    materialBranch: {fileID: 2100000, guid: 7f1be1c31c71cb749a4b6dbd733ae231, type: 2}
+    materialBranch: {fileID: 2100000, guid: dfe4fd6fd5d0f37429bf7150505c5afa, type: 2}
     materialBreak: {fileID: 2100000, guid: 7f1be1c31c71cb749a4b6dbd733ae231, type: 2}
     materialFrond: {fileID: 0}
     height: {x: 8.940869, y: 15.397801}
@@ -586,7 +586,7 @@ MonoBehaviour:
     childGroupIDs: 20000000
     lodQualityMultiplier: 1
     geometryMode: 0
-    materialBranch: {fileID: 2100000, guid: 7f1be1c31c71cb749a4b6dbd733ae231, type: 2}
+    materialBranch: {fileID: 2100000, guid: dfe4fd6fd5d0f37429bf7150505c5afa, type: 2}
     materialBreak: {fileID: 2100000, guid: 7f1be1c31c71cb749a4b6dbd733ae231, type: 2}
     materialFrond: {fileID: 0}
     height: {x: 4.470803, y: 7.849527}
