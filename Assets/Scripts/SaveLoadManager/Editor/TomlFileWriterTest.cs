@@ -5,7 +5,7 @@ using Shiki.ReaderWriter.TomlImplementation;
 using Shiki.ReaderWriter;
 using Shiki.Quests;
 
-namespace NUnit.TomlQuestReaderTest {
+namespace Shiki.Test {
 
     [TestFixture]
     public class TomlQuestReaderTest {
