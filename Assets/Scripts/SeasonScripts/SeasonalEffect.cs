@@ -32,7 +32,7 @@ public class SeasonalEffect : MonoBehaviour {
 
     private GameObject child {
         get {
-            if(this.transform.childCount < 1) {
+            if(this.transform.childCount == 0) {
                 return null;
             } else {
                 return this.transform.GetChild(0).gameObject;
@@ -62,8 +62,12 @@ public class SeasonalEffect : MonoBehaviour {
         EventManager.RemoveDelegate<ObjectPickedUpEvent>(this.OnPickedUp);
     }
 
+    public void SetSeason(string seasonName) {
+        this.seasonName = seasonName;
+    }
+
     public void UpdatePrefab() {
-        if(this.child == null) {
+        if(this.gameObject.transform.childCount == 0) {
             var prefabName = variantDatabase.GetPrefabName(this.baseItemName, this.seasonName);
             var newGo = Shiki.Loader.LoadPrefabInstance(prefabName);
             SceneManager.MoveGameObjectToScene(newGo, this.gameObject.scene);
@@ -74,10 +78,14 @@ public class SeasonalEffect : MonoBehaviour {
                 if(prefabName != this.child.name) {
                     var newGo = Shiki.Loader.LoadPrefabInstance(prefabName);
                     SceneManager.MoveGameObjectToScene(newGo, this.gameObject.scene);
-                    newGo.transform.localPosition = child.transform.localPosition;
-                    newGo.transform.localRotation = child.transform.localRotation;
-                    Destroy(this.child);
+                    var oldPos = this.child.transform.position;
+                    var oldRot = this.child.transform.rotation;
+                    var oldChild = this.child;
+                    oldChild.transform.parent = null;
+                    Destroy(oldChild);
                     newGo.transform.parent = this.gameObject.transform;
+                    newGo.transform.position = oldPos;
+                    newGo.transform.rotation = oldRot;
                 }
             }
         }
@@ -92,11 +100,18 @@ public class SeasonalEffect : MonoBehaviour {
         this.id = otherEffect.id;
     }
 
+    public void UpdateChildPosition(Vector3 newPosition) {
+        if(this.child != null) {
+            this.child.transform.position = newPosition;
+        }
+    }
+
     #region Event Handlers
     public void OnPlacedInSeason(ObjectPlacedInSeasonStartEvent evt) {
-        Debug.Log("Placed in season");
-        Debug.Log(evt.seasonName);
-        if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
+        Debug.Log("Placed in season" + evt.seasonName);
+        var placedObject = evt.placedObject.GetComponentInSelfOrImmediateParent<SeasonalEffect>().gameObject;
+        if(evt.effect.GetInstanceID() == this.GetInstanceID()) {
+            Debug.Log("Same instance id");
             this.seasonName = evt.seasonName;
             this.wasPlacedVariant = true;
             UpdatePrefab();
@@ -109,13 +124,15 @@ public class SeasonalEffect : MonoBehaviour {
                 EventManager.FireEvent(new SeasonalObjectPlacedForFirstTime(this.gameObject, this, evt.seasonName, evt.coord));
             }
         } else {
-            if(this.IsSeasonalVariantOf(evt.placedObject, evt.effect)) {
+            Debug.Log("Different instance id. My season is " + this.seasonName);
+            if(this.IsSeasonalVariantOf(placedObject, evt.effect)) {
                 this.wasPlacedVariant = false;
                 // If another variant was placed in the same season as us, we have to move to the season that the
                 // variant originally came from
                 if(this.seasonName == evt.seasonName) {
-                    this.seasonName = MainSceneManager.SceneNameToSeasonName(evt.previousSeason);
-                    SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetSceneByName(evt.previousSeason));
+                    this.seasonName = evt.previousSeason;
+                    var previousScene = MainSceneManager.SeasonNameToSceneName(evt.previousSeason);
+                    SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetSceneByName(previousScene));
                     UpdatePrefab();
                 }
                 this.gameObject.SetActive(true);
@@ -143,8 +160,11 @@ public class SeasonalEffect : MonoBehaviour {
     /// <param name="otherEffect"></param>
     /// <returns>True if the other GameObject is a seasonal variant of this SeasonalEffect's GameObject, false otherwise.</returns>
     private bool IsSeasonalVariantOf(GameObject otherObj, SeasonalEffect otherEffect) {
+        if(this.child == null) {
+            throw new ArgumentException("Cannot do a SeasonalVariant check if we don't have a child");
+        }
         return otherEffect.id != Guid.Empty &&
                otherEffect.id == this.id &&
-               otherObj.GetInstanceID() != this.gameObject.GetInstanceID();
+               otherObj.GetInstanceID() != this.child.GetInstanceID();
     }
 }

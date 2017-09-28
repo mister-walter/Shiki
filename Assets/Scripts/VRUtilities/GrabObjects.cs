@@ -78,7 +78,7 @@ public class GrabObjects : MonoBehaviour {
         joint.connectedBody = objInHand.GetComponent<Rigidbody>();
 
         // Get the seasonal effect of the object, if any
-        var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
+        var seasonalEffect = objInHand.GetComponentInSelfOrImmediateParent<SeasonalEffect>();
         // Fire an event to notify any listeners
         EventManager.FireEvent(new ObjectPickedUpEvent(objInHand, seasonalEffect));
     }
@@ -105,7 +105,7 @@ public class GrabObjects : MonoBehaviour {
                 objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
                 objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
                 // Get the seasonal effect of the object, if any
-                var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
+                var seasonalEffect = objInHand.GetComponentInSelfOrImmediateParent<SeasonalEffect>();
                 // Fire an event to notify any listeners
                 EventManager.FireEvent(new ObjectPlacedEvent(objInHand, seasonalEffect));
             }

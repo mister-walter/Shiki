@@ -48,13 +48,15 @@ public class SeasonInfo : MonoBehaviour {
                 if(evt.placedObject.scene != this.gameObject.scene) {
                     // Save the name of the scene the object came from
                     var previousScene = evt.placedObject.scene.name;
+                    var previousSeason = MainSceneManager.SceneNameToSeasonName(previousScene);
                     // If it came from a different scene, we have to move it to this scene first.
-                    SceneManager.MoveGameObjectToScene(evt.placedObject, this.gameObject.scene);
+                    SeasonalEffect effect = evt.placedObject.GetComponentInSelfOrImmediateParent<SeasonalEffect>();
+                    SceneManager.MoveGameObjectToScene(effect.gameObject, this.gameObject.scene);
                     var coord = SeasonCoordinateManager.GlobalToSeasonCoordinate(evt.placedObject.transform.position);
                     // We add the name of the previous season to the ObjectPlacedInSeasonStartEvent so that the object
                     // originally in this season can move there (essentially swapping itself with the placed object).
                     // This ensures that there is always one copy of the object for each season.
-                    EventManager.FireEvent(new ObjectPlacedInSeasonStartEvent(evt.placedObject, evt.effect, coord, this.seasonName, previousScene));
+                    EventManager.FireEvent(new ObjectPlacedInSeasonStartEvent(evt.placedObject, evt.effect, coord, this.seasonName, previousSeason));
                 } else {
                     // This object came from within this scene, so all we have to do is update its position and fire
                     // a ObjectPlacedInSeasonStartEvent
@@ -66,21 +68,25 @@ public class SeasonInfo : MonoBehaviour {
     }
 
     public void OnSeasonalObjectPlacedForFirstTime(SeasonalObjectPlacedForFirstTime evt) {
-        Debug.Log(string.Format("Placed for first time in season {0}", evt.placedInSeason));
         // We want to ignore this event if the object that fired this event came from this season
         if(evt.placedInSeason != this.seasonName) {
+            Debug.Log("Making first version of object in season " + this.seasonName);
             // Make a new copy of the object
             //var newObject = GameObject.Instantiate<GameObject>(evt.placedObject);
             var newObject = new GameObject();
             SeasonalEffect newSeasonalEffect = newObject.AddComponent<SeasonalEffect>();
+            newSeasonalEffect.SetSeason(this.seasonName);
             newSeasonalEffect.SetupFromSeasonalEffect(evt.effect);
             // Determine the correct global coordinate for the object and set it
-            newObject.transform.position = SeasonCoordinateManager.SeasonToGlobalCoordinate(this.seasonName, evt.placedAtCoord);
+
             // Set the new object's seasonal effect id so that we can tell the new object is a variant of the original
             newSeasonalEffect.wasPlacedVariant = false;
             SceneManager.MoveGameObjectToScene(newObject, this.gameObject.scene);
             newSeasonalEffect.UpdatePrefab();
+            newSeasonalEffect.UpdateChildPosition(SeasonCoordinateManager.SeasonToGlobalCoordinate(this.seasonName, evt.placedAtCoord));
             newObject.SetActive(true);
+        } else {
+            Debug.Log(string.Format("Placed for first time in season {0}", evt.placedInSeason));
         }
     }
     #endregion

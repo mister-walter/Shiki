@@ -1,11 +1,7 @@
 [[item]]
-  name = "Shiroyama"
-  prefab = "DefaultPrefab"
-  [item.variant.Spring]
-    prefab = "SpringPrefab"
-  [item.variant.Fall]
-    prefab = "FallPrefab"
-
-[[item]]
-  name = "Test"
-  prefab = "TestPrefab"
+  name = "TestObject"
+  prefab = "TestObjectDefault"
+  [item.variant.Summer]
+    prefab = "TestObjectSummer"
+  [item.variant.Winter]
+    prefab = "TestObjectWinter"

@@ -69,7 +69,27 @@ public class MainSceneManager : MonoBehaviour {
             case SceneName.Summer:
                 return SeasonName.Summer;
             default:
-                return null;
+                return String.Empty;
+        }
+    }
+
+    /// <summary>
+    /// Converts the name of a scene to the name of the corresponding season.
+    /// </summary>
+    /// <param name="seasonName">The name of the scene to get the season of.</param>
+    /// <returns>The name of the corresponding season, or null if it does not exist.</returns>
+    public static string SeasonNameToSceneName(string seasonName) {
+        switch(seasonName) {
+            case SeasonName.Fall:
+                return SceneName.Fall;
+            case SeasonName.Winter:
+                return SceneName.Winter;
+            case SeasonName.Spring:
+                return SceneName.Spring;
+            case SeasonName.Summer:
+                return SceneName.Summer;
+            default:
+                return String.Empty;
         }
     }
 

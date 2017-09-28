@@ -28,6 +28,9 @@ namespace Shiki {
         }
 
         public string PrefabForSeason(string season) {
+            if(season == null) {
+                throw new ArgumentException("Season name cannot be null!");
+            }
             Variant seasonVariant;
             // See if there's a variant for the given season
             if(this.variant.TryGetValue(season, out seasonVariant)) {
