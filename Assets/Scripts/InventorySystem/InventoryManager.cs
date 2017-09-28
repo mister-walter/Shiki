@@ -95,9 +95,14 @@ namespace Shiki.Inventory {
             return new List<GameObject>(this.inventory);
         }
 
-        // TODO: make this function append to the inventory instead of overwriting the first slot
         public void AddToInventory(GameObject obj) {
-            this.slots[0].SetItem(obj);
+            for(var i = 0; i < this.slots.Length; i++) {
+                if(this.slots[i].IsEmpty()) {
+                    this.slots[i].SetItem(obj);
+                    return;
+                }
+            }
+            Debug.LogError("Tried to add an item to a full inventory!");
         }
 
         /// <summary>
