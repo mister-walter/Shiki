@@ -25,5 +25,6 @@ namespace Shiki.Constants {
         public const String Spring = "Spring";
         public const String Fall = "Fall";
         public const String None = "None";
+        public static readonly String[] AllSeasons = { Winter, Spring, Summer, Fall };
     }
 }

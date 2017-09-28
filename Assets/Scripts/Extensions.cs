@@ -19,6 +19,23 @@ public static class GameObjectExtensions {
             return false;
         }
     }
+
+    public static T GetComponentInImmediateParent<T>(this GameObject go) where T: class {
+        var parent = go.transform.parent.gameObject;
+        if(parent == null) {
+            return null;
+        }
+        return parent.GetComponent<T>();
+    }
+
+    public static T GetComponentInSelfOrImmediateParent<T>(this GameObject go) where T : class {
+        T component = go.GetComponent<T>();
+        if(component == null) {
+            return go.GetComponentInImmediateParent<T>();
+        } else {
+            return component;
+        }
+    }
 }
 
 public static class AsyncOperationExtensions {

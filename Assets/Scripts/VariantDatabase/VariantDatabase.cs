@@ -18,6 +18,15 @@ namespace Shiki {
             this.variant = new Dictionary<string, Variant>();
         }
 
+        public void CheckVariants() {
+            HashSet<string> seasonNames = new HashSet<string>(Constants.SeasonName.AllSeasons);
+            foreach(var key in this.variant.Keys) {
+                if(!seasonNames.Contains(key)) {
+                    throw new Exception(string.Format("Invalid season name '{0}' in item '{1}'", key, this.name));
+                }
+            }
+        }
+
         public string PrefabForSeason(string season) {
             Variant seasonVariant;
             // See if there's a variant for the given season
@@ -41,18 +50,21 @@ namespace Shiki {
             this.items = new Dictionary<string, Item>();
         }
 
-        public void Load(string path) {
-            Root root = Toml.ReadFile<Root>(path);
+        private void UpdateItems(Root root) {
             foreach(var item in root.item) {
+                item.CheckVariants();
                 this.items.Add(item.name, item);
             }
         }
 
+        public void Load(string path) {
+            Root root = Toml.ReadFile<Root>(path);
+            UpdateItems(root);
+        }
+
         public void LoadFromString(string content) {
             Root root = Toml.ReadString<Root>(content);
-            foreach(var item in root.item) {
-                this.items.Add(item.name, item);
-            }
+            UpdateItems(root);
         }
 
         private GameObject InstantiateItem(Item item, string season) {

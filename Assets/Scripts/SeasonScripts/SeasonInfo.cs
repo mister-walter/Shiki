@@ -70,15 +70,16 @@ public class SeasonInfo : MonoBehaviour {
         // We want to ignore this event if the object that fired this event came from this season
         if(evt.placedInSeason != this.seasonName) {
             // Make a new copy of the object
-            var newObject = GameObject.Instantiate<GameObject>(evt.placedObject);
+            //var newObject = GameObject.Instantiate<GameObject>(evt.placedObject);
+            var newObject = new GameObject();
+            SeasonalEffect newSeasonalEffect = newObject.AddComponent<SeasonalEffect>();
+            newSeasonalEffect.SetupFromSeasonalEffect(evt.effect);
             // Determine the correct global coordinate for the object and set it
             newObject.transform.position = SeasonCoordinateManager.SeasonToGlobalCoordinate(this.seasonName, evt.placedAtCoord);
-            var newSeasonalEffect = newObject.GetComponent<SeasonalEffect>();
             // Set the new object's seasonal effect id so that we can tell the new object is a variant of the original
-            newSeasonalEffect.id = evt.effect.id;
             newSeasonalEffect.wasPlacedVariant = false;
             SceneManager.MoveGameObjectToScene(newObject, this.gameObject.scene);
-            newSeasonalEffect.UpdateColor();
+            newSeasonalEffect.UpdatePrefab();
             newObject.SetActive(true);
         }
     }

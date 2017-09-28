@@ -7,6 +7,7 @@ using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
 using Shiki.EventSystem.InternalEvents;
 using Shiki.Constants;
+using Shiki;
 
 /// <summary>
 /// A component providing the ability for an object to have different variants for each season.
@@ -23,7 +24,21 @@ public class SeasonalEffect : MonoBehaviour {
     /// </summary>
     public Guid id = Guid.Empty;
 
+    public string baseItemName;
+
     public bool wasPlacedVariant = false;
+
+    private VariantDatabase variantDatabase { get { return VariantDatabaseSingleton.GetDatabase(); } }
+
+    private GameObject child {
+        get {
+            if(this.transform.childCount < 1) {
+                return null;
+            } else {
+                return this.transform.GetChild(0).gameObject;
+            }
+        }
+    }
 
     void Awake() {
         EventManager.AttachDelegate<ObjectPlacedInSeasonStartEvent>(this.OnPlacedInSeason);
@@ -38,8 +53,8 @@ public class SeasonalEffect : MonoBehaviour {
         } else {
             seasonName = MainSceneManager.SceneNameToSeasonName(this.gameObject.scene.name);
         }
-
-        UpdateColor();
+        if(!String.IsNullOrEmpty(this.baseItemName))
+            UpdatePrefab();
     }
 
     void OnDestroy() {
@@ -47,29 +62,34 @@ public class SeasonalEffect : MonoBehaviour {
         EventManager.RemoveDelegate<ObjectPickedUpEvent>(this.OnPickedUp);
     }
 
-    /// <summary>
-    /// Updates the color of this GameObject depending on the season it is in.
-    /// </summary>
-    public void UpdateColor() {
-        if(!this.wasPlacedVariant) {
-            switch(this.seasonName) {
-                case SeasonName.Winter:
-                    this.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-                    break; //turns blue
-                case SeasonName.Spring:
-                    this.GetComponent<Renderer>().material.SetColor("_Color", Color.magenta);
-                    break; //turns pink
-                case SeasonName.Summer:
-                    this.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
-                    break; //turns green
-                case SeasonName.Fall:
-                    this.GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
-                    break; //turns yellow
-                default:
-                    this.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
-                    break; //turns to white
+    public void UpdatePrefab() {
+        if(this.child == null) {
+            var prefabName = variantDatabase.GetPrefabName(this.baseItemName, this.seasonName);
+            var newGo = Shiki.Loader.LoadPrefabInstance(prefabName);
+            SceneManager.MoveGameObjectToScene(newGo, this.gameObject.scene);
+            newGo.transform.parent = this.gameObject.transform;
+        } else {
+            if(!this.wasPlacedVariant) {
+                var prefabName = variantDatabase.GetPrefabName(this.baseItemName, this.seasonName);
+                if(prefabName != this.child.name) {
+                    var newGo = Shiki.Loader.LoadPrefabInstance(prefabName);
+                    SceneManager.MoveGameObjectToScene(newGo, this.gameObject.scene);
+                    newGo.transform.localPosition = child.transform.localPosition;
+                    newGo.transform.localRotation = child.transform.localRotation;
+                    Destroy(this.child);
+                    newGo.transform.parent = this.gameObject.transform;
+                }
             }
         }
+    }
+
+    /// <summary>
+    /// Copy neccesary information from another SeasonalEffect to this one
+    /// </summary>
+    /// <param name="otherEffect"></param>
+    public void SetupFromSeasonalEffect(SeasonalEffect otherEffect) {
+        this.baseItemName = otherEffect.baseItemName;
+        this.id = otherEffect.id;
     }
 
     #region Event Handlers
@@ -79,7 +99,7 @@ public class SeasonalEffect : MonoBehaviour {
         if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
             this.seasonName = evt.seasonName;
             this.wasPlacedVariant = true;
-            UpdateColor();
+            UpdatePrefab();
 
             // check if this object has a unique id yet
             if(this.id == Guid.Empty) {
@@ -96,11 +116,11 @@ public class SeasonalEffect : MonoBehaviour {
                 if(this.seasonName == evt.seasonName) {
                     this.seasonName = MainSceneManager.SceneNameToSeasonName(evt.previousSeason);
                     SceneManager.MoveGameObjectToScene(this.gameObject, SceneManager.GetSceneByName(evt.previousSeason));
-                    UpdateColor();
+                    UpdatePrefab();
                 }
                 this.gameObject.SetActive(true);
-                this.gameObject.transform.position = SeasonCoordinateManager.SeasonToGlobalCoordinate(this.seasonName, evt.coord);
-                UpdateColor();
+                this.child.transform.position = SeasonCoordinateManager.SeasonToGlobalCoordinate(this.seasonName, evt.coord);
+                UpdatePrefab();
             }
         }
     }
