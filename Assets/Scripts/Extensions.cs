@@ -21,6 +21,7 @@ public static class GameObjectExtensions {
     }
 
     public static T GetComponentInImmediateParent<T>(this GameObject go) where T: class {
+        if(go.transform.parent == null) return null;
         var parent = go.transform.parent.gameObject;
         if(parent == null) {
             return null;

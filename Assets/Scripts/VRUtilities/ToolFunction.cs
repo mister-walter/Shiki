@@ -17,9 +17,9 @@ public class ToolFunction : MonoBehaviour {
     public float strengthThreshold = 0.25f; //strength at which collision of object produces a result
 
     void OnCollisionEnter(Collision col) {
-        Debug.Log("Tool oncollisionenter");
-        Debug.Log(this.gameObject.name);
         if(col.rigidbody != null) {
+            Debug.Log("Tool oncollisionenter");
+            Debug.Log(this.gameObject.name);
             Debug.Log(col.rigidbody.gameObject.GetComponent<HittableBehavior>());
         }
         if(col.rigidbody != null && col.rigidbody.gameObject.GetComponent<HittableBehavior>() != null) {

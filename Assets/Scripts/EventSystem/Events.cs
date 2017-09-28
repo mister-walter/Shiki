@@ -214,5 +214,19 @@ namespace Shiki.EventSystem.Events {
             this.toDelete = toDelete;
         }
     }
+
+    public class HideObjectEvent : IGameEvent {
+        public string toHide;
+        public HideObjectEvent(string toHide) {
+            this.toHide = toHide;
+        }
+    }
+
+    public class ShowObjectEvent : IGameEvent {
+        public string toShow;
+        public ShowObjectEvent(string toShow) {
+            this.toShow = toShow;
+        }
+    }
 }
 

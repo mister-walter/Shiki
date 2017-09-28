@@ -157,6 +157,9 @@ namespace Shiki.Quests {
         /// <returns>Trigger function in the form of a Predicate</returns>
         /// <param name="tr">Trigger function in string form</param>
         public static Predicate<InteractionEvent> CreateTriggerFunction(string tr) {
+            if(String.IsNullOrEmpty(tr)) {
+                return (InteractionEvent evt) => true;
+            }
             ParsingResult pR = ParseString(tr);
             Predicate<InteractionEvent> pred;
 
@@ -173,11 +176,16 @@ namespace Shiki.Quests {
                     pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name;
                     break;
                 case InteractionKind.Drop:
+                    Predicate<InteractionEvent> tempPred;
                     if(pR.obj1 == string.Empty) {
-                        pred = (InteractionEvent evt) => pR.obj2 == evt.targetObject.name;
+                        tempPred = (InteractionEvent evt) => pR.obj2 == evt.targetObject.name;
                     } else {
-                        pred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name && pR.obj2 == evt.targetObject.name;
+                        tempPred = (InteractionEvent evt) => pR.obj1 == evt.sourceObject.name && pR.obj2 == evt.targetObject.name;
                     }
+                    pred = (InteractionEvent evt) => {
+                        Debug.Log(string.Format("{0},{1},{2},{3}", pR.obj1, pR.obj2, evt.sourceObject.name, evt.targetObject.name));
+                        return tempPred(evt);
+                    };
                     break;
                 // TODO: Hack to work around current lack of activity recognition
                 case InteractionKind.Cut:
@@ -215,7 +223,6 @@ namespace Shiki.Quests {
                     finalPred = (InteractionEvent evt) => {
                         Debug.Log(string.Format("kind inside hit: {0},{1},{2}", pR.interactionKind, evt.kind, pR.obj1));
                         if(evt.kind == InteractionKind.Hit) {
-                            Debug.Log("Got a hit event inside outer pred");
                             return pred(evt);
                         } else {
                             return false;
@@ -254,6 +261,14 @@ namespace Shiki.Quests {
                 switch(pR.interactionKind) {
                     case InteractionKind.Become:
                         evt = new TaskCompletedChangeEvent(pR.obj1, pR.obj2);
+                        break;
+                    case InteractionKind.Show:
+                        Debug.Log("Show InteractionKind");
+                        Debug.Log(string.Format("{0}, {1}", pR.obj1, pR.obj2));
+                        evt = new ShowObjectEvent(pR.obj1);
+                        break;
+                    case InteractionKind.Hide:
+                        evt = new HideObjectEvent(pR.obj1);
                         break;
                     case InteractionKind.Delete:
                         Debug.Log("Delete InteractionKind");

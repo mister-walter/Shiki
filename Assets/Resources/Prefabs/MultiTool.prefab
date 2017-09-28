@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 54625535457600096}
   - component: {fileID: 114666190718077332}
   m_Layer: 0
-  m_Name: MultitoolPrefab
+  m_Name: MultiTool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -181,7 +181,7 @@ namespace Shiki.Quests {
         // Trigger only
         Enter, Drop, Cut, Hit, Weave, Dig, Grind, Merge, Open, PickUp, Store, Retrieve,
         // OnComplete only
-        Become, Play, Delete,
+        Become, Play, Delete, Show, Hide,
         // Both
         Get,
         // Meta
