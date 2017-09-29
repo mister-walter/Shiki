@@ -8,6 +8,55 @@ using UnityEngine;
 
 namespace Shiki.Quests {
 
+    public class TaskParseException : Exception {
+        public TaskParseException(string message) : base(message) {}
+    }
+
+    /// <summary>
+    /// Parsing result. When a task's trigger or oncomplete functions are read in, they are filled into this Parsing Result class
+    /// </summary>
+    internal class ParsingResult {
+        /// <summary>
+        /// First object found in parsing.
+        /// </summary>
+        public string obj1 { get; set; }
+
+        /// <summary>
+        /// Second object found in parsing. This is typically the tool the player is using.
+        /// </summary>
+        public string obj2 { get; set; }
+
+        /// <summary>
+        /// Quantity of the first object.
+        /// </summary>
+        public int obj1Quantity { get; set; }
+
+        /// <summary>
+        /// Quantity of the second object
+        /// </summary>
+        public int obj2Quantity { get; set; }
+
+        /// <summary>
+        /// Location listed in parsing
+        /// </summary>
+        public string location { get; set; }
+
+        /// <summary>
+        /// Interaction required from player (enters, hits, etc)
+        /// </summary>
+        public InteractionKind interactionKind { get; set; }
+
+        /// <summary>
+        /// Event the UI should perform
+        /// </summary>
+        public UIActionKind uiEventKind { get; set; }
+
+        /// <summary>
+        /// Describes relationship the 2 objects, if applicable. (With, on, becomes, etc)
+        /// </summary>
+        public string objToObjInteractionType { get; set; }
+    }
+
     /// <summary>
     /// Represents actions player must take in order to complete, or partially complete, a quest
     /// </summary>
@@ -84,11 +133,28 @@ namespace Shiki.Quests {
         /// </summary>
         public string OnComplete { get; set; }      // empty
 
+        // TODO: replace this with a uint? when Nett recieves support for conditionally writing fields
+        public string TriggerRepeat { get; set; }
+
+        public TemporaryTask() {
+            TriggerRepeat = null;
+            OnComplete = String.Empty;
+            Trigger = String.Empty;
+            SubTask = String.Empty;
+        }
+
         public TemporaryTask(string n, string st, string t, string oc) {
             Name = n;
             SubTask = st;
             Trigger = t;
             OnComplete = oc;
+        }
+
+        public bool IsValid() {
+            if(string.IsNullOrEmpty(this.Name)) {
+                return false;
+            }
+            return true;
         }
     }
 
@@ -137,16 +203,37 @@ namespace Shiki.Quests {
             task.onComplete = null;
 
             task.subTasks = tempTask.SubTask.Split(' ');
+
             //task.trigger = CreateTriggerFunction(tempTask.Trigger);
             var originalTrigger = CreateTriggerFunction(tempTask.Trigger);
-            task.trigger = (InteractionEvent evt) => {
-                Debug.Log(string.Format("Checking trigger for task {0}", tempTask.Name));
-                var res = originalTrigger(evt);
-                if(res) {
-                    Debug.Log("Trigger was true!");
+            if(!string.IsNullOrEmpty(tempTask.TriggerRepeat)) {
+                UInt32 repeatTimes;
+                if(!UInt32.TryParse(tempTask.TriggerRepeat, out repeatTimes)) {
+                    throw new TaskParseException("TriggerRepeat value must be a positive integer: " + tempTask.TriggerRepeat);
+                } else {
+                    int count = 0;
+                    task.trigger = (InteractionEvent evt) => {
+                        if(count >= repeatTimes) {
+                            return true;
+                        } else {
+                            if(originalTrigger(evt)) {
+                                count++;
+                                if(count >= repeatTimes) return true;
+                            }
+                            return false;
+                        }
+                    };
                 }
-                return res;
-            };
+            } else {
+                task.trigger = (InteractionEvent evt) => {
+                    Debug.Log(string.Format("Checking trigger for task {0}", tempTask.Name));
+                    var res = originalTrigger(evt);
+                    if(res) {
+                        Debug.Log("Trigger was true!");
+                    }
+                    return res;
+                };
+            }
             task.onComplete = CreateOnCompleteFunction(tempTask.OnComplete);
             return task;
         }
@@ -305,7 +392,7 @@ namespace Shiki.Quests {
         /// </summary>
         /// <returns>The parsed result.</returns>
         /// <param name="s">Function string to be parsed</param>
-        public static ParsingResult ParseString(string s) {
+        internal static ParsingResult ParseString(string s) {
 
             // Better documentation is in a text file
             // EXAMPLES OF LANGUAGE

@@ -16,7 +16,7 @@ namespace Shiki.Test {
         [Test]
         public void CheckItemCount() {
             var db = LoadTestFile();
-            Assert.AreEqual(db.ItemCount(), 2);
+            Assert.AreEqual(db.items.Count, 2);
         }
 
         [Test]

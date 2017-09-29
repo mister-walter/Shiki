@@ -213,49 +213,4 @@ namespace Shiki.Quests {
         /// </summary>
         public InteractionKind kind { get; set; }
     }
-
-    /// <summary>
-    /// Parsing result. When a task's trigger or oncomplete functions are read in, they are filled into this Parsing Result class
-    /// </summary>
-    public class ParsingResult {
-        /// <summary>
-        /// First object found in parsing.
-        /// </summary>
-        public string obj1 { get; set; }
-
-        /// <summary>
-        /// Second object found in parsing. This is typically the tool the player is using.
-        /// </summary>
-        public string obj2 { get; set; }
-
-        /// <summary>
-        /// Quantity of the first object.
-        /// </summary>
-        public int obj1Quantity { get; set; }
-
-        /// <summary>
-        /// Quantity of the second object
-        /// </summary>
-        public int obj2Quantity { get; set; }
-
-        /// <summary>
-        /// Location listed in parsing
-        /// </summary>
-        public string location { get; set; }
-
-        /// <summary>
-        /// Interaction required from player (enters, hits, etc)
-        /// </summary>
-        public InteractionKind interactionKind { get; set; }
-
-        /// <summary>
-        /// Event the UI should perform
-        /// </summary>
-        public UIActionKind uiEventKind { get; set; }
-
-        /// <summary>
-        /// Describes relationship the 2 objects, if applicable. (With, on, becomes, etc)
-        /// </summary>
-        public string objToObjInteractionType { get; set; }
-    }
 }

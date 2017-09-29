@@ -93,9 +93,5 @@ namespace Shiki {
             }
             return item.PrefabForSeason(season);
         }
-
-        public int ItemCount() {
-            return this.items.Count;
-        }
     }
 }
