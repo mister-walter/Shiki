@@ -62,7 +62,7 @@ OnComplete = "Show Item YorishiroTreeSummer"
 [[TemporaryTask]]
 Name = "FillBucket"
 SubTask = "PickUpBucket"
-Trigger = "Player Dig Item River With Item Bucket"
+Trigger = "Player Dig Item SpringRiver With Item Bucket"
 OnComplete = "Item Bucket Become Item WaterBucket"
 
 [[TemporaryTask]]
