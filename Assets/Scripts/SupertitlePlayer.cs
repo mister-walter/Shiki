@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
 
-public class SubtitlesPlayer : MonoBehaviour {
+public class SupertitlePlayer : MonoBehaviour {
     public Text textArea;
 
 	void Start () {
