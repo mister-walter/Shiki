@@ -112,8 +112,8 @@ namespace Wacki {
         }
 
         public virtual void SetVisibility(bool state) {
-            pointer.SetActive(state);
-            hitPoint.SetActive(state);
+            if(pointer != null) pointer.SetActive(state);
+            if(hitPoint != null) hitPoint.SetActive(state);
             this.enabled = state;
         }
     }

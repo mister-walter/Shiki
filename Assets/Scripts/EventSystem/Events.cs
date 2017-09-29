@@ -115,7 +115,7 @@ namespace Shiki.EventSystem.Events {
     }
 
     /// <summary>
-    /// On complete change event. Gets fired when a task's oncomplete function is called
+    /// Gets fired when a task's oncomplete function is called
     /// Results in one item transforming into another.
     /// </summary>
     public class ObjectReplaceEvent : IGameEvent {
@@ -144,8 +144,6 @@ namespace Shiki.EventSystem.Events {
             this.tool = tool;
         }
     }
-
-    public class AllScenesLoadedEvent : IGameEvent { }
 
     public class ObjectDroppedOntoDropTargetEvent : IGameEvent {
         public GameObject droppedObject;

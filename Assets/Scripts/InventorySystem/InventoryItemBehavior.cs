@@ -34,18 +34,19 @@ namespace Shiki.Inventory {
             this.oldScale = this.gameObject.transform.lossyScale;
             this.currentTargets = new HashSet<InventoryTarget>();
             EventManager.AttachDelegate<ObjectPlacedOnInventoryTargetEvent>(this.OnObjectPlacedInInventory);
-            EventManager.AttachDelegate<ObjectRemovedFromInventoryTargetEvent>(this.OnObjectRemovedFromInventory);
+            EventManager.AttachDelegate<ObjectRemovedFromInventoryTargetEvent>(this.OnObjectRemovedFromInventoryTargetEvent);
         }
 
         void OnDestroy() {
             EventManager.RemoveDelegate<ObjectPlacedOnInventoryTargetEvent>(this.OnObjectPlacedInInventory);
-            EventManager.RemoveDelegate<ObjectRemovedFromInventoryTargetEvent>(this.OnObjectRemovedFromInventory);
+            EventManager.RemoveDelegate<ObjectRemovedFromInventoryTargetEvent>(this.OnObjectRemovedFromInventoryTargetEvent);
         }
 
         void OnObjectPlacedInInventory(ObjectPlacedOnInventoryTargetEvent evt) {
             if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
                 this.target = this.currentTargets.GetOne();
                 this.PositionObjectInsideTarget(this.target);
+                EventManager.FireEvent(new ObjectAcceptedByInventoryTargetEvent(this.gameObject));
             }
         }
 
@@ -76,14 +77,14 @@ namespace Shiki.Inventory {
             this.gameObject.transform.localScale = new Vector3(scale, scale, scale);
         }
 
-        void OnObjectRemovedFromInventory(ObjectRemovedFromInventoryTargetEvent evt) {
+        void OnObjectRemovedFromInventoryTargetEvent(ObjectRemovedFromInventoryTargetEvent evt) {
             if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
                 this.gameObject.transform.localScale = oldScale;
                 var rigidBody = this.gameObject.GetComponent<Rigidbody>();
                 rigidBody.useGravity = true;
                 this.gameObject.transform.SetParent(this.oldParent);
                 SceneManager.MoveGameObjectToScene(this.gameObject, this.oldScene);
-                EventManager.FireEvent(new ObjectRetrievedEvent(this.gameObject));
+                EventManager.FireEvent(new ObjectEjectedByInventoryTargetEvent(this.gameObject));
             }
         }
 
