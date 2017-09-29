@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
+using Shiki.EventSystem.InternalEvents;
 
 public class WieldTool : MonoBehaviour {
 
@@ -134,7 +135,7 @@ public class WieldTool : MonoBehaviour {
         // Get the seasonal effect of the object, if any
         var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
         // Fire an event to notify any listeners
-        GameEventSystem.FireEvent(new ObjectPickedUpEvent(objInHand, seasonalEffect));
+        EventManager.FireEvent(new ObjectPickedUpEvent(objInHand, seasonalEffect));
     }
 
     private FixedJoint AddFixedJoint() {
@@ -155,7 +156,7 @@ public class WieldTool : MonoBehaviour {
             // Get the seasonal effect of the object, if any
             var seasonalEffect = objInHand.GetComponent<SeasonalEffect>();
             // Fire an event to notify any listeners
-            GameEventSystem.FireEvent(new ObjectPutDownEvent(objInHand, seasonalEffect));
+            EventManager.FireEvent(new ObjectPlacedEvent(objInHand, seasonalEffect));
         }
         objInHand = null;
     }
