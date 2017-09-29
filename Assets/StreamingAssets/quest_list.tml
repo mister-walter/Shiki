@@ -18,7 +18,7 @@ Trigger = "Player Merge Item MultiTool And Item Axe"
 
 [[TemporaryTask]]
 Name = "MergeBucket"
-Trigger = "Player Merge Item MultiTool And Item Bucket"
+Trigger = "Player Merge Item MultiTool And Item WaterBucket"
 
 [[TemporaryTask]]
 Name = "MergeSickle"
@@ -29,6 +29,11 @@ Name = "SickleYorishiro"
 SubTask = "PickUpSickle"
 Trigger = "Player Cut Item GrownYorishiro With Item Sickle"
 OnComplete = "Player Get Item MultiTool"
+
+[[TemporaryTask]]
+Name = "PickUpSickle2"
+SubTask = "PickUpSickle"
+OnComplete = "Delete Item SickleHighlighter"
 
 [[TemporaryTask]]
 Name = "PickUpSickle"
@@ -47,9 +52,14 @@ OnComplete = "Show Item BlightChopped"
 
 [[TemporaryTask]]
 Name = "ChopBlight"
-SubTask = "PickUpAxe"
+SubTask = "PickUpAxe2"
 Trigger = "Player Cut Item Blight With Item Axe"
 OnComplete = "Hide Item Blight"
+
+[[TemporaryTask]]
+Name = "PickUpAxe2"
+SubTask = "PickUpAxe"
+OnComplete = "Delete Item AxeHighlighter"
 
 [[TemporaryTask]]
 Name = "PickUpAxe"
@@ -75,9 +85,14 @@ OnComplete = "Show Item YorishiroTreeSummer"
 
 [[TemporaryTask]]
 Name = "FillBucket"
-SubTask = "PickUpBucket"
+SubTask = "PickUpBucket2"
 Trigger = "Player Dig Item SpringRiver With Item Bucket"
 OnComplete = "Item Bucket Become Item WaterBucket"
+
+[[TemporaryTask]]
+Name = "PickUpBucket2"
+SubTask = "PickUpBucket"
+OnComplete = "Delete Item BucketHighlighter"
 
 [[TemporaryTask]]
 Name = "PickUpBucket"
@@ -96,9 +111,14 @@ Trigger = "Player Enter Location Spring"
 
 [[TemporaryTask]]
 Name = "PlantYorishiro"
-SubTask = "WidenHole"
+SubTask = "WidenHole2"
 Trigger = "Player Drop Item YorishiroSapling On Item Hole"
 OnComplete = "Show Item PlantedYorishiro"
+
+[[TemporaryTask]]
+Name = "WidenHole2"
+SubTask = "WidenHole"
+OnComplete = "Delete Item HoleHighlighter"
 
 [[TemporaryTask]]
 Name = "WidenHole"
