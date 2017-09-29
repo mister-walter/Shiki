@@ -44,6 +44,9 @@ GameObject:
   - component: {fileID: 65020011533390082}
   - component: {fileID: 114819687719890428}
   - component: {fileID: 114810918965585268}
+  - component: {fileID: 114179383503222914}
+  - component: {fileID: 114496336598278138}
+  - component: {fileID: 114091810821076960}
   m_Layer: 0
   m_Name: WaterBucket
   m_TagString: Untagged
@@ -200,6 +203,28 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114091810821076960
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1662886820268128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1945c63e7a2945b4b897f3c06a1e2333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114179383503222914
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1662886820268128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb998b894b0254447a5a526fec35d053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114412738156257856
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -209,6 +234,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d2f50a8e0bb841a5aaa90ae55db8849, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114496336598278138
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1662886820268128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bc62a689a5eec45a300156ce4b4beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114810918965585268
