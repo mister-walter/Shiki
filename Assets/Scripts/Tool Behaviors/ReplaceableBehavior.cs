@@ -9,17 +9,18 @@ public class ReplaceableBehavior : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        EventManager.AttachDelegate<TaskCompletedChangeEvent>(this.OnTaskCompletedChangeEvent);
+        EventManager.AttachDelegate<ReplaceObjectEvent>(this.OnReplaceObjectEvent);
 	}
 
     void OnDestroy() {
-        EventManager.RemoveDelegate<TaskCompletedChangeEvent>(this.OnTaskCompletedChangeEvent);
+        EventManager.RemoveDelegate<ReplaceObjectEvent>(this.OnReplaceObjectEvent);
     }
 
-    void OnTaskCompletedChangeEvent(TaskCompletedChangeEvent evt) {
-        Debug.Log("Task completed change event recieved");
-        if(evt.origObject == this.gameObject.name) {
-            var newObject = Shiki.Loader.LoadPrefabInstance(evt.objectChangedTo);
+    void OnReplaceObjectEvent(ReplaceObjectEvent evt) {
+        if(evt.originalObject == this.gameObject.name ||
+            (evt.exactOriginalObject != null && 
+                evt.exactOriginalObject.GetInstanceID() == this.gameObject.GetInstanceID())) {
+            var newObject = Shiki.Loader.LoadPrefabInstance(evt.changeToObject);
             SceneManager.MoveGameObjectToScene(newObject, this.gameObject.scene);
             newObject.transform.position = this.gameObject.transform.position;
             newObject.transform.rotation = this.gameObject.transform.rotation;

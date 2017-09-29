@@ -85,7 +85,7 @@ namespace Shiki.Quests {
         /// <summary>
         /// The on complete function that runs once the task has been completed
         /// </summary>
-        public Action onComplete { get; set; }
+        public Action<InteractionEvent> onComplete { get; set; }
     }
 
     /// <summary>
@@ -336,51 +336,55 @@ namespace Shiki.Quests {
         /// </summary>
         /// <returns>The on complete function in the form of an Action.</returns>
         /// <param name="oc">OnComplete function in string form.</param>
-        public static Action CreateOnCompleteFunction(string oc) {
+        public static Action<InteractionEvent> CreateOnCompleteFunction(string oc) {
             // Just return a no-op if the user didn't provide an OnComplete string
             if(string.IsNullOrEmpty(oc)) {
-                return () => { };
+                return (InteractionEvent evt) => { };
             }
             ParsingResult pR = ParseString(oc);
 
-            Action ac = () => {
-                IGameEvent evt;
+            Action<InteractionEvent> ac = (InteractionEvent evt) => {
+                IGameEvent outEvt;
                 switch(pR.interactionKind) {
                     case InteractionKind.Become:
-                        evt = new TaskCompletedChangeEvent(pR.obj1, pR.obj2);
+                        if(pR.obj1 == "TargetItem") {
+                            outEvt = new ReplaceObjectEvent(evt.targetObject, pR.obj2);
+                        } else {
+                            outEvt = new ReplaceObjectEvent(pR.obj1, pR.obj2);
+                        }
                         break;
                     case InteractionKind.Show:
                         Debug.Log("Show InteractionKind");
                         Debug.Log(string.Format("{0}, {1}", pR.obj1, pR.obj2));
-                        evt = new ShowObjectEvent(pR.obj1);
+                        outEvt = new ShowObjectEvent(pR.obj1);
                         break;
                     case InteractionKind.Hide:
-                        evt = new HideObjectEvent(pR.obj1);
+                        outEvt = new HideObjectEvent(pR.obj1);
                         break;
                     case InteractionKind.Delete:
                         Debug.Log("Delete InteractionKind");
                         Debug.Log(string.Format("{0} {1}", pR.obj1, pR.obj2));
-                        evt = new DeleteObjectEvent(pR.obj1);
+                        outEvt = new DeleteObjectEvent(pR.obj1);
                         break;
                     case InteractionKind.Play:
                         switch(pR.uiEventKind) {
                             case UIActionKind.Dialog:
-                                evt = new ShowTextEvent(pR.obj1);
+                                outEvt = new ShowTextEvent(pR.obj1);
                                 break;
                             case UIActionKind.Sound:
-                                evt = new PlaySoundEvent(pR.obj1);
+                                outEvt = new PlaySoundEvent(pR.obj1);
                                 break;
                             default:
                                 throw new ArgumentException("Play must be followed by Dialog or Sound");
                         }
                         break;
                     case InteractionKind.Get:
-                        evt = new TaskCompletedGetObjectEvent(pR.obj1);
+                        outEvt = new TaskCompletedGetObjectEvent(pR.obj1);
                         break;
                     default:
                         throw new ArgumentException(string.Format("Invalid interaction kind in OnComplete: {0} (OnComplete string: {1})", pR.interactionKind, oc));
                 }
-                EventManager.FireEvent(evt);
+                EventManager.FireEvent(outEvt);
             };
             return ac;
         }
@@ -454,6 +458,8 @@ namespace Shiki.Quests {
                         obj1 = toParse[i];
                         obj1Quantity = tempQuantity;
                     }
+                } else if(toParse[i] == "TargetItem") {
+                    obj1 = toParse[i];
                 } else if(toParse[i].Equals("With") || toParse[i].Equals("On") || toParse[i].Equals("And")) {
                     objToObjIntrcType = toParse[i]; //if objects interact, set the interaction type
 

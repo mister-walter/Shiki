@@ -59,7 +59,7 @@ namespace Shiki.Quests {
                (allChildrenComplete && (tn.AssociatedTask.trigger == null || tn.AssociatedTask.trigger(evt)))) {
                 Debug.Log(string.Format("Task {0} complete", tn.AssociatedTask.name));
                 tn.AssociatedTask.isComplete = true;
-                tn.AssociatedTask.onComplete();
+                tn.AssociatedTask.onComplete(evt);
                 return true;
             }
             return false;

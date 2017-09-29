@@ -118,22 +118,32 @@ namespace Shiki.EventSystem.Events {
     /// On complete change event. Gets fired when a task's oncomplete function is called
     /// Results in one item transforming into another.
     /// </summary>
-    public class TaskCompletedChangeEvent : IGameEvent {
+    public class ReplaceObjectEvent : IGameEvent {
 
         /// <summary>
         /// Object to be changed
         /// </summary>
-        public string origObject { get; set; }
+        public string originalObject { get; set; }
+
+        /// <summary>
+        /// The exact object that was involved, if any.
+        /// </summary>
+        public GameObject exactOriginalObject { get; set; }
 
         /// <summary>
         /// New object (what the original object turns into)
         /// </summary>
-        public string objectChangedTo { get; set; }
+        public string changeToObject { get; set; }
 
 
-        public TaskCompletedChangeEvent(string oo, string oct) {
-            origObject = oo;
-            objectChangedTo = oct;
+        public ReplaceObjectEvent(string oo, string oct) {
+            this.originalObject = oo;
+            this.changeToObject = oct;
+        }
+
+        public ReplaceObjectEvent(GameObject exactOrigObject, string changeToObject) {
+            this.exactOriginalObject = exactOrigObject;
+            this.changeToObject = changeToObject;
         }
     }
 
