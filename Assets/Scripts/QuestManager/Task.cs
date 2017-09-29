@@ -278,6 +278,7 @@ namespace Shiki.Quests {
                     case InteractionKind.Play:
                         switch(pR.uiEventKind) {
                             case UIActionKind.Dialog:
+                                Debug.Log(string.Format("{0}, {1}", pR.obj1, pR.obj2));
                                 evt = new ShowTextEvent(pR.obj1);
                                 break;
                             case UIActionKind.Sound:

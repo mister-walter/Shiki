@@ -1,9 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
 
 public class SubtitlesPlayer : MonoBehaviour {
+    public Text textArea;
+
 	void Start () {
         EventManager.AttachDelegate<ShowTextEvent>(this.OnShowTextEvent);
 	}
@@ -13,6 +16,6 @@ public class SubtitlesPlayer : MonoBehaviour {
     }
 
     void OnShowTextEvent(ShowTextEvent evt) {
-        throw new NotImplementedException();
+        textArea.text = evt.text;
     }
 }
