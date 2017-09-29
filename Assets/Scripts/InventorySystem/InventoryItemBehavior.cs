@@ -1,11 +1,9 @@
 ﻿/// @author Andrew Walter
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Shiki.EventSystem;
-using Shiki.EventSystem.Events;
 using Shiki.EventSystem.InternalEvents;
 using Shiki.Constants;
 using System;
@@ -50,6 +48,11 @@ namespace Shiki.Inventory {
             }
         }
 
+        /// <summary>
+        /// Position this GameObject so that it fits inside the given target, and is centered inside it.
+        /// Also moves this GameObject to the main scene, and sets its parent to the inventory manager.
+        /// </summary>
+        /// <param name="aTarget">The target to position inside</param>
         internal void PositionObjectInsideTarget(InventoryTarget aTarget) {
             var rigidBody = this.gameObject.GetComponent<Rigidbody>();
             ScaleToFit(cubeSize);
@@ -66,6 +69,11 @@ namespace Shiki.Inventory {
             this.gameObject.transform.SetParent(this.inventoryManager.transform);
         }
 
+        /// <summary>
+        /// Set this object's scale so that it fits inside a cube of the given size.
+        /// Maintains aspect ratio.
+        /// </summary>
+        /// <param name="size">The side length of the cube to fit inside.</param>
         internal void ScaleToFit(float size) {
             var extents = this.gameObject.GetComponent<MeshFilter>().mesh.bounds.extents;
             extents.x *= this.gameObject.transform.lossyScale.x;
