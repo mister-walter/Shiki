@@ -68,9 +68,14 @@ Trigger = "Player PickUp Item Axe"
 
 [[TemporaryTask]]
 Name = "EnterSummer"
-SubTask = "WaterYorishiro2"
+SubTask = "WaterYorishiro3"
 Trigger = "Player Enter Location Summer"
 OnComplete = "Show Item Blight"
+
+[[TemporaryTask]]
+Name = "WaterYorishiro3"
+SubTask = "WaterYorishiro2"
+OnComplete = "Show Item BlightLarge"
 
 [[TemporaryTask]]
 Name = "WaterYorishiro2"
