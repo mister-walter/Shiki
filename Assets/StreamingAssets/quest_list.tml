@@ -121,23 +121,6 @@ Name = "ChrysanthemumDay"
 SubTask = "FlowerArrangement MakeSake"
 
 # Flower Arrangement
-[[task]]
-Name = "FlowerArrangement"
-SubTask = "PlacePotted"
-
-[[task]]
-Name = "PlacePotted"
-SubTask = "ArrangeFlowers"
-Trigger = "Player Drop Item ArrangedFlowerPot"
-
-[[task]]
-Name = "ArrangeFlowers"
-SubTask = "GetPot HarvestFlowers"
-Trigger = ""
-
-[[task]]
-Name = "GetPot"
-Trigger = "Player Get Item FlowerPot"
 
 [[task]]
 Name = "HarvestFlowers"
@@ -151,14 +134,21 @@ Trigger = "Player Enter Season Fall"
 
 [[task]]
 Name = "WaterFlowers"
+SubTask = "PlantFlowers"
 Trigger = "Player Drop Item WaterBucket On Item ChrysanthemumSeedling"
 TriggerRepeat = "6"
 
 [[task]]
 Name = "PlantFlowers"
+SubTask = "GetSeeds"
 Trigger = "Player Drop Item ChrysanthemumSeed On Item FarmPlot"
 TriggerRepeat = "6"
 OnComplete = "TargetItem Become Item ChrysanthemumSeedling"
+
+[[task]]
+Name = "GetSeeds"
+Trigger = "Player PickUp Item ChrysanthemumSeeds"
+OnComplete = "Player Get Item ChrysanthemumSeed 6"
 
 # Making Sake
 [[task]]
