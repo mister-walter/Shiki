@@ -156,7 +156,7 @@ TriggerRepeat = "6"
 
 [[task]]
 Name = "PlantFlowers"
-Trigger = "Player Drop Item ChrysanthemumSeed on Item FarmPlot"
+Trigger = "Player Drop Item ChrysanthemumSeed On Item FarmPlot"
 TriggerRepeat = "6"
 OnComplete = "TargetItem Become Item ChrysanthemumSeedling"
 
