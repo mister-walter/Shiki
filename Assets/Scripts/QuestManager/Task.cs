@@ -260,7 +260,7 @@ namespace Shiki.Quests {
                 IGameEvent evt;
                 switch(pR.interactionKind) {
                     case InteractionKind.Become:
-                        evt = new TaskCompletedChangeEvent(pR.obj1, pR.obj2);
+                        evt = new ObjectReplaceEvent(pR.obj1, pR.obj2);
                         break;
                     case InteractionKind.Show:
                         Debug.Log("Show InteractionKind");
@@ -289,7 +289,7 @@ namespace Shiki.Quests {
                         }
                         break;
                     case InteractionKind.Get:
-                        evt = new TaskCompletedGetObjectEvent(pR.obj1);
+                        evt = new PlayerRecieveObjectEvent(pR.obj1);
                         break;
                     default:
                         throw new ArgumentException(string.Format("Invalid interaction kind in OnComplete: {0} (OnComplete string: {1})", pR.interactionKind, oc));

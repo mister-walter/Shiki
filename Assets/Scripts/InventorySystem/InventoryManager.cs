@@ -30,7 +30,7 @@ namespace Shiki.Inventory {
             EventManager.AttachDelegate<ObjectAcceptedByInventoryTargetEvent>(this.OnObjectStored);
             EventManager.AttachDelegate<ObjectEjectedByInventoryTargetEvent>(this.OnObjectRetrieved);
             EventManager.AttachDelegate<PlayerOpenedInventoryEvent>(this.OnInventoryToggled);
-            EventManager.AttachDelegate<TaskCompletedGetObjectEvent>(this.OnTaskCompletedGetObjectEvent);
+            EventManager.AttachDelegate<PlayerRecieveObjectEvent>(this.OnTaskCompletedGetObjectEvent);
             this.GenerateTargets();
         }
 
@@ -58,10 +58,10 @@ namespace Shiki.Inventory {
             EventManager.RemoveDelegate<ObjectAcceptedByInventoryTargetEvent>(this.OnObjectStored);
             EventManager.RemoveDelegate<ObjectEjectedByInventoryTargetEvent>(this.OnObjectRetrieved);
             EventManager.RemoveDelegate<PlayerOpenedInventoryEvent>(this.OnInventoryToggled);
-            EventManager.RemoveDelegate<TaskCompletedGetObjectEvent>(this.OnTaskCompletedGetObjectEvent);
+            EventManager.RemoveDelegate<PlayerRecieveObjectEvent>(this.OnTaskCompletedGetObjectEvent);
         }
 
-        void OnTaskCompletedGetObjectEvent(TaskCompletedGetObjectEvent evt) {
+        void OnTaskCompletedGetObjectEvent(PlayerRecieveObjectEvent evt) {
             var obj = Shiki.Loader.LoadPrefabInstance(evt.objectToReceive);
             this.AddToInventory(obj);
         }

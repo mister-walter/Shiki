@@ -103,13 +103,13 @@ namespace Shiki.EventSystem.Events {
     /// On complete get event. Gets fired when a task's oncomplete function is called.
     /// Results in the player receiving an item.
     /// </summary>
-    public class TaskCompletedGetObjectEvent : IGameEvent {
+    public class PlayerRecieveObjectEvent : IGameEvent {
         /// <summary>
         /// Object the player receives
         /// </summary>
         public string objectToReceive { get; set; }
 
-        public TaskCompletedGetObjectEvent(string otr) {
+        public PlayerRecieveObjectEvent(string otr) {
             objectToReceive = otr;
         }
     }
@@ -118,47 +118,20 @@ namespace Shiki.EventSystem.Events {
     /// On complete change event. Gets fired when a task's oncomplete function is called
     /// Results in one item transforming into another.
     /// </summary>
-    public class TaskCompletedChangeEvent : IGameEvent {
-
+    public class ObjectReplaceEvent : IGameEvent {
         /// <summary>
         /// Object to be changed
         /// </summary>
-        public string origObject { get; set; }
+        public string originalObject { get; set; }
 
         /// <summary>
         /// New object (what the original object turns into)
         /// </summary>
-        public string objectChangedTo { get; set; }
+        public string objectToChangeTo { get; set; }
 
-
-        public TaskCompletedChangeEvent(string oo, string oct) {
-            origObject = oo;
-            objectChangedTo = oct;
-        }
-    }
-
-    /// <summary>
-    /// UI action kind.
-    /// Requests that the UI perform one of these actions.
-    /// </summary>
-    public enum UIActionKind {
-        Sound, Dialog, None
-    };
-
-    public class TaskCompletedUIEvent : IGameEvent {
-        /// <summary>
-        /// What the UI should do
-        /// </summary>
-        public UIActionKind uiEventKind { get; set; }
-
-        /// <summary>
-        /// Name of the action to be played
-        /// </summary>
-        public string name { get; set; }
-
-        public TaskCompletedUIEvent(UIActionKind uiek, string n) {
-            uiEventKind = uiek;
-            name = n;
+        public ObjectReplaceEvent(string originalObject, string objectToChangeTo) {
+            this.originalObject = originalObject;
+            this.objectToChangeTo = objectToChangeTo;
         }
     }
 

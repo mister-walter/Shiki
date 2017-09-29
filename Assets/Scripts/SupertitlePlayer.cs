@@ -7,7 +7,7 @@ using Shiki.EventSystem.Events;
 public class SupertitlePlayer : MonoBehaviour {
     public Text textArea;
 
-	void Start () {
+	void Start() {
         EventManager.AttachDelegate<ShowTextEvent>(this.OnShowTextEvent);
 	}
 
