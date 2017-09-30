@@ -1,11 +1,9 @@
 ﻿/// @author Andrew Walter
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Shiki.EventSystem;
-using Shiki.EventSystem.Events;
 using Shiki.EventSystem.InternalEvents;
 using Shiki.Constants;
 using System;
@@ -34,21 +32,27 @@ namespace Shiki.Inventory {
             this.oldScale = this.gameObject.transform.lossyScale;
             this.currentTargets = new HashSet<InventoryTarget>();
             EventManager.AttachDelegate<ObjectPlacedOnInventoryTargetEvent>(this.OnObjectPlacedInInventory);
-            EventManager.AttachDelegate<ObjectRemovedFromInventoryTargetEvent>(this.OnObjectRemovedFromInventory);
+            EventManager.AttachDelegate<ObjectRemovedFromInventoryTargetEvent>(this.OnObjectRemovedFromInventoryTargetEvent);
         }
 
         void OnDestroy() {
             EventManager.RemoveDelegate<ObjectPlacedOnInventoryTargetEvent>(this.OnObjectPlacedInInventory);
-            EventManager.RemoveDelegate<ObjectRemovedFromInventoryTargetEvent>(this.OnObjectRemovedFromInventory);
+            EventManager.RemoveDelegate<ObjectRemovedFromInventoryTargetEvent>(this.OnObjectRemovedFromInventoryTargetEvent);
         }
 
         void OnObjectPlacedInInventory(ObjectPlacedOnInventoryTargetEvent evt) {
             if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
                 this.target = this.currentTargets.GetOne();
                 this.PositionObjectInsideTarget(this.target);
+                EventManager.FireEvent(new ObjectAcceptedByInventoryTargetEvent(this.gameObject));
             }
         }
 
+        /// <summary>
+        /// Position this GameObject so that it fits inside the given target, and is centered inside it.
+        /// Also moves this GameObject to the main scene, and sets its parent to the inventory manager.
+        /// </summary>
+        /// <param name="aTarget">The target to position inside</param>
         internal void PositionObjectInsideTarget(InventoryTarget aTarget) {
             var rigidBody = this.gameObject.GetComponent<Rigidbody>();
             ScaleToFit(cubeSize);
@@ -65,6 +69,11 @@ namespace Shiki.Inventory {
             this.gameObject.transform.SetParent(this.inventoryManager.transform);
         }
 
+        /// <summary>
+        /// Set this object's scale so that it fits inside a cube of the given size.
+        /// Maintains aspect ratio.
+        /// </summary>
+        /// <param name="size">The side length of the cube to fit inside.</param>
         internal void ScaleToFit(float size) {
             var extents = this.gameObject.GetComponent<MeshFilter>().mesh.bounds.extents;
             extents.x *= this.gameObject.transform.lossyScale.x;
@@ -76,14 +85,14 @@ namespace Shiki.Inventory {
             this.gameObject.transform.localScale = new Vector3(scale, scale, scale);
         }
 
-        void OnObjectRemovedFromInventory(ObjectRemovedFromInventoryTargetEvent evt) {
+        void OnObjectRemovedFromInventoryTargetEvent(ObjectRemovedFromInventoryTargetEvent evt) {
             if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
                 this.gameObject.transform.localScale = oldScale;
                 var rigidBody = this.gameObject.GetComponent<Rigidbody>();
                 rigidBody.useGravity = true;
                 this.gameObject.transform.SetParent(this.oldParent);
                 SceneManager.MoveGameObjectToScene(this.gameObject, this.oldScene);
-                EventManager.FireEvent(new ObjectRetrievedEvent(this.gameObject));
+                EventManager.FireEvent(new ObjectEjectedByInventoryTargetEvent(this.gameObject));
             }
         }
 
