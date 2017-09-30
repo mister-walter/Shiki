@@ -16,7 +16,7 @@ namespace Shiki.EventSystem {
     /// <summary>
     /// Global object for listening for events, and firing them.
     /// </summary>
-    public class GameEventSystem {
+    public class EventManager {
         private static Dictionary<Type, Delegate> eventMap = new Dictionary<Type, Delegate>();
 
         /// <summary>
@@ -25,10 +25,9 @@ namespace Shiki.EventSystem {
         /// </summary>
         /// <typeparam name="T">The IGameEvent to attach the given delegate to</typeparam>
         /// <param name="del">The Action to perform when the event occurs</param>
-        public static void AttachDelegate<T>(Action<T> del) where T : IGameEvent
-        {
+        public static void AttachDelegate<T>(Action<T> del) where T : IGameEvent {
             var evtType = typeof(T);
-            if (!eventMap.ContainsKey(evtType)) {
+            if(!eventMap.ContainsKey(evtType)) {
                 eventMap[evtType] = del;
             } else {
                 eventMap[evtType] = Delegate.Combine(eventMap[evtType], del);
@@ -41,17 +40,13 @@ namespace Shiki.EventSystem {
         /// </summary>
         /// <typeparam name="T">The IGameEvent to remove the given delegate from</typeparam>
         /// <param name="del">The Action to remove from the event</param>
-        public static void RemoveDelegate<T>(Action<T> del) where T : IGameEvent
-        {
+        public static void RemoveDelegate<T>(Action<T> del) where T : IGameEvent {
             var evtType = typeof(T);
-            if (eventMap.ContainsKey(evtType))
-            {
+            if(eventMap.ContainsKey(evtType)) {
                 var newDel = Delegate.Remove(eventMap[evtType], del);
-                if (newDel == null)
-                {
+                if(newDel == null) {
                     eventMap.Remove(evtType);
-                } else
-                {
+                } else {
                     eventMap[evtType] = newDel;
                 }
             }
@@ -61,11 +56,9 @@ namespace Shiki.EventSystem {
         /// Causes an event to fire, causing any listening delegates to be run.
         /// </summary>
         /// <param name="evt">The event to fire. This is passed on to the delegates, so this is how to pass information to the delegates.</param>
-        public static void FireEvent(IGameEvent evt)
-        {
+        public static void FireEvent(IGameEvent evt) {
             var evtType = evt.GetType();
-            if (eventMap.ContainsKey(evtType))
-            {
+            if(eventMap.ContainsKey(evtType)) {
                 eventMap[evtType].DynamicInvoke(evt);
             }
 #if SHIKI_DEBUG

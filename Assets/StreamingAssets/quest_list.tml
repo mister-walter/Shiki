@@ -1,0 +1,152 @@
+[[TemporaryTask]]
+Name = "Done"
+SubTask = "CompleteMultitool"
+OnComplete = "Play Sound jupee"
+
+[[TemporaryTask]]
+Name = "CompleteMultitool"
+SubTask = "MergeShovel MergeAxe MergeSickle MergeBucket"
+OnComplete = "Item MultiTool Become Item FinishedMultitool"
+
+[[TemporaryTask]]
+Name = "MergeShovel"
+Trigger = "Player Merge Item MultiTool And Item Shovel"
+
+[[TemporaryTask]]
+Name = "MergeAxe"
+Trigger = "Player Merge Item MultiTool And Item Axe"
+
+[[TemporaryTask]]
+Name = "MergeBucket"
+Trigger = "Player Merge Item MultiTool And Item WaterBucket"
+
+[[TemporaryTask]]
+Name = "MergeSickle"
+Trigger = "Player Merge Item MultiTool And Item Sickle"
+
+[[TemporaryTask]]
+Name = "SickleYorishiro"
+SubTask = "PickUpSickle"
+Trigger = "Player Cut Item GrownYorishiro With Item Sickle"
+OnComplete = "Player Get Item MultiTool"
+
+[[TemporaryTask]]
+Name = "PickUpSickle2"
+SubTask = "PickUpSickle"
+OnComplete = "Delete Item SickleHighlighter"
+
+[[TemporaryTask]]
+Name = "PickUpSickle"
+SubTask = "ChopBlight3"
+Trigger = "Player PickUp Item Sickle"
+
+[[TemporaryTask]]
+Name = "ChopBlight3"
+SubTask = "ChopBlight2"
+OnComplete = "Show Item GrownYorishiro"
+
+[[TemporaryTask]]
+Name = "ChopBlight2"
+SubTask = "ChopBlight"
+OnComplete = "Show Item BlightChopped"
+
+[[TemporaryTask]]
+Name = "ChopBlight"
+SubTask = "PickUpAxe2"
+Trigger = "Player Cut Item Blight With Item Axe"
+OnComplete = "Hide Item Blight"
+
+[[TemporaryTask]]
+Name = "PickUpAxe2"
+SubTask = "PickUpAxe"
+OnComplete = "Delete Item AxeHighlighter"
+
+[[TemporaryTask]]
+Name = "PickUpAxe"
+SubTask = "EnterSummer"
+Trigger = "Player PickUp Item Axe"
+
+[[TemporaryTask]]
+Name = "EnterSummer"
+SubTask = "WaterYorishiro3"
+Trigger = "Player Enter Location Summer"
+OnComplete = "Show Item Blight"
+
+[[TemporaryTask]]
+Name = "WaterYorishiro3"
+SubTask = "WaterYorishiro2"
+OnComplete = "Show Item BlightLarge"
+
+[[TemporaryTask]]
+Name = "WaterYorishiro2"
+SubTask = "WaterYorishiro"
+OnComplete = "Show Item GrowingYorishiro"
+
+[[TemporaryTask]]
+Name = "WaterYorishiro"
+SubTask = "FillBucket"
+Trigger = "Player Drop Item WaterBucket On Item GrowingYorishiro"
+OnComplete = "Show Item YorishiroTreeSummer"
+
+[[TemporaryTask]]
+Name = "FillBucket"
+SubTask = "PickUpBucket2"
+Trigger = "Player Dig Item SpringRiver With Item Bucket"
+OnComplete = "Item Bucket Become Item WaterBucket"
+
+[[TemporaryTask]]
+Name = "PickUpBucket2"
+SubTask = "PickUpBucket"
+OnComplete = "Delete Item BucketHighlighter"
+
+[[TemporaryTask]]
+Name = "PickUpBucket"
+SubTask = "EnterSpring"
+Trigger = "Player PickUp Item Bucket"
+
+[[TemporaryTask]]
+Name = "TestShowYorishiro"
+Trigger = "Player Enter Location Winter"
+OnComplete = "Show Item GrowingYorishiro"
+
+[[TemporaryTask]]
+Name = "EnterSpring"
+SubTask = "PlantYorishiro"
+Trigger = "Player Enter Location Spring"
+
+[[TemporaryTask]]
+Name = "PlantYorishiro"
+SubTask = "WidenHole2"
+Trigger = "Player Drop Item YorishiroSapling On Item Hole"
+OnComplete = "Show Item PlantedYorishiro"
+
+[[TemporaryTask]]
+Name = "WidenHole2"
+SubTask = "WidenHole"
+OnComplete = "Delete Item HoleHighlighter"
+
+[[TemporaryTask]]
+Name = "WidenHole"
+SubTask = "PickUpShovel"
+Trigger = "Player Dig Item Hole With Item Shovel"
+OnComplete = "Delete Item UnwidenedHole"
+
+[[TemporaryTask]]
+Name = "PickUpShovel"
+SubTask = "EnterWinter"
+Trigger = "Player PickUp Item Shovel"
+
+[[TemporaryTask]]
+Name = "EnterWinter"
+SubTask = "OpenInventory"
+Trigger = "Player Enter Location Winter"
+
+#[[TemporaryTask]]
+#Name = "HoldSapling"
+#SubTask = "OpenInventory"
+#Trigger = "Player Retrieve Item YorishiroSapling"
+
+[[TemporaryTask]]
+Name = "OpenInventory"
+Trigger = "Player Open Item Inventory"
+OnComplete = "Player Get Item YorishiroSapling"

@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Shiki.Inventory
-{
+namespace Shiki.Inventory {
     /// <summary>
     /// Interface for a backend for the inventory
     /// </summary>
     /// <typeparam name="T">The type that the inventory can store</typeparam>
-    public interface IInventoryBackend<T> : IEnumerable<T>
-    {
+    public interface IInventoryBackend<T> : IEnumerable<T> {
         int AddToEnd(T item);
         void Add(T item, int position);
         T Get(int position);

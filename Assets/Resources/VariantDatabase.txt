@@ -1,0 +1,7 @@
+[[item]]
+  name = "TestObject"
+  prefab = "TestObjectDefault"
+  [item.variant.Summer]
+    prefab = "TestObjectSummer"
+  [item.variant.Winter]
+    prefab = "TestObjectWinter"

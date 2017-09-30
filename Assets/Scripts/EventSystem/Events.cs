@@ -3,45 +3,15 @@
 using UnityEngine;
 
 /// <summary>
-/// Events for use with GameEventSystem
+/// Frontend events for use with EventManager
 /// </summary>
-namespace Shiki.EventSystem.Events
-{
+namespace Shiki.EventSystem.Events {
     /// <summary>
-    /// Fired by: GrabObjects
-    /// Fires: When an object is placed
-    /// Listened for by: SeasonInfo, which then fires ObjectPlacedInSeasonEvent if the object was placed in its season
+    /// Fired by: SeasonalEffect
+    /// Fires: After an object is placed into a season (after internal ObjectPlacedInSeasonStartEvent)
+    /// Listened for by: ?
     /// </summary>
-    public class ObjectPutDownEvent : IGameEvent
-    {
-        /// <summary>
-        /// The GameObject that was placed.
-        /// </summary>
-        public GameObject placedObject;
-
-        /// <summary>
-        /// The SeasonalEffect from the season in which the object was placed. Could be null.
-        /// </summary>
-        public SeasonalEffect effect = null;
-
-        public ObjectPutDownEvent(GameObject go)
-        {
-            this.placedObject = go;
-        }
-        public ObjectPutDownEvent(GameObject go, SeasonalEffect effect)
-        {
-            this.placedObject = go;
-            this.effect = effect;
-        }
-    }
-
-    /// <summary>
-    /// Fired by: SeasonInfo
-    /// Fires: When an object is placed into a season (after ObjectPutDownEvent)
-    /// Listened for by: SeasonalEffect
-    /// </summary>
-    public class ObjectPlacedInSeasonEvent : IGameEvent
-    {
+    public class ObjectPlacedInSeasonFinishedEvent : IGameEvent {
         /// <summary>
         /// The GameObject that was placed
         /// </summary>
@@ -57,31 +27,10 @@ namespace Shiki.EventSystem.Events
         /// </summary>
         public string seasonName;
 
-        /// <summary>
-        /// The SeasonalEffect from the season in which the object was placed.
-        /// </summary>
-        public SeasonalEffect effect;
-
-        /// <summary>
-        /// The name of the season which the object came from, if any. Could be null.
-        /// </summary>
-        public string previousSeason;
-
-        public ObjectPlacedInSeasonEvent(GameObject go, SeasonalEffect effect, SeasonCoordinate coord, string seasonName)
-        {
+        public ObjectPlacedInSeasonFinishedEvent(GameObject go, SeasonCoordinate coord, string seasonName) {
             this.placedObject = go;
-            this.effect = effect;
             this.coord = coord;
             this.seasonName = seasonName;
-        }
-
-        public ObjectPlacedInSeasonEvent(GameObject go, SeasonalEffect effect, SeasonCoordinate coord, string seasonName, string previousSeason)
-        {
-            this.placedObject = go;
-            this.effect = effect;
-            this.coord = coord;
-            this.seasonName = seasonName;
-            this.previousSeason = previousSeason;
         }
     }
 
@@ -90,8 +39,7 @@ namespace Shiki.EventSystem.Events
     /// Fires: When an object is picked up
     /// Listened for by: SeasonalEffect
     /// </summary>
-    public class ObjectPickedUpEvent : IGameEvent
-    {
+    public class ObjectPickedUpEvent : IGameEvent {
         /// <summary>
         /// The GameObject that was picked up.
         /// </summary>
@@ -102,95 +50,183 @@ namespace Shiki.EventSystem.Events
         /// </summary>
         public SeasonalEffect effect = null;
 
-        public ObjectPickedUpEvent(GameObject go)
-        {
+        public ObjectPickedUpEvent(GameObject go) {
             this.pickedUpObject = go;
         }
 
-        public ObjectPickedUpEvent(GameObject go, SeasonalEffect effect)
-        {
+        public ObjectPickedUpEvent(GameObject go, SeasonalEffect effect) {
             this.pickedUpObject = go;
             this.effect = effect;
         }
     }
 
     /// <summary>
-    /// Fired by: SeasonalEffect
-    /// Fires: When an object is placed for the first time (i.e. has no other variants)
-    /// Listened for by: SeasonInfo
+    /// Fired by: InventoryManager
+    /// Fires: After an object has been stored in the inventory
+    /// Listened for by: Task triggers
     /// </summary>
-    public class SeasonalObjectPlacedForFirstTime : IGameEvent
-    {
-        /// <summary>
-        /// The GameObject that was placed.
-        /// </summary>
-        public GameObject placedObject;
-
-        /// <summary>
-        /// The SeasonalEffect of the season in which the object was placed.
-        /// </summary>
-        public SeasonalEffect effect;
-
-        /// <summary>
-        /// The name of the season in which the object was placed.
-        /// </summary>
-        public string placedInSeason;
-
-        /// <summary>
-        /// The SeasonCoordinate at which the object was placed.
-        /// </summary>
-        public SeasonCoordinate placedAtCoord;
-
-        public SeasonalObjectPlacedForFirstTime(GameObject go, SeasonalEffect effect, string season, SeasonCoordinate placedAtCoord)
-        {
-            this.placedObject = go;
-            this.placedInSeason = season;
-            this.placedAtCoord = placedAtCoord;
-            this.effect = effect;
-        }
-    }
-
-    /// <summary>
-    /// Fired by: TODO
-    /// Fires: TODO
-    /// Listened for by: InventoryManager
-    /// </summary>
-    public class ObjectStoredEvent : IGameEvent
-    {
+    public class ObjectStoredEvent : IGameEvent {
         /// <summary>
         /// The object that was stored.
         /// </summary>
         public GameObject storedObject;
 
-        public ObjectStoredEvent(GameObject go)
-        {
+        public ObjectStoredEvent(GameObject go) {
             this.storedObject = go;
         }
     }
 
-    public class ObjectRetrievedEvent : IGameEvent
-    {
+    /// <summary>
+    /// Fired by: InventoryManager
+    /// Fires: After an object has been retrieved from the inventory
+    /// Listened for by: Task triggers
+    /// </summary>
+    public class ObjectRetrievedEvent : IGameEvent {
         public GameObject retrievedObject;
-    }
 
-    public class ObjectPlacedInInventoryEvent : IGameEvent
-    {
-        public GameObject placedObject;
-        public ObjectPlacedInInventoryEvent(GameObject go)
-        {
-            this.placedObject = go;
+        public ObjectRetrievedEvent(GameObject go) {
+            this.retrievedObject = go;
         }
     }
 
-    public class ObjectRemovedFromInventoryEvent : IGameEvent
-    {
-        public GameObject placedObject;
-        public ObjectRemovedFromInventoryEvent(GameObject go)
-        {
-            this.placedObject = go;
+    public class PlayerOpenedInventoryEvent : IGameEvent { }
+
+    public class PlayerEnteredAreaEvent : IGameEvent {
+        public string seasonName;
+
+        public PlayerEnteredAreaEvent(string seasonName) {
+            this.seasonName = seasonName;
         }
     }
 
-    public class ToggleInventoryEvent : IGameEvent { }
+    /// <summary>
+    /// On complete get event. Gets fired when a task's oncomplete function is called.
+    /// Results in the player receiving an item.
+    /// </summary>
+    public class TaskCompletedGetObjectEvent : IGameEvent {
+        /// <summary>
+        /// Object the player receives
+        /// </summary>
+        public string objectToReceive { get; set; }
+
+        public TaskCompletedGetObjectEvent(string otr) {
+            objectToReceive = otr;
+        }
+    }
+
+    /// <summary>
+    /// On complete change event. Gets fired when a task's oncomplete function is called
+    /// Results in one item transforming into another.
+    /// </summary>
+    public class TaskCompletedChangeEvent : IGameEvent {
+
+        /// <summary>
+        /// Object to be changed
+        /// </summary>
+        public string origObject { get; set; }
+
+        /// <summary>
+        /// New object (what the original object turns into)
+        /// </summary>
+        public string objectChangedTo { get; set; }
+
+
+        public TaskCompletedChangeEvent(string oo, string oct) {
+            origObject = oo;
+            objectChangedTo = oct;
+        }
+    }
+
+    /// <summary>
+    /// UI action kind.
+    /// Requests that the UI perform one of these actions.
+    /// </summary>
+    public enum UIActionKind {
+        Sound, Dialog, None
+    };
+
+    public class TaskCompletedUIEvent : IGameEvent {
+        /// <summary>
+        /// What the UI should do
+        /// </summary>
+        public UIActionKind uiEventKind { get; set; }
+
+        /// <summary>
+        /// Name of the action to be played
+        /// </summary>
+        public string name { get; set; }
+
+        public TaskCompletedUIEvent(UIActionKind uiek, string n) {
+            uiEventKind = uiek;
+            name = n;
+        }
+    }
+
+    public class ObjectHitEvent : IGameEvent {
+        public GameObject hitObject;
+        public GameObject tool;
+
+        public ObjectHitEvent(GameObject go, GameObject tool) {
+            this.hitObject = go;
+            this.tool = tool;
+        }
+    }
+
+    public class AllScenesLoadedEvent : IGameEvent { }
+
+    public class ObjectDroppedOntoDropTargetEvent : IGameEvent {
+        public GameObject droppedObject;
+        public GameObject dropTarget;
+
+        public ObjectDroppedOntoDropTargetEvent(GameObject droppedObject, GameObject dropTarget) {
+            this.droppedObject = droppedObject;
+            this.dropTarget = dropTarget;
+        }
+    }
+
+    public class PlaySoundEvent : IGameEvent {
+        public string soundName;
+        public PlaySoundEvent(string soundName) {
+            this.soundName = soundName;
+        }
+    }
+
+    public class ShowTextEvent : IGameEvent {
+        public string text;
+        public ShowTextEvent(string text) {
+            this.text = text;
+        }
+    }
+
+    public class ObjectMergeEvent : IGameEvent {
+        public GameObject obj1;
+        public GameObject obj2;
+
+        public ObjectMergeEvent(GameObject obj1, GameObject obj2) {
+            this.obj1 = obj1;
+            this.obj2 = obj2;
+        }
+    }
+
+    public class DeleteObjectEvent : IGameEvent {
+        public string toDelete;
+        public DeleteObjectEvent(string toDelete) {
+            this.toDelete = toDelete;
+        }
+    }
+
+    public class HideObjectEvent : IGameEvent {
+        public string toHide;
+        public HideObjectEvent(string toHide) {
+            this.toHide = toHide;
+        }
+    }
+
+    public class ShowObjectEvent : IGameEvent {
+        public string toShow;
+        public ShowObjectEvent(string toShow) {
+            this.toShow = toShow;
+        }
+    }
 }
 
