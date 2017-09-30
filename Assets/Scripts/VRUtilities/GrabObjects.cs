@@ -90,11 +90,16 @@ public class GrabObjects : MonoBehaviour {
         return fx;
     }
 
+    private void DestroyAllJoints() {
+        foreach(var joint in this.gameObject.GetComponents<FixedJoint>()) {
+            joint.connectedBody = null;
+            Destroy(joint);
+        }
+    }
+
     private void ReleaseObject() {
         if(GetComponent<FixedJoint>()) {
-            GetComponent<FixedJoint>().connectedBody = null;
-            Destroy(GetComponent<FixedJoint>());
-
+            DestroyAllJoints();
             if(objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.IsInsideTarget())) {
                 EventManager.FireEvent(new ObjectPlacedOnInventoryTargetEvent(objInHand));
             } else {
@@ -102,8 +107,9 @@ public class GrabObjects : MonoBehaviour {
                     EventManager.FireEvent(new ObjectRemovedFromInventoryTargetEvent(objInHand));
                 }
 
-                objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
-                objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
+                var rigidbody = objInHand.GetComponent<Rigidbody>();
+                rigidbody.velocity = controller.velocity;
+                rigidbody.angularVelocity = controller.angularVelocity;
                 // Get the seasonal effect of the object, if any
                 var seasonalEffect = objInHand.GetComponentInSelfOrImmediateParent<SeasonalEffect>();
                 // Fire an event to notify any listeners

@@ -96,6 +96,10 @@ namespace Shiki.Inventory {
             // We don't need to check if the target was a valid one for us, (i.e. empty when we entered)
             // because Remove will just do nothing if target isn't inside currentTargets
             this.currentTargets.Remove(target);
+            if(!this.IsInsideTarget()) {
+                var rigidBody = this.gameObject.GetComponent<Rigidbody>();
+                rigidBody.useGravity = true;
+            }
         }
 
         /// <summary>
