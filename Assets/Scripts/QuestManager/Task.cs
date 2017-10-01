@@ -255,6 +255,7 @@ namespace Shiki.Quests {
             ParsingResult pR = ParseString(tr);
             Predicate<InteractionEvent> pred;
 
+			// TODO: implement InteractionKind.Leave
             // Don't worry about checking for the kind inside these predicates, we'll add that before we return
             switch(pR.interactionKind) {
                 case InteractionKind.Enter:
