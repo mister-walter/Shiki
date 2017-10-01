@@ -34,6 +34,8 @@ The current list of actions are “Get, Enter, Drop, Cut, Hit, Dig, Merge, Becom
 		Ex: "Player Open Item Inventory"
 	Play - UI plays an action (to be used in OnComplete)
 		Ex: "UI Play Sound SoundName" or "UI Play Dialog DialogName"
+	Leave - Allows the player to leave an item in one season, to pick it up X seasons later
+		Ex: "Player Leave Item ItemName For 2 Seasons"
 
 Note: Tasks are not required to have Trigger functions, as such, in the event that one would like to combine multiple OnComplete functions, simply create new tasks without triggers, and set their subtasks to be one of the tasks that contains the other OnComplete event you want.
 Children cannot have multiple parents. There is no check for this at the moment, so try to avoid this.

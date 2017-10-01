@@ -36,6 +36,11 @@ namespace Shiki.Quests {
         /// </summary>
         public int obj2Quantity { get; set; }
 
+		/// <summary>
+		/// In the case of leaving an object in a season to pick it up X seasons later, this is the X
+		/// </summary>
+		public int amountOfTime { get; set; }
+
         /// <summary>
         /// Location listed in parsing
         /// </summary>
@@ -420,6 +425,7 @@ namespace Shiki.Quests {
             int tempQuantity = 1;
             int obj1Quantity = 0;
             int obj2Quantity = 0;
+			int amountOfTime = 0;
             string location = String.Empty;
             string objToObjIntrcType = String.Empty;
             InteractionKind action = InteractionKind.None;
@@ -432,7 +438,7 @@ namespace Shiki.Quests {
                 } else if(toParse[i].Equals("Item") && i + 1 < length) {
                     i++;
                     // next expected word might be a quantity
-                    if(Int32.TryParse(toParse[i], out tempQuantity)) {
+					if(Int32.TryParse(toParse[i], out tempQuantity)) {
                         i++;
                     }
 
@@ -463,7 +469,11 @@ namespace Shiki.Quests {
                 } else if(toParse[i].Equals("With") || toParse[i].Equals("On") || toParse[i].Equals("And")) {
                     objToObjIntrcType = toParse[i]; //if objects interact, set the interaction type
 
-                } else if(toParse[i].Equals("Location") && i + 1 < length) {
+				} else if(toParse[i].Equals("For") && action == InteractionKind.Leave){
+					//Trigger = "Player Leave Item ItemName For 2 Seasons"
+					Int32.TryParse(toParse[++i], out amountOfTime);
+					i++;
+				} else if(toParse[i].Equals("Location") && i + 1 < length) {
                     i++;
                     location = toParse[i];
                 } else if(Enum.TryParse<InteractionKind>(toParse[i], out action)) {
@@ -472,7 +482,7 @@ namespace Shiki.Quests {
                         Debug.Log("Found a play statement");
                         Enum.TryParse<UIActionKind>(toParse[++i], out uiEventKind);
                         obj1 = toParse[++i];
-                    }
+					}
                     //if(toParse[i].Equals("Become")) { // again if an objects interact, set interaction type
                     //    objToObjIntrcType = toParse[i];
                     //    action = InteractionKind.Become;
@@ -489,6 +499,7 @@ namespace Shiki.Quests {
             parsingResult.obj2 = obj2; // other
             parsingResult.obj1Quantity = obj1Quantity;
             parsingResult.obj2Quantity = obj2Quantity;
+			parsingResult.amountOfTime = amountOfTime;
             parsingResult.location = location;
             parsingResult.objToObjInteractionType = objToObjIntrcType;
 
