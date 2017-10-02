@@ -120,6 +120,7 @@ namespace Shiki.Inventory {
             // because Remove will just do nothing if target isn't inside currentTargets
             this.currentTargets.Remove(target);
             if(!this.IsInsideTarget()) {
+                Debug.Log("Exited");
                 var rigidBody = this.gameObject.GetComponent<Rigidbody>();
                 rigidBody.useGravity = true;
                 var collider = this.gameObject.GetComponent<Collider>();
