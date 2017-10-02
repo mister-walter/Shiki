@@ -51,3 +51,8 @@
 *.meta linguist-generated
 *.prefab linguist-generated
 *.unity linguist-generated
+# These fix issues with case-sensitivity on the experiment room computer
+*.FBX filter=lfs diff=lfs merge=lfs -text
+*.TGA filter=lfs diff=lfs merge=lfs -text
+*.JPG filter=lfs diff=lfs merge=lfs -text
+*.PNG filter=lfs diff=lfs merge=lfs -text
