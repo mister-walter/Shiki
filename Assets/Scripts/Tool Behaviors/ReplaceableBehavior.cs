@@ -20,7 +20,7 @@ public class ReplaceableBehavior : MonoBehaviour {
         if(evt.originalObject == this.gameObject.name ||
             (evt.exactOriginalObject != null && 
                 evt.exactOriginalObject.GetInstanceID() == this.gameObject.GetInstanceID())) {
-            var newObject = Shiki.Loader.LoadPrefabInstance(evt.changeToObject);
+            var newObject = Shiki.Loader.LoadPrefabInstance(evt.objectToChangeTo);
             SceneManager.MoveGameObjectToScene(newObject, this.gameObject.scene);
             newObject.transform.position = this.gameObject.transform.position;
             newObject.transform.rotation = this.gameObject.transform.rotation;

@@ -103,73 +103,43 @@ namespace Shiki.EventSystem.Events {
     /// On complete get event. Gets fired when a task's oncomplete function is called.
     /// Results in the player receiving an item.
     /// </summary>
-    public class TaskCompletedGetObjectEvent : IGameEvent {
+    public class PlayerRecieveObjectEvent : IGameEvent {
         /// <summary>
         /// Object the player receives
         /// </summary>
         public string objectToReceive { get; set; }
 
-        public TaskCompletedGetObjectEvent(string otr) {
+        public PlayerRecieveObjectEvent(string otr) {
             objectToReceive = otr;
         }
     }
 
     /// <summary>
-    /// On complete change event. Gets fired when a task's oncomplete function is called
+    /// Gets fired when a task's oncomplete function is called
     /// Results in one item transforming into another.
     /// </summary>
     public class ReplaceObjectEvent : IGameEvent {
-
         /// <summary>
         /// Object to be changed
         /// </summary>
         public string originalObject { get; set; }
 
-        /// <summary>
-        /// The exact object that was involved, if any.
-        /// </summary>
         public GameObject exactOriginalObject { get; set; }
 
         /// <summary>
         /// New object (what the original object turns into)
         /// </summary>
-        public string changeToObject { get; set; }
+        public string objectToChangeTo { get; set; }
 
-
-        public ReplaceObjectEvent(string oo, string oct) {
-            this.originalObject = oo;
-            this.changeToObject = oct;
+        public ReplaceObjectEvent(string originalObject, string objectToChangeTo) {
+            this.originalObject = originalObject;
+            this.objectToChangeTo = objectToChangeTo;
+        }
+        public ReplaceObjectEvent(GameObject exactOriginalObject, string objectToChangeTo) {
+            this.exactOriginalObject = exactOriginalObject;
+            this.objectToChangeTo = objectToChangeTo;
         }
 
-        public ReplaceObjectEvent(GameObject exactOrigObject, string changeToObject) {
-            this.exactOriginalObject = exactOrigObject;
-            this.changeToObject = changeToObject;
-        }
-    }
-
-    /// <summary>
-    /// UI action kind.
-    /// Requests that the UI perform one of these actions.
-    /// </summary>
-    public enum UIActionKind {
-        Sound, Dialog, None
-    };
-
-    public class TaskCompletedUIEvent : IGameEvent {
-        /// <summary>
-        /// What the UI should do
-        /// </summary>
-        public UIActionKind uiEventKind { get; set; }
-
-        /// <summary>
-        /// Name of the action to be played
-        /// </summary>
-        public string name { get; set; }
-
-        public TaskCompletedUIEvent(UIActionKind uiek, string n) {
-            uiEventKind = uiek;
-            name = n;
-        }
     }
 
     public class ObjectHitEvent : IGameEvent {
@@ -181,8 +151,6 @@ namespace Shiki.EventSystem.Events {
             this.tool = tool;
         }
     }
-
-    public class AllScenesLoadedEvent : IGameEvent { }
 
     public class ObjectDroppedOntoDropTargetEvent : IGameEvent {
         public GameObject droppedObject;

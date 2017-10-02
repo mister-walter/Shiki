@@ -385,7 +385,7 @@ namespace Shiki.Quests {
                         }
                         break;
                     case InteractionKind.Get:
-                        outEvt = new TaskCompletedGetObjectEvent(pR.obj1);
+                        outEvt = new PlayerRecieveObjectEvent(pR.obj1);
                         break;
                     default:
                         throw new ArgumentException(string.Format("Invalid interaction kind in OnComplete: {0} (OnComplete string: {1})", pR.interactionKind, oc));

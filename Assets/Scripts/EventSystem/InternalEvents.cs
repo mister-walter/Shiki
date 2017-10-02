@@ -141,4 +141,9 @@ namespace Shiki.EventSystem.InternalEvents {
             this.ejectedObject = go;
         }
     }
+
+    /// <summary>
+    /// Fires when all of the game's scenes have been loaded asynchronously from MainScene
+    /// </summary>
+    public class AllScenesLoadedEvent : IGameEvent { }
 }
