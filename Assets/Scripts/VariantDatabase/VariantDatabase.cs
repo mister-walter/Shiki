@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Shiki {
-
     internal class Variant {
         public string prefab { get; set; }
     }
