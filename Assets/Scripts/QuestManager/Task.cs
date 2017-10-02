@@ -482,7 +482,6 @@ namespace Shiki.Quests {
                     location = toParse[i];
                 } else if(Enum.TryParse<InteractionKind>(toParse[i], out action)) {
                     if(action == InteractionKind.Play) {
-                        Debug.Log("Found a play statement");
                         Enum.TryParse<UIActionKind>(toParse[++i], out uiEventKind);
                         obj1 = toParse[++i];
                     }
