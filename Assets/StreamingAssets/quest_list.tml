@@ -111,8 +111,13 @@ OnComplete = "Show Item GrowingYorishiro"
 
 [[task]]
 Name = "EnterSpring"
-SubTask = "PlantYorishiro"
+SubTask = "PlantYorishiro2"
 Trigger = "Player Enter Location Spring"
+
+[[task]]
+Name = "PlantYorishiro2"
+SubTask = "PlantYorishiro"
+OnComplete = "Delete Item YorishiroSapling"
 
 [[task]]
 Name = "PlantYorishiro"
