@@ -108,8 +108,19 @@ public class GrabObjects : MonoBehaviour {
                 }
 
                 var rigidbody = objInHand.GetComponent<Rigidbody>();
-                rigidbody.velocity = controller.velocity;
+                // code borrowed from https://www.reddit.com/r/vrdev/comments/51l5dy/unity_physics_problem_with_vive_thrown_objects/de16oon/?st=j89mbmud&sh=64f3bd29
+                Transform origin = trackedObj.origin ? trackedObj.origin : trackedObj.transform.parent;
+                if(origin != null) {
+                    rigidbody.velocity = origin.TransformVector(controller.velocity);
+                    rigidbody.GetRelativePointVelocity(origin.TransformVector(controller.angularVelocity));
+                }
+                rigidbody.AddForce(controller.velocity);
                 rigidbody.angularVelocity = controller.angularVelocity;
+                // end borrowed code
+
+                // original throwing thing that didn't work always
+//                rigidbody.velocity = controller.velocity;
+//                rigidbody.angularVelocity = controller.angularVelocity;
                 // Get the seasonal effect of the object, if any
                 var seasonalEffect = objInHand.GetComponentInSelfOrImmediateParent<SeasonalEffect>();
                 // Fire an event to notify any listeners
