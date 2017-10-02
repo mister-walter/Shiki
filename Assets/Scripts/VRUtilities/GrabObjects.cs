@@ -90,11 +90,16 @@ public class GrabObjects : MonoBehaviour {
         return fx;
     }
 
+    private void DestroyAllJoints() {
+        foreach(var joint in this.gameObject.GetComponents<FixedJoint>()) {
+            joint.connectedBody = null;
+            Destroy(joint);
+        }
+    }
+
     private void ReleaseObject() {
         if(GetComponent<FixedJoint>()) {
-            GetComponent<FixedJoint>().connectedBody = null;
-            Destroy(GetComponent<FixedJoint>());
-
+            DestroyAllJoints();
             if(objInHand.HasComponentAnd<InventoryItemBehavior>((iib) => iib.IsInsideTarget())) {
                 EventManager.FireEvent(new ObjectPlacedOnInventoryTargetEvent(objInHand));
             } else {
@@ -102,8 +107,20 @@ public class GrabObjects : MonoBehaviour {
                     EventManager.FireEvent(new ObjectRemovedFromInventoryTargetEvent(objInHand));
                 }
 
-                objInHand.GetComponent<Rigidbody>().velocity = controller.velocity;
-                objInHand.GetComponent<Rigidbody>().angularVelocity = controller.angularVelocity;
+                var rigidbody = objInHand.GetComponent<Rigidbody>();
+                // code borrowed from https://www.reddit.com/r/vrdev/comments/51l5dy/unity_physics_problem_with_vive_thrown_objects/de16oon/?st=j89mbmud&sh=64f3bd29
+                Transform origin = trackedObj.origin ? trackedObj.origin : trackedObj.transform.parent;
+                if(origin != null) {
+                    rigidbody.velocity = origin.TransformVector(controller.velocity);
+                    rigidbody.GetRelativePointVelocity(origin.TransformVector(controller.angularVelocity));
+                }
+                rigidbody.AddForce(controller.velocity);
+                rigidbody.angularVelocity = controller.angularVelocity;
+                // end borrowed code
+
+                // original throwing thing that didn't work always
+//                rigidbody.velocity = controller.velocity;
+//                rigidbody.angularVelocity = controller.angularVelocity;
                 // Get the seasonal effect of the object, if any
                 var seasonalEffect = objInHand.GetComponentInSelfOrImmediateParent<SeasonalEffect>();
                 // Fire an event to notify any listeners

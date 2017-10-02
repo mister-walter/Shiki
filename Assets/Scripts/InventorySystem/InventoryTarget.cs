@@ -32,6 +32,10 @@ namespace Shiki.Inventory {
             return this.storedObject == null;
         }
 
+        /// <summary>
+        /// Set this InventoryTarget's item to the given GameObject, correctly positioning it inside the target.
+        /// </summary>
+        /// <param name="go">The GameObject to set as this InventoryTarget's item</param>
         public void SetItem(GameObject go) {
             this.storedObject = go;
             var inventoryItemBehavior = go.GetComponent<InventoryItemBehavior>();

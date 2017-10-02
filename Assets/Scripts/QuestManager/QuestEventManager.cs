@@ -189,6 +189,14 @@ namespace Shiki.Quests {
     };
 
     /// <summary>
+    /// UI action kind.
+    /// Requests that the UI perform one of these actions.
+    /// </summary>
+    public enum UIActionKind {
+        Sound, Dialog, None
+    };
+
+    /// <summary>
     /// Interaction event. Gets fired when a player interacts with an object, enters a location, interacts two objects with each other, or any other quest-related interaction occurs.
     /// </summary>
     public class InteractionEvent : IGameEvent {
