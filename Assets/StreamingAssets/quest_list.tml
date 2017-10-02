@@ -73,9 +73,14 @@ Trigger = "Player PickUp Item Axe"
 
 [[task]]
 Name = "EnterSummer"
-SubTask = "WaterYorishiro3"
+SubTask = "WaterYorishiro4"
 Trigger = "Player Enter Location Summer"
 OnComplete = "Show Item Blight"
+
+[[task]]
+Name = "WaterYorishiro4"
+SubTask = "WaterYorishiro3"
+OnComplete = "Item WaterBucket Become Item Bucket"
 
 [[task]]
 Name = "WaterYorishiro3"
