@@ -179,7 +179,7 @@ namespace Shiki.Quests {
     /// </summary>
     public enum InteractionKind {
         // Trigger only
-        Enter, Drop, Cut, Hit, Weave, Dig, Grind, Merge, Open, PickUp, Store, Retrieve,
+        Enter, Drop, Cut, Hit, Weave, Dig, Grind, Merge, Open, PickUp, Store, Retrieve, Leave, 
         // OnComplete only
         Become, Play, Delete, Show, Hide,
         // Both
