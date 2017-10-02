@@ -187,6 +187,7 @@ Trigger = "Player Drop Item CompletedSake On Item MerchantCart"
 Name = "PickUpCompletedSake"
 SubTask = "FermentSake"
 Trigger = "Player PickUp Item CompletedSake"
+#TODO: many of these should have OnCompletes that're like 'play dialogue' 
 
 [[task]]
 Name = "FermentSake"
@@ -225,15 +226,27 @@ Trigger = "Player PickUp Item Sugar"
 # Plant chrys. subquest
 [[task]]
 Name = "GetChrysanthemum"
-Trigger = "Player PickUp Item Chrysanthemum"
+Trigger = "Player PickUp Item ChrysanthemumPetal"
+
+[[task]]
+Name = "WaitForChrysanthemum"
+SubTask = "WaterChrysanthemum"
+Trigger = "Player Leave Item ChrysanthemumSeeds For 1 Season"
+# TODO: I don't understand
 
 [[task]]
 Name = "WaterChrysanthemum"
-Trigger = "Player Drop Item WaterBucket On Item ChrysanthemumPlot"
+SubTask = "PlantChrysanthemum"
+Trigger = "Player Drop Item WaterBucket On Item ChrysFarmPlot"
+OnComplete = "Item WaterBucket Become Bucket"
+
+[[task]]
+Name = "PlantChrysanthemum"
+Trigger = "Player Drop Item ChrysanthemumSeeds On Item ChrysFarmPlot"
 
 [[task]]
 Name = "DigChrysanthemumPlot"
-Trigger = "Player Dig Item FarmPlot With Item Shovel"
+Trigger = "Player Dig Item ChrysFarmPlot With Item FinishedMultitool"
 
 [[task]]
 Name = "GetChrysanthemumSeeds"
