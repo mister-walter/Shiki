@@ -32,6 +32,7 @@ namespace Shiki.Inventory {
             EventManager.AttachDelegate<PlayerOpenedInventoryEvent>(this.OnInventoryToggled);
             EventManager.AttachDelegate<PlayerRecieveObjectEvent>(this.OnTaskCompletedGetObjectEvent);
             this.GenerateTargets();
+            this.OnInventoryToggled(null);
         }
 
         /// <summary>
