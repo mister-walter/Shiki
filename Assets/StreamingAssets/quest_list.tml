@@ -37,8 +37,13 @@ OnComplete = "Delete Item SickleHighlighter"
 
 [[task]]
 Name = "PickUpSickle"
-SubTask = "ChopBlight3"
+SubTask = "ChopBlight4"
 Trigger = "Player PickUp Item Sickle"
+
+[[task]]
+Name = "ChopBlight4"
+SubTask = "ChopBlight3"
+OnComplete = "Hide Item BlightLarge"
 
 [[task]]
 Name = "ChopBlight3"
