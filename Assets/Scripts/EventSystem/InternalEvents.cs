@@ -146,4 +146,8 @@ namespace Shiki.EventSystem.InternalEvents {
     /// Fires when all of the game's scenes have been loaded asynchronously from MainScene
     /// </summary>
     public class AllScenesLoadedEvent : IGameEvent { }
+
+    public class PrologueDoneEvent : IGameEvent { }
+
+    public class PrologueStartEvent : IGameEvent { }
 }
