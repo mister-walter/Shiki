@@ -7,8 +7,8 @@ using Shiki.Quests;
 using Shiki.ReaderWriter;
 using Shiki.ReaderWriter.TomlImplementation;
 using Shiki.EventSystem;
-using Shiki.EventSystem.Events;
 using System.Collections.Generic;
+using Shiki.EventSystem.InternalEvents;
 
 /// <summary>
 /// Main entry point for the game.
