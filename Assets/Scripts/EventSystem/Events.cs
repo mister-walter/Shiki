@@ -206,5 +206,15 @@ namespace Shiki.EventSystem.Events {
             this.toShow = toShow;
         }
     }
+
+    public class ItemWaitedEvent : IGameEvent {
+        public GameObject item;
+        public uint seasonsWaited;
+
+        public ItemWaitedEvent(GameObject item, uint distance) {
+            this.item = item;
+            this.seasonsWaited = distance;
+        }
+    }
 }
 

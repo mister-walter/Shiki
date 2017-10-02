@@ -69,7 +69,7 @@ public class MainSceneManager : MonoBehaviour {
             case SceneName.Summer:
                 return SeasonName.Summer;
             default:
-                return String.Empty;
+                return SeasonName.None;
         }
     }
 

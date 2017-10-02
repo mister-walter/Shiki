@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Shiki.Quests {
 
     public class TaskParseException : Exception {
-        public TaskParseException(string message) : base(message) {}
+        public TaskParseException(string message) : base(message) { }
     }
 
     /// <summary>
@@ -36,10 +36,10 @@ namespace Shiki.Quests {
         /// </summary>
         public int obj2Quantity { get; set; }
 
-		/// <summary>
-		/// In the case of leaving an object in a season to pick it up X seasons later, this is the X
-		/// </summary>
-		public int amountOfTime { get; set; }
+        /// <summary>
+        /// In the case of leaving an object in a season to pick it up X seasons later, this is the X
+        /// </summary>
+        public int amountOfTime { get; set; }
 
         /// <summary>
         /// Location listed in parsing
@@ -255,7 +255,7 @@ namespace Shiki.Quests {
             ParsingResult pR = ParseString(tr);
             Predicate<InteractionEvent> pred;
 
-			// TODO: implement InteractionKind.Leave
+            // TODO: implement InteractionKind.Leave
             // Don't worry about checking for the kind inside these predicates, we'll add that before we return
             switch(pR.interactionKind) {
                 case InteractionKind.Enter:
@@ -297,11 +297,15 @@ namespace Shiki.Quests {
                             || (evt.targetObject.name == pR.obj1 && evt.sourceObject.name == pR.obj2);
                     };
                     break;
+                // Check that the object is the one we're looking for, and check that it has waited long enough.
+                case InteractionKind.Leave:
+                    pred = (InteractionEvent evt) => evt.targetObject.name == pR.obj1 && evt.waitedDuration >= pR.amountOfTime;
+                    break;
                 // For this group we don't need any extra logic.
                 case InteractionKind.Open:
                     pred = (InteractionEvent evt) => true;
                     break;
-                default:
+                 default:
                     throw new NotImplementedException(string.Format("Support for this interaction kind is not yet implemented: {0}", pR.interactionKind));
             }
 
@@ -426,7 +430,7 @@ namespace Shiki.Quests {
             int tempQuantity = 1;
             int obj1Quantity = 0;
             int obj2Quantity = 0;
-			int amountOfTime = 0;
+            int amountOfTime = 0;
             string location = String.Empty;
             string objToObjIntrcType = String.Empty;
             InteractionKind action = InteractionKind.None;
@@ -439,7 +443,7 @@ namespace Shiki.Quests {
                 } else if(toParse[i].Equals("Item") && i + 1 < length) {
                     i++;
                     // next expected word might be a quantity
-					if(Int32.TryParse(toParse[i], out tempQuantity)) {
+                    if(Int32.TryParse(toParse[i], out tempQuantity)) {
                         i++;
                     }
 
@@ -469,28 +473,19 @@ namespace Shiki.Quests {
                     obj1 = toParse[i];
                 } else if(toParse[i].Equals("With") || toParse[i].Equals("On") || toParse[i].Equals("And")) {
                     objToObjIntrcType = toParse[i]; //if objects interact, set the interaction type
-
-				} else if(toParse[i].Equals("For") && action == InteractionKind.Leave){
-					//Trigger = "Player Leave Item ItemName For 2 Seasons"
-					Int32.TryParse(toParse[++i], out amountOfTime);
-					i++;
-				} else if(toParse[i].Equals("Location") && i + 1 < length) {
+                } else if(toParse[i].Equals("For") && action == InteractionKind.Leave) {
+                    //Trigger = "Player Leave Item ItemName For 2 Seasons"
+                    Int32.TryParse(toParse[++i], out amountOfTime);
+                    i++;
+                } else if(toParse[i].Equals("Location") && i + 1 < length) {
                     i++;
                     location = toParse[i];
                 } else if(Enum.TryParse<InteractionKind>(toParse[i], out action)) {
-                    Debug.Log(string.Format("ikind: {0}", action));
                     if(action == InteractionKind.Play) {
                         Debug.Log("Found a play statement");
                         Enum.TryParse<UIActionKind>(toParse[++i], out uiEventKind);
                         obj1 = toParse[++i];
-					}
-                    //if(toParse[i].Equals("Become")) { // again if an objects interact, set interaction type
-                    //    objToObjIntrcType = toParse[i];
-                    //    action = InteractionKind.Become;
-                    //} else if(toParse[i].Equals("Play") && i + 2 < length) {
-                    //    Enum.TryParse<UIActionKind>(toParse[++i], out uiEventKind);
-                    //    obj1 = toParse[++i];
-                    //}
+                    }
                 }
             }
 
@@ -500,7 +495,7 @@ namespace Shiki.Quests {
             parsingResult.obj2 = obj2; // other
             parsingResult.obj1Quantity = obj1Quantity;
             parsingResult.obj2Quantity = obj2Quantity;
-			parsingResult.amountOfTime = amountOfTime;
+            parsingResult.amountOfTime = amountOfTime;
             parsingResult.location = location;
             parsingResult.objToObjInteractionType = objToObjIntrcType;
 

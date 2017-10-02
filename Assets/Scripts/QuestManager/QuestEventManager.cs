@@ -147,6 +147,14 @@ namespace Shiki.Quests {
             this.UpdateTasks(ievt, false);
         }
 
+        public void OnItemWaitedEvent(ItemWaitedEvent evt) {
+            InteractionEvent ievt = new InteractionEvent();
+            ievt.kind = InteractionKind.Leave;
+            ievt.waitedDuration = evt.seasonsWaited;
+            ievt.targetObject = evt.item;
+            this.UpdateTasks(ievt, false);
+        }
+
         private void AttachHandlers() {
             EventManager.AttachDelegate<ObjectPlacedInSeasonFinishedEvent>(this.OnObjectPlacedInSeasonFinishedEvent);
             EventManager.AttachDelegate<PlayerEnteredAreaEvent>(this.OnPlayerEnteredAreaEvent);
@@ -157,6 +165,7 @@ namespace Shiki.Quests {
             EventManager.AttachDelegate<ObjectDroppedOntoDropTargetEvent>(this.OnObjectDroppedOntoDropTargetEvent);
             EventManager.AttachDelegate<ObjectMergeEvent>(this.OnObjectMergeEvent);
             EventManager.AttachDelegate<ObjectPickedUpEvent>(this.OnObjectPickedUpEvent);
+            EventManager.AttachDelegate<ItemWaitedEvent>(this.OnItemWaitedEvent);
         }
 
         private void DetachHandlers() {
@@ -169,6 +178,7 @@ namespace Shiki.Quests {
             EventManager.RemoveDelegate<ObjectDroppedOntoDropTargetEvent>(this.OnObjectDroppedOntoDropTargetEvent);
             EventManager.RemoveDelegate<ObjectMergeEvent>(this.OnObjectMergeEvent);
             EventManager.RemoveDelegate<ObjectPickedUpEvent>(this.OnObjectPickedUpEvent);
+            EventManager.RemoveDelegate<ItemWaitedEvent>(this.OnItemWaitedEvent);
         }
     }
     #endregion
@@ -220,5 +230,7 @@ namespace Shiki.Quests {
         /// Type of interaction between objects/player
         /// </summary>
         public InteractionKind kind { get; set; }
+
+        public uint waitedDuration { get; set; }
     }
 }

@@ -26,5 +26,13 @@ namespace Shiki.Constants {
         public const String Fall = "Fall";
         public const String None = "None";
         public static readonly String[] AllSeasons = { Winter, Spring, Summer, Fall };
+        public static uint Distance(string season1, string season2) {
+            var idx1 = Array.IndexOf(AllSeasons, season1);
+            var idx2 = Array.IndexOf(AllSeasons, season2);
+            if(idx1 < 0 || idx2 < 0) {
+                throw new ArgumentException(string.Format("one of the given strings is not a season: {0},{1}", season1, season2));
+            }
+            return (uint)Math.Abs(idx1 - idx2);
+        }
     }
 }
