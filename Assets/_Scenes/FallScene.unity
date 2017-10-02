@@ -762,7 +762,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 142448399}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -1816,6 +1816,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 538232104}
+  - component: {fileID: 538232105}
   m_Layer: 0
   m_Name: GrownYorishiroContainer
   m_TagString: Untagged
@@ -1837,6 +1838,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &538232105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 538232103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13601be538ce8914583cd0716dde17c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &561498677
 Prefab:
   m_ObjectHideFlags: 0

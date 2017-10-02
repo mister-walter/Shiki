@@ -63,6 +63,16 @@ public static class SceneExtensions {
         return null;
     }
 
+    public static T FindInSceneDeep<T>(this Scene scene) where T : class {
+        foreach(var go in scene.GetRootGameObjects()) {
+            var component = go.GetComponentInChildren<T>();
+            if(component != null) {
+                return component;
+            }
+        }
+        return null;
+    }
+
     public static IEnumerator AwaitLoad(this Scene scene) {
         yield return new WaitUntil(() => scene.isLoaded);
     }

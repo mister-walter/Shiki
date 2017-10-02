@@ -37,8 +37,14 @@ OnComplete = "Delete Item SickleHighlighter"
 
 [[task]]
 Name = "PickUpSickle"
-SubTask = "ChopBlight4"
+SubTask = "ChopRestOfBlight"
 Trigger = "Player PickUp Item Sickle"
+
+[[task]]
+Name = "ChopRestOfBlight"
+SubTask = "ChopBlight4"
+Trigger = "Player Cut Item BlightChopped With Item Axe"
+OnComplete = "Hide Item BlightChopped"
 
 [[task]]
 Name = "ChopBlight4"
@@ -148,18 +154,11 @@ OnComplete = "Delete Item UnwidenedHole"
 
 [[task]]
 Name = "PickUpShovel"
-SubTask = "EnterWinter"
 Trigger = "Player PickUp Item Shovel"
 
 [[task]]
 Name = "EnterWinter"
-SubTask = "OpenInventory"
 Trigger = "Player Enter Location Winter"
-
-#[[task]]
-#Name = "HoldSapling"
-#SubTask = "OpenInventory"
-#Trigger = "Player Retrieve Item YorishiroSapling"
 
 [[task]]
 Name = "OpenInventory"

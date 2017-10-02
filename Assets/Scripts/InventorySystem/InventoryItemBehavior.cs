@@ -26,6 +26,11 @@ namespace Shiki.Inventory {
         }
         private Transform oldParent;
         private Scene oldScene;
+        private GameObjectLocator locator {
+            get {
+                return GameObjectLocatorSingleton.GetSingleton();
+            }
+        }
 
         // Use this for initialization
         void Start() {
@@ -44,6 +49,8 @@ namespace Shiki.Inventory {
             if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
                 this.target = this.currentTargets.GetOne();
                 this.PositionObjectInsideTarget(this.target);
+                var collider = this.gameObject.GetComponent<Collider>();
+                collider.isTrigger = true;
                 EventManager.FireEvent(new ObjectAcceptedByInventoryTargetEvent(this.gameObject));
             }
         }
@@ -87,11 +94,18 @@ namespace Shiki.Inventory {
 
         void OnObjectRemovedFromInventoryTargetEvent(ObjectRemovedFromInventoryTargetEvent evt) {
             if(evt.placedObject.GetInstanceID() == this.gameObject.GetInstanceID()) {
+                Debug.Log("Got im");
                 this.gameObject.transform.localScale = oldScale;
-                var rigidBody = this.gameObject.GetComponent<Rigidbody>();
-                rigidBody.useGravity = true;
-                this.gameObject.transform.SetParent(this.oldParent);
-                SceneManager.MoveGameObjectToScene(this.gameObject, this.oldScene);
+                //var rigidBody = this.gameObject.GetComponent<Rigidbody>();
+                //rigidBody.useGravity = true;
+                //this.gameObject.transform.SetParent(null);
+                //Scene? newScene = locator.GetSceneForGameObject(this.gameObject);
+                //if(newScene.HasValue) {
+                //    this.gameObject.transform.SetParent(null);
+                //    SceneManager.MoveGameObjectToScene(this.gameObject, newScene.Value);
+                //} else {
+                //    Debug.LogError("Couldnt locate new scene");
+                //}
                 EventManager.FireEvent(new ObjectEjectedByInventoryTargetEvent(this.gameObject));
             }
         }
@@ -108,6 +122,15 @@ namespace Shiki.Inventory {
             if(!this.IsInsideTarget()) {
                 var rigidBody = this.gameObject.GetComponent<Rigidbody>();
                 rigidBody.useGravity = true;
+                var collider = this.gameObject.GetComponent<Collider>();
+                collider.isTrigger = false;
+                Scene? newScene = locator.GetSceneForGameObject(this.gameObject);
+                if(newScene.HasValue) {
+                    this.gameObject.transform.SetParent(null);
+                    SceneManager.MoveGameObjectToScene(this.gameObject, newScene.Value);
+                } else {
+                    Debug.LogError("Couldnt locate new scene");
+                }
             }
         }
 
