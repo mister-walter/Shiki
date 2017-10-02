@@ -150,3 +150,77 @@ Trigger = "Player Enter Location Winter"
 Name = "OpenInventory"
 Trigger = "Player Open Item Inventory"
 OnComplete = "Player Get Item YorishiroSapling"
+
+# Making Sake
+[[task]]
+Name = "ReturnItemsToMerchant"
+SubTask = "ReturnSugarToMerchant ReturnShochuToMerchant GiveSakeToMerchant"
+
+[[task]]
+Name = "ReturnSugarToMerchant"
+Trigger = "Player Drop Item Sugar On Item MerchantCart"
+
+[[task]]
+Name = "ReturnShochuToMerchant"
+Trigger = "Player Drop Item Shochu On Item MerchantCart"
+
+[[task]]
+Name = "GiveSakeToMerchant"
+SubTask = "PickUpCompletedSake"
+Trigger = "Player Drop Item CompletedSake On Item MerchantCart"
+
+[[task]]
+Name = "PickUpCompletedSake"
+SubTask = "FermentSake"
+Trigger = "Player PickUp Item CompletedSake"
+
+[[task]]
+Name = "FermentSake"
+SubTask = "LeaveSake"
+Trigger = "Player Leave Item UnfermentedSake For 1 Season"
+
+[[task]]
+Name = "LeaveSake"
+Trigger = "Player Drop Item UnfermentedSake On Item SakeZone"
+
+[[task]]
+Name = "AddIngredients"
+SubTask = "AddShochu AddSugar AddPetals"
+OnComplete = "Item SakeBowl Become Item UnfermentedSake"
+
+[[task]]
+Name = "AddShochu"
+Trigger = "Player Drop Item Shochu On Item SakeBowl"
+
+[[task]]
+Name = "AddSugar"
+Trigger = "Player Drop Item Sugar On Item SakeBowl"
+
+[[task]]
+Name = "AddPetals"
+Trigger = "Player Drop Item ChrysanthemumPetal On Item SakeBowl"
+
+[[task]]
+Name = "GetShochu"
+Trigger = "Player PickUp Item Shochu"
+
+[[task]]
+Name = "GetSugar"
+Trigger = "Player PickUp Item Sugar"
+
+# Plant chrys. subquest
+[[task]]
+Name = "GetChrysanthemum"
+Trigger = "Player PickUp Item Chrysanthemum"
+
+[[task]]
+Name = "WaterChrysanthemum"
+Trigger = "Player Drop Item WaterBucket On Item ChrysanthemumPlot"
+
+[[task]]
+Name = "DigChrysanthemumPlot"
+Trigger = "Player Dig Item FarmPlot With Item Shovel"
+
+[[task]]
+Name = "GetChrysanthemumSeeds"
+Trigger = "Player PickUp Item ChrysanthemumSeeds"
