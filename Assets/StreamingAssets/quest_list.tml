@@ -1,152 +1,240 @@
-[[TemporaryTask]]
+[[task]]
 Name = "Done"
 SubTask = "CompleteMultitool"
 OnComplete = "Play Sound jupee"
 
-[[TemporaryTask]]
+[[task]]
 Name = "CompleteMultitool"
 SubTask = "MergeShovel MergeAxe MergeSickle MergeBucket"
 OnComplete = "Item MultiTool Become Item FinishedMultitool"
 
-[[TemporaryTask]]
+[[task]]
 Name = "MergeShovel"
 Trigger = "Player Merge Item MultiTool And Item Shovel"
 
-[[TemporaryTask]]
+[[task]]
 Name = "MergeAxe"
 Trigger = "Player Merge Item MultiTool And Item Axe"
 
-[[TemporaryTask]]
+[[task]]
 Name = "MergeBucket"
 Trigger = "Player Merge Item MultiTool And Item WaterBucket"
 
-[[TemporaryTask]]
+[[task]]
 Name = "MergeSickle"
 Trigger = "Player Merge Item MultiTool And Item Sickle"
 
-[[TemporaryTask]]
+[[task]]
 Name = "SickleYorishiro"
 SubTask = "PickUpSickle"
 Trigger = "Player Cut Item GrownYorishiro With Item Sickle"
 OnComplete = "Player Get Item MultiTool"
 
-[[TemporaryTask]]
+[[task]]
 Name = "PickUpSickle2"
 SubTask = "PickUpSickle"
 OnComplete = "Delete Item SickleHighlighter"
 
-[[TemporaryTask]]
+[[task]]
 Name = "PickUpSickle"
-SubTask = "ChopBlight3"
+SubTask = "ChopRestOfBlight"
 Trigger = "Player PickUp Item Sickle"
 
-[[TemporaryTask]]
+[[task]]
+Name = "ChopRestOfBlight"
+SubTask = "ChopBlight4"
+Trigger = "Player Cut Item BlightChopped With Item Axe"
+OnComplete = "Hide Item BlightChopped"
+
+[[task]]
+Name = "ChopBlight4"
+SubTask = "ChopBlight3"
+OnComplete = "Hide Item BlightLarge"
+
+[[task]]
 Name = "ChopBlight3"
 SubTask = "ChopBlight2"
 OnComplete = "Show Item GrownYorishiro"
 
-[[TemporaryTask]]
+[[task]]
 Name = "ChopBlight2"
 SubTask = "ChopBlight"
 OnComplete = "Show Item BlightChopped"
 
-[[TemporaryTask]]
+[[task]]
 Name = "ChopBlight"
 SubTask = "PickUpAxe2"
 Trigger = "Player Cut Item Blight With Item Axe"
 OnComplete = "Hide Item Blight"
 
-[[TemporaryTask]]
+[[task]]
 Name = "PickUpAxe2"
 SubTask = "PickUpAxe"
 OnComplete = "Delete Item AxeHighlighter"
 
-[[TemporaryTask]]
+[[task]]
 Name = "PickUpAxe"
 SubTask = "EnterSummer"
 Trigger = "Player PickUp Item Axe"
 
-[[TemporaryTask]]
+[[task]]
 Name = "EnterSummer"
-SubTask = "WaterYorishiro3"
+SubTask = "WaterYorishiro4"
 Trigger = "Player Enter Location Summer"
 OnComplete = "Show Item Blight"
 
-[[TemporaryTask]]
+[[task]]
+Name = "WaterYorishiro4"
+SubTask = "WaterYorishiro3"
+OnComplete = "Item WaterBucket Become Item Bucket"
+
+[[task]]
 Name = "WaterYorishiro3"
 SubTask = "WaterYorishiro2"
 OnComplete = "Show Item BlightLarge"
 
-[[TemporaryTask]]
+[[task]]
 Name = "WaterYorishiro2"
 SubTask = "WaterYorishiro"
 OnComplete = "Show Item GrowingYorishiro"
 
-[[TemporaryTask]]
+[[task]]
 Name = "WaterYorishiro"
 SubTask = "FillBucket"
 Trigger = "Player Drop Item WaterBucket On Item GrowingYorishiro"
 OnComplete = "Show Item YorishiroTreeSummer"
 
-[[TemporaryTask]]
+[[task]]
 Name = "FillBucket"
 SubTask = "PickUpBucket2"
 Trigger = "Player Dig Item SpringRiver With Item Bucket"
 OnComplete = "Item Bucket Become Item WaterBucket"
 
-[[TemporaryTask]]
+[[task]]
 Name = "PickUpBucket2"
 SubTask = "PickUpBucket"
 OnComplete = "Delete Item BucketHighlighter"
 
-[[TemporaryTask]]
+[[task]]
 Name = "PickUpBucket"
 SubTask = "EnterSpring"
 Trigger = "Player PickUp Item Bucket"
 
-[[TemporaryTask]]
+[[task]]
 Name = "TestShowYorishiro"
 Trigger = "Player Enter Location Winter"
 OnComplete = "Show Item GrowingYorishiro"
 
-[[TemporaryTask]]
+[[task]]
 Name = "EnterSpring"
-SubTask = "PlantYorishiro"
+SubTask = "PlantYorishiro2"
 Trigger = "Player Enter Location Spring"
 
-[[TemporaryTask]]
+[[task]]
+Name = "PlantYorishiro2"
+SubTask = "PlantYorishiro"
+OnComplete = "Delete Item YorishiroSapling"
+
+[[task]]
 Name = "PlantYorishiro"
 SubTask = "WidenHole2"
 Trigger = "Player Drop Item YorishiroSapling On Item Hole"
 OnComplete = "Show Item PlantedYorishiro"
 
-[[TemporaryTask]]
+[[task]]
 Name = "WidenHole2"
 SubTask = "WidenHole"
 OnComplete = "Delete Item HoleHighlighter"
 
-[[TemporaryTask]]
+[[task]]
 Name = "WidenHole"
 SubTask = "PickUpShovel"
 Trigger = "Player Dig Item Hole With Item Shovel"
 OnComplete = "Delete Item UnwidenedHole"
 
-[[TemporaryTask]]
+[[task]]
 Name = "PickUpShovel"
-SubTask = "EnterWinter"
 Trigger = "Player PickUp Item Shovel"
 
-[[TemporaryTask]]
+[[task]]
 Name = "EnterWinter"
-SubTask = "OpenInventory"
 Trigger = "Player Enter Location Winter"
 
-#[[TemporaryTask]]
-#Name = "HoldSapling"
-#SubTask = "OpenInventory"
-#Trigger = "Player Retrieve Item YorishiroSapling"
-
-[[TemporaryTask]]
+[[task]]
 Name = "OpenInventory"
 Trigger = "Player Open Item Inventory"
 OnComplete = "Player Get Item YorishiroSapling"
+
+# Making Sake
+[[task]]
+Name = "ReturnItemsToMerchant"
+SubTask = "ReturnSugarToMerchant ReturnShochuToMerchant GiveSakeToMerchant"
+
+[[task]]
+Name = "ReturnSugarToMerchant"
+Trigger = "Player Drop Item Sugar On Item MerchantCart"
+
+[[task]]
+Name = "ReturnShochuToMerchant"
+Trigger = "Player Drop Item Shochu On Item MerchantCart"
+
+[[task]]
+Name = "GiveSakeToMerchant"
+SubTask = "PickUpCompletedSake"
+Trigger = "Player Drop Item CompletedSake On Item MerchantCart"
+
+[[task]]
+Name = "PickUpCompletedSake"
+SubTask = "FermentSake"
+Trigger = "Player PickUp Item CompletedSake"
+
+[[task]]
+Name = "FermentSake"
+SubTask = "LeaveSake"
+Trigger = "Player Leave Item UnfermentedSake For 1 Season"
+
+[[task]]
+Name = "LeaveSake"
+Trigger = "Player Drop Item UnfermentedSake On Item SakeZone"
+
+[[task]]
+Name = "AddIngredients"
+SubTask = "AddShochu AddSugar AddPetals"
+OnComplete = "Item SakeBowl Become Item UnfermentedSake"
+
+[[task]]
+Name = "AddShochu"
+Trigger = "Player Drop Item Shochu On Item SakeBowl"
+
+[[task]]
+Name = "AddSugar"
+Trigger = "Player Drop Item Sugar On Item SakeBowl"
+
+[[task]]
+Name = "AddPetals"
+Trigger = "Player Drop Item ChrysanthemumPetal On Item SakeBowl"
+
+[[task]]
+Name = "GetShochu"
+Trigger = "Player PickUp Item Shochu"
+
+[[task]]
+Name = "GetSugar"
+Trigger = "Player PickUp Item Sugar"
+
+# Plant chrys. subquest
+[[task]]
+Name = "GetChrysanthemum"
+Trigger = "Player PickUp Item Chrysanthemum"
+
+[[task]]
+Name = "WaterChrysanthemum"
+Trigger = "Player Drop Item WaterBucket On Item ChrysanthemumPlot"
+
+[[task]]
+Name = "DigChrysanthemumPlot"
+Trigger = "Player Dig Item FarmPlot With Item Shovel"
+
+[[task]]
+Name = "GetChrysanthemumSeeds"
+Trigger = "Player PickUp Item ChrysanthemumSeeds"

@@ -1,4 +1,4 @@
-General Guidelines:
+﻿General Guidelines:
 Everything is case sensitive.
 TOML works on a key-value pair system. Multiple pairs can be grouped together under tables, which are symbolized by [TableName].
 In order to have multiple tables with the same name, they must be placed in a table array, symbolized by [[TableArrayName]].
@@ -19,24 +19,32 @@ Quests are definied as a series of tasks, represented as a tree, where each task
 
 A typical task will take the following format:
 
-[[TemporaryTask]]
+[[task]]
 Name = “NameHere”
 SubTask = “SubTaskName1 SubTaskName2”
 Trigger = “Trigger Function Goes Here”
 OnComplete = “OnComplete Function Goes Here”
 
 Example:
-[[TemporaryTask]]
+[[task]]
 Name = "PoundRice"
 SubTask = "SteamRice"
 Trigger = "Player Hit Item SteamedRice With Item Hammer"
 OnComplete = "Player Get Item PoundedRice"
 
-The only necessary parameters are the initial “[[TemporaryTask]]” (each new task must begin with this) and the name. All other parameters can be omitted.
+The only necessary parameters are the initial “[[task]]” (each new task must begin with this) and the name. All other parameters can be omitted.
 Example:
-[[TemporaryTask]]
+[[task]]
 Name = "GetBowl"
 Trigger = "Player Get Item Bowl"
+
+There is additionally a TriggerRepeat parameter. If this parameter is given, it should be a positive integer (in a string).
+When TriggerRepeat is set, it means that the task will not be considered complete until Trigger has been satisfied that number of times.
+For example, the following task would only be considered complete when the player has opened their inventory 3 times:
+[[task]]
+Name = "OpenInventoryThrice"
+Trigger = "Player Open Inventory"
+TriggerRepeat = "3"
 
 
 quest_status.tml:

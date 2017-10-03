@@ -6,6 +6,12 @@ using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
 using Shiki.EventSystem.InternalEvents;
 
+public enum IsInSeasonStatus {
+    InVillage,
+    InSeason,
+    NotInSeasonOrVillage
+}
+
 /// <summary>
 /// Component that stores information about a season.
 /// </summary>
@@ -109,5 +115,24 @@ public class SeasonInfo : MonoBehaviour {
 
         var res = collider.Raycast(ray, out info, 10);
         return res;
+    }
+
+    public IsInSeasonStatus CheckPosition(Vector3 position) {
+        position.y = 5; // Make sure it's above the ground
+        // TODO: @Drew can we just replace MeshCollider with Collider?
+        var collider = ground.GetComponent<MeshCollider>();
+        var vilCollider = villageGround.GetComponent<MeshCollider>();
+        var ray = new Ray(position, Vector3.down);
+        RaycastHit info;
+        if(vilCollider.Raycast(ray, out info, 10)) {
+            return IsInSeasonStatus.InVillage;
+        }
+
+        var res = collider.Raycast(ray, out info, 10);
+        if(res) {
+            return IsInSeasonStatus.InSeason;
+        } else {
+            return IsInSeasonStatus.NotInSeasonOrVillage;
+        }
     }
 }

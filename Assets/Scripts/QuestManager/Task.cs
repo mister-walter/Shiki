@@ -8,6 +8,60 @@ using UnityEngine;
 
 namespace Shiki.Quests {
 
+    public class TaskParseException : Exception {
+        public TaskParseException(string message) : base(message) { }
+    }
+
+    /// <summary>
+    /// Parsing result. When a task's trigger or oncomplete functions are read in, they are filled into this Parsing Result class
+    /// </summary>
+    internal class ParsingResult {
+        /// <summary>
+        /// First object found in parsing.
+        /// </summary>
+        public string obj1 { get; set; }
+
+        /// <summary>
+        /// Second object found in parsing. This is typically the tool the player is using.
+        /// </summary>
+        public string obj2 { get; set; }
+
+        /// <summary>
+        /// Quantity of the first object.
+        /// </summary>
+        public int obj1Quantity { get; set; }
+
+        /// <summary>
+        /// Quantity of the second object
+        /// </summary>
+        public int obj2Quantity { get; set; }
+
+        /// <summary>
+        /// In the case of leaving an object in a season to pick it up X seasons later, this is the X
+        /// </summary>
+        public int amountOfTime { get; set; }
+
+        /// <summary>
+        /// Location listed in parsing
+        /// </summary>
+        public string location { get; set; }
+
+        /// <summary>
+        /// Interaction required from player (enters, hits, etc)
+        /// </summary>
+        public InteractionKind interactionKind { get; set; }
+
+        /// <summary>
+        /// Event the UI should perform
+        /// </summary>
+        public UIActionKind uiEventKind { get; set; }
+
+        /// <summary>
+        /// Describes relationship the 2 objects, if applicable. (With, on, becomes, etc)
+        /// </summary>
+        public string objToObjInteractionType { get; set; }
+    }
+
     /// <summary>
     /// Represents actions player must take in order to complete, or partially complete, a quest
     /// </summary>
@@ -36,7 +90,7 @@ namespace Shiki.Quests {
         /// <summary>
         /// The on complete function that runs once the task has been completed
         /// </summary>
-        public Action onComplete { get; set; }
+        public Action<InteractionEvent> onComplete { get; set; }
     }
 
     /// <summary>
@@ -84,11 +138,28 @@ namespace Shiki.Quests {
         /// </summary>
         public string OnComplete { get; set; }      // empty
 
+        // TODO: replace this with a uint? when Nett recieves support for conditionally writing fields
+        public string TriggerRepeat { get; set; }
+
+        public TemporaryTask() {
+            TriggerRepeat = null;
+            OnComplete = String.Empty;
+            Trigger = String.Empty;
+            SubTask = String.Empty;
+        }
+
         public TemporaryTask(string n, string st, string t, string oc) {
             Name = n;
             SubTask = st;
             Trigger = t;
             OnComplete = oc;
+        }
+
+        public bool IsValid() {
+            if(string.IsNullOrEmpty(this.Name)) {
+                return false;
+            }
+            return true;
         }
     }
 
@@ -137,16 +208,37 @@ namespace Shiki.Quests {
             task.onComplete = null;
 
             task.subTasks = tempTask.SubTask.Split(' ');
+
             //task.trigger = CreateTriggerFunction(tempTask.Trigger);
             var originalTrigger = CreateTriggerFunction(tempTask.Trigger);
-            task.trigger = (InteractionEvent evt) => {
-                Debug.Log(string.Format("Checking trigger for task {0}", tempTask.Name));
-                var res = originalTrigger(evt);
-                if(res) {
-                    Debug.Log("Trigger was true!");
+            if(!string.IsNullOrEmpty(tempTask.TriggerRepeat)) {
+                UInt32 repeatTimes;
+                if(!UInt32.TryParse(tempTask.TriggerRepeat, out repeatTimes)) {
+                    throw new TaskParseException("TriggerRepeat value must be a positive integer: " + tempTask.TriggerRepeat);
+                } else {
+                    int count = 0;
+                    task.trigger = (InteractionEvent evt) => {
+                        if(count >= repeatTimes) {
+                            return true;
+                        } else {
+                            if(originalTrigger(evt)) {
+                                count++;
+                                if(count >= repeatTimes) return true;
+                            }
+                            return false;
+                        }
+                    };
                 }
-                return res;
-            };
+            } else {
+                task.trigger = (InteractionEvent evt) => {
+                    Debug.Log(string.Format("Checking trigger for task {0}", tempTask.Name));
+                    var res = originalTrigger(evt);
+                    if(res) {
+                        Debug.Log("Trigger was true!");
+                    }
+                    return res;
+                };
+            }
             task.onComplete = CreateOnCompleteFunction(tempTask.OnComplete);
             return task;
         }
@@ -163,6 +255,7 @@ namespace Shiki.Quests {
             ParsingResult pR = ParseString(tr);
             Predicate<InteractionEvent> pred;
 
+            // TODO: implement InteractionKind.Leave
             // Don't worry about checking for the kind inside these predicates, we'll add that before we return
             switch(pR.interactionKind) {
                 case InteractionKind.Enter:
@@ -204,11 +297,15 @@ namespace Shiki.Quests {
                             || (evt.targetObject.name == pR.obj1 && evt.sourceObject.name == pR.obj2);
                     };
                     break;
+                // Check that the object is the one we're looking for, and check that it has waited long enough.
+                case InteractionKind.Leave:
+                    pred = (InteractionEvent evt) => evt.targetObject.name == pR.obj1 && evt.waitedDuration >= pR.amountOfTime;
+                    break;
                 // For this group we don't need any extra logic.
                 case InteractionKind.Open:
                     pred = (InteractionEvent evt) => true;
                     break;
-                default:
+                 default:
                     throw new NotImplementedException(string.Format("Support for this interaction kind is not yet implemented: {0}", pR.interactionKind));
             }
 
@@ -249,52 +346,55 @@ namespace Shiki.Quests {
         /// </summary>
         /// <returns>The on complete function in the form of an Action.</returns>
         /// <param name="oc">OnComplete function in string form.</param>
-        public static Action CreateOnCompleteFunction(string oc) {
+        public static Action<InteractionEvent> CreateOnCompleteFunction(string oc) {
             // Just return a no-op if the user didn't provide an OnComplete string
             if(string.IsNullOrEmpty(oc)) {
-                return () => { };
+                return (InteractionEvent evt) => { };
             }
             ParsingResult pR = ParseString(oc);
 
-            Action ac = () => {
-                IGameEvent evt;
+            Action<InteractionEvent> ac = (InteractionEvent evt) => {
+                IGameEvent outEvt;
                 switch(pR.interactionKind) {
                     case InteractionKind.Become:
-                        evt = new ObjectReplaceEvent(pR.obj1, pR.obj2);
+                        if(pR.obj1 == "TargetItem") {
+                            outEvt = new ReplaceObjectEvent(evt.targetObject, pR.obj2);
+                        } else {
+                            outEvt = new ReplaceObjectEvent(pR.obj1, pR.obj2);
+                        }
                         break;
                     case InteractionKind.Show:
                         Debug.Log("Show InteractionKind");
                         Debug.Log(string.Format("{0}, {1}", pR.obj1, pR.obj2));
-                        evt = new ShowObjectEvent(pR.obj1);
+                        outEvt = new ShowObjectEvent(pR.obj1);
                         break;
                     case InteractionKind.Hide:
-                        evt = new HideObjectEvent(pR.obj1);
+                        outEvt = new HideObjectEvent(pR.obj1);
                         break;
                     case InteractionKind.Delete:
                         Debug.Log("Delete InteractionKind");
                         Debug.Log(string.Format("{0} {1}", pR.obj1, pR.obj2));
-                        evt = new DeleteObjectEvent(pR.obj1);
+                        outEvt = new DeleteObjectEvent(pR.obj1);
                         break;
                     case InteractionKind.Play:
                         switch(pR.uiEventKind) {
                             case UIActionKind.Dialog:
-                                Debug.Log(string.Format("{0}, {1}", pR.obj1, pR.obj2));
-                                evt = new ShowTextEvent(pR.obj1);
+                                outEvt = new ShowTextEvent(pR.obj1);
                                 break;
                             case UIActionKind.Sound:
-                                evt = new PlaySoundEvent(pR.obj1);
+                                outEvt = new PlaySoundEvent(pR.obj1);
                                 break;
                             default:
                                 throw new ArgumentException("Play must be followed by Dialog or Sound");
                         }
                         break;
                     case InteractionKind.Get:
-                        evt = new PlayerRecieveObjectEvent(pR.obj1);
+                        outEvt = new PlayerRecieveObjectEvent(pR.obj1);
                         break;
                     default:
                         throw new ArgumentException(string.Format("Invalid interaction kind in OnComplete: {0} (OnComplete string: {1})", pR.interactionKind, oc));
                 }
-                EventManager.FireEvent(evt);
+                EventManager.FireEvent(outEvt);
             };
             return ac;
         }
@@ -306,7 +406,7 @@ namespace Shiki.Quests {
         /// </summary>
         /// <returns>The parsed result.</returns>
         /// <param name="s">Function string to be parsed</param>
-        public static ParsingResult ParseString(string s) {
+        internal static ParsingResult ParseString(string s) {
 
             // Better documentation is in a text file
             // EXAMPLES OF LANGUAGE
@@ -330,6 +430,7 @@ namespace Shiki.Quests {
             int tempQuantity = 1;
             int obj1Quantity = 0;
             int obj2Quantity = 0;
+            int amountOfTime = 0;
             string location = String.Empty;
             string objToObjIntrcType = String.Empty;
             InteractionKind action = InteractionKind.None;
@@ -368,26 +469,22 @@ namespace Shiki.Quests {
                         obj1 = toParse[i];
                         obj1Quantity = tempQuantity;
                     }
+                } else if(toParse[i] == "TargetItem") {
+                    obj1 = toParse[i];
                 } else if(toParse[i].Equals("With") || toParse[i].Equals("On") || toParse[i].Equals("And")) {
                     objToObjIntrcType = toParse[i]; //if objects interact, set the interaction type
-
+                } else if(toParse[i].Equals("For") && action == InteractionKind.Leave) {
+                    //Trigger = "Player Leave Item ItemName For 2 Seasons"
+                    Int32.TryParse(toParse[++i], out amountOfTime);
+                    i++;
                 } else if(toParse[i].Equals("Location") && i + 1 < length) {
                     i++;
                     location = toParse[i];
                 } else if(Enum.TryParse<InteractionKind>(toParse[i], out action)) {
-                    Debug.Log(string.Format("ikind: {0}", action));
                     if(action == InteractionKind.Play) {
-                        Debug.Log("Found a play statement");
                         Enum.TryParse<UIActionKind>(toParse[++i], out uiEventKind);
                         obj1 = toParse[++i];
                     }
-                    //if(toParse[i].Equals("Become")) { // again if an objects interact, set interaction type
-                    //    objToObjIntrcType = toParse[i];
-                    //    action = InteractionKind.Become;
-                    //} else if(toParse[i].Equals("Play") && i + 2 < length) {
-                    //    Enum.TryParse<UIActionKind>(toParse[++i], out uiEventKind);
-                    //    obj1 = toParse[++i];
-                    //}
                 }
             }
 
@@ -397,6 +494,7 @@ namespace Shiki.Quests {
             parsingResult.obj2 = obj2; // other
             parsingResult.obj1Quantity = obj1Quantity;
             parsingResult.obj2Quantity = obj2Quantity;
+            parsingResult.amountOfTime = amountOfTime;
             parsingResult.location = location;
             parsingResult.objToObjInteractionType = objToObjIntrcType;
 

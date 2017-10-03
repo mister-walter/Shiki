@@ -118,21 +118,28 @@ namespace Shiki.EventSystem.Events {
     /// Gets fired when a task's oncomplete function is called
     /// Results in one item transforming into another.
     /// </summary>
-    public class ObjectReplaceEvent : IGameEvent {
+    public class ReplaceObjectEvent : IGameEvent {
         /// <summary>
         /// Object to be changed
         /// </summary>
         public string originalObject { get; set; }
+
+        public GameObject exactOriginalObject { get; set; }
 
         /// <summary>
         /// New object (what the original object turns into)
         /// </summary>
         public string objectToChangeTo { get; set; }
 
-        public ObjectReplaceEvent(string originalObject, string objectToChangeTo) {
+        public ReplaceObjectEvent(string originalObject, string objectToChangeTo) {
             this.originalObject = originalObject;
             this.objectToChangeTo = objectToChangeTo;
         }
+        public ReplaceObjectEvent(GameObject exactOriginalObject, string objectToChangeTo) {
+            this.exactOriginalObject = exactOriginalObject;
+            this.objectToChangeTo = objectToChangeTo;
+        }
+
     }
 
     public class ObjectHitEvent : IGameEvent {
@@ -197,6 +204,16 @@ namespace Shiki.EventSystem.Events {
         public string toShow;
         public ShowObjectEvent(string toShow) {
             this.toShow = toShow;
+        }
+    }
+
+    public class ItemWaitedEvent : IGameEvent {
+        public GameObject item;
+        public uint seasonsWaited;
+
+        public ItemWaitedEvent(GameObject item, uint distance) {
+            this.item = item;
+            this.seasonsWaited = distance;
         }
     }
 }

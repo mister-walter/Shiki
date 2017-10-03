@@ -9,6 +9,7 @@ using Shiki.ReaderWriter.TomlImplementation;
 using Shiki.EventSystem;
 using System.Collections.Generic;
 using Shiki.EventSystem.InternalEvents;
+using Shiki.EventSystem.Events;
 
 /// <summary>
 /// Main entry point for the game.
@@ -22,11 +23,18 @@ public class MainSceneManager : MonoBehaviour {
         }
     }
 
-    IEnumerator Start() {
-#if UNITY_EDITOR
-        // Needed to keep the compiler happy
-        yield return null;
-#else
+    private void Awake() {
+        EventManager.AttachDelegate<PrologueDoneEvent>(this.OnPrologueDoneEvent);
+        EventManager.AttachDelegate<PrologueStartEvent>(this.OnPrologueStartEvent);
+    }
+
+    private void OnDestroy() {
+        EventManager.RemoveDelegate<PrologueDoneEvent>(this.OnPrologueDoneEvent);
+        EventManager.RemoveDelegate<PrologueStartEvent>(this.OnPrologueStartEvent);
+    }
+
+    IEnumerator LoadScenes() {
+
         // Load all of the scenes, additively
         AsyncOperation[] sceneLoadOperations = {
             SceneManager.LoadSceneAsync(SceneName.Village, LoadSceneMode.Additive),
@@ -41,7 +49,6 @@ public class MainSceneManager : MonoBehaviour {
         foreach(var scene in this.GetAllScenes()) {
             yield return scene.AwaitLoad();
         }
-#endif
         EventManager.FireEvent(new AllScenesLoadedEvent());
         var saveDataManager = new SaveDataManager(
                 new TomlQuestReader(),
@@ -51,6 +58,21 @@ public class MainSceneManager : MonoBehaviour {
         this.questEventManager = new QuestEventManager(saveDataManager);
         this.questEventManager.Init();
         yield break;
+    }
+
+    void OnPrologueStartEvent(PrologueStartEvent evt) {
+        StartCoroutine(LoadScenes());
+    }
+
+    void OnPrologueDoneEvent(PrologueDoneEvent evt) {
+        StartCoroutine(FadeInAndDeleteRoom());
+    }
+
+    IEnumerator FadeInAndDeleteRoom() {
+        yield return new WaitForSeconds(1);
+        SteamVR_Fade.Start(Color.black, 0);
+        SteamVR_Fade.Start(Color.clear, 1);
+        EventManager.FireEvent(new DeleteObjectEvent("StartRoom"));
     }
 
     /// <summary>
@@ -69,7 +91,7 @@ public class MainSceneManager : MonoBehaviour {
             case SceneName.Summer:
                 return SeasonName.Summer;
             default:
-                return String.Empty;
+                return SeasonName.None;
         }
     }
 
@@ -89,9 +111,7 @@ public class MainSceneManager : MonoBehaviour {
             case SeasonName.Summer:
                 return SceneName.Summer;
             default:
-                return String.Empty;
+                return null;
         }
     }
-
-
 }

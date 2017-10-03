@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Shiki {
-
     internal class Variant {
         public string prefab { get; set; }
     }
@@ -92,10 +91,6 @@ namespace Shiki {
                 throw new Exception("Item not found: " + itemName);
             }
             return item.PrefabForSeason(season);
-        }
-
-        public int ItemCount() {
-            return this.items.Count;
         }
     }
 }

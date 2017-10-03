@@ -48,6 +48,7 @@ namespace Shiki.Test {
                 t = new Task();
                 t.name = "test" + i;
                 t.isComplete = (i % 2) == 0;
+                t.subTasks = new string[0];
                 tasks.Add(t);
             }
 
@@ -81,6 +82,20 @@ namespace Shiki.Test {
             for(int i = 0; i < onCompleteStringTests.Length; i++) {
                 TemporaryTaskConverter.CreateOnCompleteFunction(onCompleteStringTests[i]);
             }
+        }
+
+        [Test]
+        public void TestParserCallbackRepeat() {
+            TemporaryTask testTask = new TemporaryTask();
+            testTask.Name = "Foo";
+            testTask.Trigger = "Open";
+            testTask.TriggerRepeat = "3";
+            var task = TemporaryTaskConverter.TempTaskToTask(testTask, false);
+            var evt = new InteractionEvent();
+            evt.kind = InteractionKind.Open;
+            Assert.IsFalse(task.trigger(evt));
+            Assert.IsFalse(task.trigger(evt));
+            Assert.IsTrue(task.trigger(evt));
         }
     }
 }
