@@ -73,6 +73,7 @@ public class MainSceneManager : MonoBehaviour {
         SteamVR_Fade.Start(Color.black, 0);
         SteamVR_Fade.Start(Color.clear, 1);
         EventManager.FireEvent(new DeleteObjectEvent("StartRoom"));
+        Physics.IgnoreLayerCollision(LayerManager.TeleportAreaLayer, LayerManager.DefaultLayer);
     }
 
     /// <summary>

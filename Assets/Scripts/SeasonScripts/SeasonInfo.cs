@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
 using Shiki.EventSystem.InternalEvents;
+using Shiki.Constants;
 
 public enum IsInSeasonStatus {
     InVillage,
@@ -36,6 +37,7 @@ public class SeasonInfo : MonoBehaviour {
     public GameObject villageGround;
 
     void Awake() {
+        Physics.IgnoreLayerCollision(LayerManager.TeleportAreaLayer, LayerManager.DefaultLayer);
         SeasonCoordinateManager.RegisterSeasonStartAngle(seasonName, startAngle);
         EventManager.AttachDelegate<ObjectPlacedEvent>(OnObjectPlaced);
         EventManager.AttachDelegate<SeasonalObjectPlacedForFirstTime>(OnSeasonalObjectPlacedForFirstTime);

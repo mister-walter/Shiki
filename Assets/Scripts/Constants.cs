@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Constants used within Shiki
@@ -34,6 +35,19 @@ namespace Shiki.Constants {
                 throw new ArgumentException(string.Format("one of the given strings is not a season: {0},{1}", startSeason, endSeason));
             }
             return (uint)Math.Abs(endIdx - startIdx);
+        }
+    }
+
+    public static class LayerManager {
+        public static int TeleportAreaLayer {
+            get {
+                return LayerMask.NameToLayer("TeleportAreas");
+            }
+        }
+        public static int DefaultLayer {
+            get {
+                return LayerMask.NameToLayer("Default");
+            }
         }
     }
 }

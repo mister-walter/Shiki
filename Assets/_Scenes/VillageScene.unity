@@ -40667,7 +40667,7 @@ GameObject:
   - component: {fileID: 1565507416}
   - component: {fileID: 1565507415}
   - component: {fileID: 1565507414}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FloorTeleportArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
