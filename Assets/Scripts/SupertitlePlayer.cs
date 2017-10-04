@@ -3,10 +3,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using Shiki.EventSystem;
 using Shiki.EventSystem.Events;
+using Shiki.EventSystem.InternalEvents;
 
 public class SupertitlePlayer : MonoBehaviour {
     public Text textArea;
     public GameObject canvas;
+    private StringLoader loader {
+        get {
+            return StringLoader.Instance();
+        }
+    }
 
     private GameObject child {
         get {
@@ -26,7 +32,8 @@ public class SupertitlePlayer : MonoBehaviour {
     }
 
     void OnShowTextEvent(ShowTextEvent evt) {
-        textArea.text = evt.text;
+        //EventManager.FireEvent(new MenuEnableEvent());
+        textArea.text = loader.GetString(evt.text);
     }
 
     public void OnSubtitleToggleToggled(bool state) {

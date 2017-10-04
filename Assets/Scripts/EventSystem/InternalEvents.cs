@@ -150,4 +150,8 @@ namespace Shiki.EventSystem.InternalEvents {
     public class PrologueDoneEvent : IGameEvent { }
 
     public class PrologueStartEvent : IGameEvent { }
+
+    public class MenuEnableEvent : IGameEvent { }
+
+    public class MenuDisableEvent : IGameEvent { }
 }

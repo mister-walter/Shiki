@@ -1,0 +1,22 @@
+IntroGod1 = "A branch from the legendary jeweled tree of Hourai is required to bring vitality back to the village."
+IntroGod2 = "Plant the sapling in winter, harvest it in the Autumn, but make sure to cut down any blight that might grow throughout the year, or it will spread miasma throughout the land."
+
+Hole = "This hole is surely not wide enough for this tree’s roots to spread"
+
+NoWater = "It doesn’t look like we’ve gotten enough rain during the spring"
+
+SummerPreCut = "Is this blight? It's huge. I need to get rid of it before it takes over"
+
+AutumnNoCut = "This is horrible, the village is surely doomed… I have to see if I can do something about this…"
+
+SummerPostCut = "That should do it."
+
+AutumnWithTree = "Yes, I should be able to harvest a branch now."
+
+HasBranch1 = "I can't believe I'm holding such a powerful object."
+HasBranch2 = "When I was young, I heard that a small branch of this tree could absorb the purpose of other tools… I wonder if that's true"
+
+ICanHarvest = "I should be able to harvest plants with this now!"
+ICanBucket = "I should be able to carry and use water with this now!"
+ICanChop = "I should be able to chop objects with this now!"
+ICanDig = "I should be able to dig with this now!"

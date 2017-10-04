@@ -11,18 +11,32 @@ OnComplete = "Item MultiTool Become Item FinishedMultitool"
 [[task]]
 Name = "MergeShovel"
 Trigger = "Player Merge Item MultiTool And Item Shovel"
+OnComplete = "Play Dialog ICanDig"
 
 [[task]]
 Name = "MergeAxe"
 Trigger = "Player Merge Item MultiTool And Item Axe"
+OnComplete = "Play Dialog ICanChop"
 
 [[task]]
 Name = "MergeBucket"
 Trigger = "Player Merge Item MultiTool And Item WaterBucket"
+OnComplete = "Play Dialog ICanBucket"
 
 [[task]]
 Name = "MergeSickle"
 Trigger = "Player Merge Item MultiTool And Item Sickle"
+OnComplete = "Play Dialog ICanHarvest"
+
+[[task]]
+Name = "PlayHasBranch2"
+Trigger = "DialogDone HasBranch1"
+OnComplete = "Play Dialog HasBranch2"
+
+[[task]]
+Name = "PlayHasBranch1"
+Subtask = "SickleYorishio"
+OnComplete = "Play Dialog HasBranch1"
 
 [[task]]
 Name = "SickleYorishiro"
@@ -37,24 +51,35 @@ OnComplete = "Delete Item SickleHighlighter"
 
 [[task]]
 Name = "PickUpSickle"
-SubTask = "ChopRestOfBlight"
+SubTask = "DialogHarvestTree"
 Trigger = "Player PickUp Item Sickle"
 
 [[task]]
+Name = "DialogHarvestTree"
+SubTask = "BlightGone2"
+Trigger = "Player Enter Location Autumn"
+OnComplete = "Play Dialog AutumnWithTree"
+
+[[task]]
+Name = "BlightGone2"
+SubTask = "BlightGone"
+OnComplete = "Play Dialog SummerPostCut"
+
+[[task]]
+Name = "BlightGone"
+SubTask = "ChopRestOfBlight"
+OnComplete = "Show Item GrownYorishiro"
+
+[[task]]
 Name = "ChopRestOfBlight"
-SubTask = "ChopBlight4"
+SubTask = "ChopBlight3"
 Trigger = "Player Cut Item BlightChopped With Item Axe"
 OnComplete = "Hide Item BlightChopped"
 
 [[task]]
-Name = "ChopBlight4"
-SubTask = "ChopBlight3"
-OnComplete = "Hide Item BlightLarge"
-
-[[task]]
 Name = "ChopBlight3"
 SubTask = "ChopBlight2"
-OnComplete = "Show Item GrownYorishiro"
+OnComplete = "Hide Item BlightLarge"
 
 [[task]]
 Name = "ChopBlight2"
@@ -68,6 +93,11 @@ Trigger = "Player Cut Item Blight With Item Axe"
 OnComplete = "Hide Item Blight"
 
 [[task]]
+Name = "AutumnNoCutDialog"
+Trigger = "Player Enter Location Autumn Before ChopBlight After WaterYorishiro5"
+OnComplete = "Play Dialog AutumnNoCut"
+
+[[task]]
 Name = "PickUpAxe2"
 SubTask = "PickUpAxe"
 OnComplete = "Delete Item AxeHighlighter"
@@ -79,14 +109,19 @@ Trigger = "Player PickUp Item Axe"
 
 [[task]]
 Name = "EnterSummer"
-SubTask = "WaterYorishiro4"
+SubTask = "WaterYorishiro5"
 Trigger = "Player Enter Location Summer"
-OnComplete = "Show Item Blight"
+OnComplete = "Play Dialog SummerPreCut"
+
+[[task]]
+Name = "WaterYorishiro5"
+SubTask = "WaterYorishiro4"
+OnComplete = "Item WaterBucket Become Item Bucket"
 
 [[task]]
 Name = "WaterYorishiro4"
 SubTask = "WaterYorishiro3"
-OnComplete = "Item WaterBucket Become Item Bucket"
+OnComplete = "Show Item Blight"
 
 [[task]]
 Name = "WaterYorishiro3"
@@ -103,6 +138,11 @@ Name = "WaterYorishiro"
 SubTask = "FillBucket"
 Trigger = "Player Drop Item WaterBucket On Item GrowingYorishiro"
 OnComplete = "Show Item YorishiroTreeSummer"
+
+[[task]]
+Name = "NoWaterDialog"
+Trigger = "Player Enter Location Summer After PlantYorishiro2 Before WaterYorishiro"
+OnComplete = "Play Dialog NoWater"
 
 [[task]]
 Name = "FillBucket"
@@ -157,6 +197,11 @@ Name = "PickUpShovel"
 Trigger = "Player PickUp Item Shovel"
 
 [[task]]
+Name = "ShowHoleDialog"
+Trigger = "Player Drop Item YorishiroSapling on Item Hole Before WidenHole"
+OnComplete = "Play Dialog Hole"
+
+[[task]]
 Name = "EnterWinter"
 Trigger = "Player Enter Location Winter"
 
@@ -164,6 +209,21 @@ Trigger = "Player Enter Location Winter"
 Name = "OpenInventory"
 Trigger = "Player Open Item Inventory"
 OnComplete = "Player Get Item YorishiroSapling"
+
+[[task]]
+Name = "HideDialog1"
+Trigger = "DialogDone IntroGod2"
+OnComplete = "HideDialog"
+
+[[task]]
+Name = "ShowIntroGod2"
+Trigger = "DialogDone IntroGod1"
+OnComplete = "Play Dialog IntroGod2"
+
+[[task]]
+Name = "ShowIntroGod1"
+Trigger = "Event PrologueDone"
+OnComplete = "Play Dialog IntroGod1"
 
 # Making Sake
 [[task]]
