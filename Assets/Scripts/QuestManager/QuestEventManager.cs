@@ -17,9 +17,11 @@ namespace Shiki.Quests {
         /// The associated save data manager, which handles saving and writing game data to the filesystem.
         /// </summary>
         SaveDataManager saveDataManager;
+        private Dictionary<string, bool> questStates;
 
         public QuestEventManager(SaveDataManager sdm) {
             saveDataManager = sdm;
+            questStates = new Dictionary<string, bool>();
         }
 
         public void Init() {
@@ -55,14 +57,26 @@ namespace Shiki.Quests {
                 // if child not complete, and updating child doesn't complete the child, allChildrenComplete = false
             }
 
-            if((doAll || !tn.AssociatedTask.isComplete) &&
-               (allChildrenComplete && (tn.AssociatedTask.trigger == null || tn.AssociatedTask.trigger(evt)))) {
+            if((doAll || !tn.AssociatedTask.isComplete) && ShouldCheckTask(evt, tn, allChildrenComplete)) {
                 Debug.Log(string.Format("Task {0} complete", tn.AssociatedTask.name));
                 tn.AssociatedTask.isComplete = true;
                 tn.AssociatedTask.onComplete(evt);
                 return true;
             }
             return false;
+        }
+
+        private bool TaskIsComplete(string taskName, bool defaultReturn) {
+            if(string.IsNullOrEmpty(taskName)) {
+                return defaultReturn;
+            }
+            return questStates[taskName];
+        }
+
+        private bool ShouldCheckTask(InteractionEvent evt, TaskNode tn, bool allChildrenComplete) {
+            return (allChildrenComplete &&
+                (TaskIsComplete(tn.AssociatedTask.afterTask, true) && !TaskIsComplete(tn.AssociatedTask.beforeTask, false)) && 
+                (tn.AssociatedTask.trigger == null || tn.AssociatedTask.trigger(evt)));
         }
 
         /// <summary>
@@ -195,7 +209,7 @@ namespace Shiki.Quests {
         // Both
         Get,
         // Meta
-        None
+        OtherEvent, Before, After, None
     };
 
     /// <summary>

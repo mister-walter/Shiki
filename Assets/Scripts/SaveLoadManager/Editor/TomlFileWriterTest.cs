@@ -72,7 +72,8 @@ namespace Shiki.Test {
         public void testTriggerCreation() {
             SetUp();
             for(int i = 0; i < triggerStringTests.Length; i++) {
-                TemporaryTaskConverter.CreateTriggerFunction(triggerStringTests[i]);
+                var pR = TemporaryTaskConverter.ParseString(triggerStringTests[i]);
+                TemporaryTaskConverter.CreateTriggerFunction(pR);
             }
         }
 

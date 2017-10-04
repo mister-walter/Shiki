@@ -15,7 +15,7 @@ namespace Shiki.Quests {
     /// <summary>
     /// Parsing result. When a task's trigger or oncomplete functions are read in, they are filled into this Parsing Result class
     /// </summary>
-    internal class ParsingResult {
+    public class ParsingResult {
         /// <summary>
         /// First object found in parsing.
         /// </summary>
@@ -47,6 +47,16 @@ namespace Shiki.Quests {
         public string location { get; set; }
 
         /// <summary>
+        /// In the case that a task has a before condition, the task here must not be met in order for a task to be fulfillable
+        /// </summary>
+        public string before { get; set; }
+
+        /// <summary>
+        /// In the case that a task has an after condition, the task here must be met in order for a task to be fulfillable
+        /// </summary>
+        public string after { get; set; }
+
+        /// <summary>
         /// Interaction required from player (enters, hits, etc)
         /// </summary>
         public InteractionKind interactionKind { get; set; }
@@ -76,6 +86,18 @@ namespace Shiki.Quests {
         /// The tasks that must be completed before this task can be completed
         /// </summary>
         public string[] subTasks { get; set; }
+
+        /// <summary>
+        /// Tasks in this field cannot be completed in order for this task to happen.
+        /// Works as a conditional.
+        /// </summary>
+        public string beforeTask { get; set; }
+
+        /// <summary>
+        /// Tasks that happen in this field must happen in order for this task to happen. 
+        /// Works as a conditional.
+        /// </summary>
+        public string afterTask { get; set; }
 
         /// <summary>
         /// Whether this task has been completed or not
@@ -210,7 +232,16 @@ namespace Shiki.Quests {
             task.subTasks = tempTask.SubTask.Split(' ');
 
             //task.trigger = CreateTriggerFunction(tempTask.Trigger);
-            var originalTrigger = CreateTriggerFunction(tempTask.Trigger);
+            Predicate<InteractionEvent> originalTrigger;
+            if(String.IsNullOrEmpty(tempTask.Trigger)) {
+                originalTrigger = (InteractionEvent evt) => true;
+            } else {
+                ParsingResult pR = ParseString(tempTask.Trigger);
+                originalTrigger = CreateTriggerFunction(pR);
+                task.beforeTask = pR.before;
+                task.afterTask = pR.after;
+            }
+
             if(!string.IsNullOrEmpty(tempTask.TriggerRepeat)) {
                 UInt32 repeatTimes;
                 if(!UInt32.TryParse(tempTask.TriggerRepeat, out repeatTimes)) {
@@ -248,11 +279,7 @@ namespace Shiki.Quests {
         /// </summary>
         /// <returns>Trigger function in the form of a Predicate</returns>
         /// <param name="tr">Trigger function in string form</param>
-        public static Predicate<InteractionEvent> CreateTriggerFunction(string tr) {
-            if(String.IsNullOrEmpty(tr)) {
-                return (InteractionEvent evt) => true;
-            }
-            ParsingResult pR = ParseString(tr);
+        public static Predicate<InteractionEvent> CreateTriggerFunction(ParsingResult pR) {
             Predicate<InteractionEvent> pred;
 
             // TODO: implement InteractionKind.Leave
@@ -433,6 +460,8 @@ namespace Shiki.Quests {
             int amountOfTime = 0;
             string location = String.Empty;
             string objToObjIntrcType = String.Empty;
+            string before = String.Empty;
+            string after = String.Empty;
             InteractionKind action = InteractionKind.None;
             UIActionKind uiEventKind = UIActionKind.None;
             ParsingResult parsingResult = new ParsingResult();
@@ -484,6 +513,10 @@ namespace Shiki.Quests {
                     if(action == InteractionKind.Play) {
                         Enum.TryParse<UIActionKind>(toParse[++i], out uiEventKind);
                         obj1 = toParse[++i];
+                    } else if(action == InteractionKind.Before && i + 1 < length) {
+                        before = toParse[++i];
+                    } else if(action == InteractionKind.After && i + 1 < length) {
+                        after = toParse[++i];
                     }
                 }
             }
@@ -496,6 +529,8 @@ namespace Shiki.Quests {
             parsingResult.obj2Quantity = obj2Quantity;
             parsingResult.amountOfTime = amountOfTime;
             parsingResult.location = location;
+            parsingResult.before = before;
+            parsingResult.after = after;
             parsingResult.objToObjInteractionType = objToObjIntrcType;
 
             return parsingResult;
